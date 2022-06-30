@@ -1,0 +1,110 @@
+.btn_width .btn_mobile_primary {
+    padding: 10px 30px;
+}
+.btn_width .btn_mobile {
+    padding: 10px 40px;
+}
+.epqKUt.space_bottom {
+    margin-bottom: 30px;
+}
+
+.first_filter_btn {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.last_filter_btn {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+@media screen and (min-width: 430px) {
+    .heading_width {
+        width: 100% !important;
+    }
+}
+@media screen and (max-width: 767px) {
+    .epqKUt.space_bottom {
+        margin-bottom: 50px;
+    }
+    .filter_box {
+        margin: 0px !important;
+        overflow: hidden;
+        border-radius: 0px !important;
+    }
+    .inner_filter_row {
+        overflow: hidden;
+        display: block !important;
+    }
+    .main_head {
+        margin-top: 20px !important;
+        text-align: left !important;
+    }
+    .btn_width .btn_mobile_primary p {
+        font-size: 14px !important;
+    }
+    .btn_width .btn_mobile p {
+        font-size: 14px !important;
+    }
+    .btn_width .btn_mobile_primary,
+    .btn_width .btn_mobile {
+        width: 160px;
+    }
+    .inner_filter_row button {
+        border-radius: 5px !important;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 767px) {
+    .btn_width .btn_mobile_primary,
+    .btn_width .btn_mobile {
+        width: 175px;
+    }
+}
+
+@media screen and (min-width: 460px) and (max-width: 767px) {
+    .inner_filter_row button {
+        display: initial;
+        width: 25%;
+    }
+    .inner_filter_row button div:first-child {
+        min-width: 6rem;
+    }
+}
+
+@media screen and (max-width: 459px) {
+    .inner_filter_row button {
+        display: initial;
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 326px) and (max-width: 360px) {
+    .inner_filter_row button div:first-child {
+        min-width: 8rem;
+    }
+    .btn_width .btn_mobile_primary,
+    .btn_width .btn_mobile {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 325px) {
+    .btn_width .btn_mobile_primary {
+        padding: 10px 15px;
+    }
+    .inner_filter_row button div:first-child {
+        min-width: 7rem;
+    }
+    .btn_width .btn_mobile_primary,
+    .btn_width .btn_mobile {
+        width: 130px !important;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .btn_width .btn_mobile_primary,
+    .btn_width .btn_mobile {
+        width: 100px !important;
+    }
+}

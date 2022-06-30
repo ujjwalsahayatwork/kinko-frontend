@@ -1,0 +1,19 @@
+.input_bg_color .dropdown_bgcolor div, .input_bg_color .dropdown_bgcolor button{
+    background-color: transparent !important;
+}
+
+.input_bg_color .dropdown_bgcolor div p{
+    font-size: 15px !important;
+    padding: 5px 0px !important;
+}
+.input_bg_color .dropdown_bgcolor button:hover{
+    color: #fff !important;
+    opacity: 0.7;
+}
+
+@media screen and (max-width:767px){
+    .space_mob_ilo{
+        min-height: 10px !important;
+        height: 20px !important;
+    }
+}

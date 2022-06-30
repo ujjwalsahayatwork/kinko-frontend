@@ -1,0 +1,132 @@
+.ddl {
+  display: none;
+}
+.extraheight {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.poollink:hover > div {
+  display: block;
+}
+
+.header_menu1 {
+  display: flex;
+  align-items: center;
+}
+.flex_row {
+  flex: 1 1;
+  justify-content: flex-end;
+}
+.active-color p {
+  color: #a466ff !important;
+}
+.header_menu1 a p {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.space_btn_width {
+  width: 12px !important;
+  min-width: inherit !important;
+  max-width: inherit !important;
+}
+.space_web {
+  width: 25px !important;
+  min-width: inherit !important;
+  max-width: inherit !important;
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1299px) {
+  .space_mobile {
+    width: 31.7px !important;
+    min-width: inherit !important;
+    max-width: inherit !important;
+  }
+}
+// .pool-drop:hover .hover-block{
+//  display: block !important;
+// }
+.pool-drop:hover p {
+  color: #754ead;
+  display: inline-block;
+  cursor: pointer;
+}
+.hover-color:hover {
+  color: #754ead;
+  cursor: pointer;
+}
+.pool-drop a p {
+  display: inline-block;
+}
+.pool-drop svg {
+  margin: 0 0 0 14px;
+  display: inline-block;
+}
+.pool-drop li a svg {
+  margin: 0 0 0 10px;
+  width: 26px;
+  height: 26px;
+}
+.padding_drop {
+  padding: 0px !important;
+}
+.hover-block svg {
+  margin: 0 10px 0 0;
+}
+.hover-block {
+  // display: none;
+  background: #252123;
+  border-radius: 6px;
+  position: absolute;
+  width: 150px;
+  padding: 12px 10px;
+  top: 56px;
+  box-shadow: 0px 0px 60px rgb(0 0 0 / 29%);
+  border: 1px solid #4b4b4b;
+}
+.hover-block li {
+  color: #fff;
+  font-weight: normal;
+  padding: 5px;
+  font-size: 16px;
+}
+.hover-block ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.inline-items li div {
+  display: flex;
+}
+
+@media screen and (max-width: 767px) {
+  .mob_menu1 button {
+    padding: 0px 1.3rem !important;
+    max-width: 100%;
+  }
+  .mob_logo_space .sc-jRQBWg:first-child {
+    width: 97%;
+  }
+  .mob_logo_space button svg {
+    opacity: 0.7;
+    width: 28px;
+
+  }
+  .mob_logo img {
+    width: 51px;
+  }
+  .mob_logo_mob{
+    width: 30px;
+  }
+  .mob_menu1 a p {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}
+
+.header_menu {
+  display: flex;
+  width: 40px;
+  min-width: 30px;
+  max-width: 32px;
+}

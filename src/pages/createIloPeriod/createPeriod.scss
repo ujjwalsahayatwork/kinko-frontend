@@ -1,0 +1,29 @@
+.input_bg_color .dropdown_bgcolor div, .input_bg_color .dropdown_bgcolor button{
+    background-color: transparent !important;
+}
+
+.input_bg_color .dropdown_bgcolor button:hover{
+    color: #fff !important;
+    opacity: 0.7;
+}
+
+.input_bg_color .bgcolor_hide button{
+    background-color: transparent !important; 
+}
+
+.input_bg_color .bgcolor_hide button svg:first-child{
+    min-height: 15px !important;
+    height: 20px !important;
+}
+.w-100{
+    width:100%;
+}
+
+@media screen and (max-width:767px) {
+    .space_mob_box{
+        padding: 10px 0px !important;
+    }
+    .space_mob_box p{
+        font-size: 16px !important;
+    }
+}
