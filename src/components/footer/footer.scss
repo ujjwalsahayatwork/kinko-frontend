@@ -1,0 +1,24 @@
+.mob_width_footer{
+    min-width: 20px !important;
+    width: 25px !important;
+}
+.form_box button p{
+    font-weight: 400 !important;
+}
+
+@media screen and (max-width:500px){
+    .mob_width_footer{
+        min-width: 20px !important;
+        width: 25px !important;
+    }
+    .mob_font{
+        font-size: 1.125rem !important;
+    }
+    .newsletter_font{
+        font-size: .875rem !important;
+        margin: 10px 0px !important;
+    }
+    .font_footer{
+        font-size: .875rem !important;
+    }
+}

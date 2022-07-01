@@ -1,0 +1,29 @@
+.input_bg_color .dropdown_bgcolor div, .input_bg_color .dropdown_bgcolor button{
+    background-color: transparent !important;
+}
+.space_mob_box{
+    padding: 10px 0px !important;
+}
+.space_mob_box svg{
+    min-width: 15px !important;
+    width: 15px !important;
+}
+.w-100{
+    width:100%;
+}
+
+@media screen and (max-width:767px) {
+    .space_mob_box{
+        padding: 10px 0px !important;
+    }
+    .space_mob_box p{
+        font-size: 16px !important;
+    }
+    .space_mob_box svg{
+        min-width: 30px !important;
+        width: 30px !important;
+    }
+    .mob_text_size{
+        font-size: 20px !important;
+    }
+}

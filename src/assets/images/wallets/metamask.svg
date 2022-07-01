@@ -1,0 +1,55 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257 239" width="257" height="239">
+	<title>metamask-svg</title>
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: #e2761b;stroke: #e2761b;stroke-linecap:round;stroke-linejoin:round } 
+		.shp1 { fill: #e4761b;stroke: #e4761b;stroke-linecap:round;stroke-linejoin:round } 
+		.shp2 { fill: #d7c1b3;stroke: #d7c1b3;stroke-linecap:round;stroke-linejoin:round } 
+		.shp3 { fill: #233447;stroke: #233447;stroke-linecap:round;stroke-linejoin:round } 
+		.shp4 { fill: #cd6116;stroke: #cd6116;stroke-linecap:round;stroke-linejoin:round } 
+		.shp5 { fill: #e4751f;stroke: #e4751f;stroke-linecap:round;stroke-linejoin:round } 
+		.shp6 { fill: #f6851b;stroke: #f6851b;stroke-linecap:round;stroke-linejoin:round } 
+		.shp7 { fill: #c0ad9e;stroke: #c0ad9e;stroke-linecap:round;stroke-linejoin:round } 
+		.shp8 { fill: #161616;stroke: #161616;stroke-linecap:round;stroke-linejoin:round } 
+		.shp9 { fill: #763d16;stroke: #763d16;stroke-linecap:round;stroke-linejoin:round } 
+	</style>
+	<path id="Layer" class="shp0" d="M243.1 1.5L143.6 75.4L162 31.8L243.1 1.5Z" />
+	<g id="Layer">
+		<path id="Layer" class="shp1" d="M94.6 31.8L112.1 76.1L13.4 1.5L94.6 31.8Z" />
+		<path id="Layer" class="shp1" d="M253.8 173.7L237.5 229L180.8 213.4L207.3 172.8L253.8 173.7Z" />
+		<path id="Layer" class="shp1" d="M49.3 172.8L75.8 213.4L19.1 229L2.9 173.7L49.3 172.8Z" />
+		<path id="Layer" class="shp1" d="M111.1 70.1L113.1 130.6L56.8 128.1L72.6 104.2L111.1 70.1Z" />
+		<path id="Layer" class="shp1" d="M199.8 128.1L143.6 130.6L144.9 69.4L183.9 104.2L199.8 128.1Z" />
+		<path id="Layer" class="shp1" d="M80.4 174.1L109.6 196.9L75.8 213.4L80.4 174.1Z" />
+		<path id="Layer" class="shp1" d="M176.1 174.1L180.8 213.4L146.9 196.9L176.1 174.1Z" />
+	</g>
+	<g id="Layer">
+		<path id="Layer" class="shp2" d="M149.3 228.3L149.6 219L146.9 196.9L180.8 213.4L149.3 228.3Z" />
+		<path id="Layer" class="shp2" d="M109.6 196.9L107.1 219L107.3 228.3L75.8 213.4L109.6 196.9Z" />
+	</g>
+	<path id="Layer" class="shp3" d="M107.8 159.5L79.6 151.2L99.5 142.1L107.8 159.5Z" />
+	<path id="Layer" class="shp3" d="M148.7 159.5L157 142.1L177 151.2L148.7 159.5Z" />
+	<g id="Layer">
+		<path id="Layer" class="shp4" d="M49.3 173.7L80.6 172.8L75.8 213.4L49.3 173.7Z" />
+		<path id="Layer" class="shp4" d="M207.3 173.7L180.8 213.4L176 172.8L207.3 173.7Z" />
+		<path id="Layer" class="shp4" d="M177.1 151.2L157.1 142.1L148.8 159.5L143.6 130.6L199.8 128.1L177.1 151.2Z" />
+		<path id="Layer" class="shp4" d="M56.8 128.1L113.1 130.6L107.8 159.5L99.6 142.1L79.6 151.2L56.8 128.1Z" />
+	</g>
+	<g id="Layer">
+		<path id="Layer" class="shp5" d="M79.6 151.2L80.4 174.1L56.8 128.1L79.6 151.2Z" />
+		<path id="Layer" class="shp5" d="M199.8 128.1L176.1 174.1L177.1 151.2L199.8 128.1Z" />
+		<path id="Layer" class="shp5" d="M115.9 148.7L114.4 193.6L107.8 159.5L113.1 130.6L115.9 148.7Z" />
+		<path id="Layer" class="shp5" d="M148.8 159.5L142.1 193.6L140.9 148.6L143.6 130.6L148.8 159.5Z" />
+	</g>
+	<path id="Layer" class="shp6" d="M177.1 151.2L176.1 174.1L146.9 196.9L142.1 193.6L148.8 159.5L177.1 151.2Z" />
+	<path id="Layer" class="shp6" d="M107.8 159.5L114.4 193.6L109.6 196.9L80.4 174.1L79.6 151.2L107.8 159.5Z" />
+	<path id="Layer" class="shp7" d="M180.8 213.4L169.8 222.4L147.4 237.9L109.1 237.9L86.8 222.4L75.8 213.4L107.3 228.3L107.1 219L109.4 216.8L147.1 216.8L149.6 219L149.3 228.3L180.8 213.4Z" />
+	<path id="Layer" class="shp8" d="M149.6 219L147.1 216.8L109.4 216.8L107.1 219L109.6 196.9L114.4 193.6L142.1 193.6L146.9 196.9L149.6 219Z" />
+	<g id="Layer">
+		<path id="Layer" class="shp9" d="M252.6 84.2L244.6 90.3L250.8 95.1L242.8 102.4L247.8 106L236.2 119.5L183.9 104.2L146.9 72.9L243.1 1.5L255.8 39.4L247.3 80.2L252.6 84.2Z" />
+		<path id="Layer" class="shp9" d="M13.4 1.5L109.6 72.9L72.6 104.2L20.3 119.5L8.8 106L13.8 102.4L5.8 95.1L11.9 90.3L3.9 84.2L9.3 80.2L0.8 39.4L13.4 1.5Z" />
+	</g>
+	<path id="Layer" class="shp6" d="M253.8 173.7L207.3 173.7L176.1 174.1L199.8 128.1L183.9 104.2L236.2 119.5L253.8 173.7Z" />
+	<path id="Layer" class="shp6" d="M56.8 128.1L80.4 174.1L49.3 173.7L2.9 173.7L20.3 119.5L72.6 104.2L56.8 128.1Z" />
+	<path id="Layer" class="shp6" d="M142.3 148.8L142.1 193.6L114.4 193.6L114.3 148.8L113.1 130.6L109.6 72.9L94.6 31.8L162.1 31.8L146.9 72.9L143.6 130.6L142.3 148.8Z" />
+</svg>

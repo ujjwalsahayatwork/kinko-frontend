@@ -1,0 +1,85 @@
+.card_space{
+    margin:10px !important;
+}
+.mob_text_percent p, .text-block p{
+    font-weight: 400;
+}
+.btn_text_para{
+    font-weight: 400 !important;
+}
+.font-weight-400{
+    font-weight: 400 !important;
+}
+.font-weight-300 {
+    font-weight: 300 !important;
+}
+@media screen and (max-width:767px){
+    .card_space_top{
+        padding-top:0px !important;
+    }
+    .card_width_body{
+        max-width:100% !important;
+    }
+    .card_width_body .btn_margin{
+        align-self: flex-start;
+        margin:20px 0px 0px;
+    }
+    .text_align_mob{
+        align-items: flex-start !important;
+        padding: 0px 13px !important;
+    }
+    .mob_text_percent{
+        display: inline-flex !important;
+        width: 50%;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 20px;
+    }
+    .mob_text_percent div{
+        margin:0px;
+    }
+    .mob_text_percent p, .text-block p{
+        font-size: 14px !important;
+    }
+    .right_mob_percent{
+        width: 44%;
+        padding-left: 20px !important;
+    }
+    .right_mob_percent div{
+        margin:0px auto;
+    }
+    .text-block{
+        display: block !important;
+    }
+    .ilo_cup_icon {
+        width: 18px !important;
+        min-width: 18px !important;
+    }
+    .mob_width{
+        width: 100%;
+        max-width: 100% !important;
+    }
+    .flex_card_mob p{
+        font-size: 16px !important;
+    }
+    .row_padding_0{
+        padding-top: 0px !important;
+    }
+}
+
+
+// @media screen and (min-width:400px) and (max-width:500px) {
+//     .mob_width{
+//         width: 380px;
+//         min-width: 380px !important;
+//     }
+// }
+
+@media screen and (min-width:585px) and (max-width:1112px) {
+    .mob_width{
+        width: 100%;
+        max-width: 100% !important;
+    }
+}
