@@ -49,7 +49,10 @@ const MaxButton = styled(BaseButton)`
 `;
 
 const StyledInputContainer = styled(Row)`
-	border-bottom: 1px solid #4B4B4B;
+	border: 1px solid #103859;
+	border-radius: 5px;
+	height: 46px;
+	width: 605px;
 `;
 
 const StyledLabel = styled(Text)`

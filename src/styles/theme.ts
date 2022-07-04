@@ -40,12 +40,18 @@ import {
 	tertiaryBackgroundColor,
 	tertiaryColor,
 	underPrimaryBandColor,
+	greenyColor,
+	lightBlackColor,
+	purpleColor,
 } from 'styles/base';
 
 export const theme: DefaultTheme = {
 	primaryColor,
+	purpleColor,
 	secondaryColor,
+	lightBlackColor,
 	tertiaryColor,
+	greenyColor,
 	primaryBrandColor,
 	secondaryBrandColor,
 	onPrimaryBrandColor,
