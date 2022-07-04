@@ -17,8 +17,6 @@ const StyledRow = styled(Row)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* border: 1px solid; */
-	/* border-color: #7079B9; */
 	height: 45px;
 	min-height: 45px;
 	max-height: 45px;
@@ -27,6 +25,8 @@ const StyledRow = styled(Row)`
 	min-width: 8rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		min-width: 6rem;
+		 border: 1px solid; 
+		 border-color: #7079B9; 
 		width: 100%;
 		height: 2.5rem;
 		align-items: center;

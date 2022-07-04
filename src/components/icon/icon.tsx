@@ -48,6 +48,7 @@ import browserI from 'assets/images/icons/browserI.svg';
 import addI from 'assets/images/icons/addI.svg';
 import chainsulting from 'assets/images/icons/chainsulting.svg';
 import sfIcon from 'assets/images/icons/SFIcon.svg';
+import searchIcon from 'assets/images/icons/searchIcon.svg';
 import { IColor } from 'components/types';
 import { getColor, toPx } from 'components/utils';
 
@@ -97,6 +98,7 @@ export type IIcon =
 	| 'browserI'
 	| 'addI'
 	| 'downarrow'
+	| 'searchIcon'
 	| 'live';
 
 const StyledSvg = styled(Svg) <{ _color: IColor; _height?: number; _width?: number }>`
@@ -127,6 +129,8 @@ export const Icon: FC<IIconProps> = ({ className, icon, title, color, height, wi
 				return importI;
 			case 'browserI':
 				return browserI;
+			case 'searchIcon':
+				return searchIcon;
 			case 'addI':
 				return addI;
 			case 'downarrow':

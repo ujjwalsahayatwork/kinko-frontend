@@ -53,7 +53,7 @@ const FilterContainer = styled.div`
     column-gap: 1rem;
 	border-radius: ${({ theme }) => toPx(theme.buttonBorderRadius * 2)};
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		
+		border: none;
 	}
 	@media screen and (max-width:767px){
 		display: grid;
@@ -70,6 +70,10 @@ const StyledSearchBar = styled(Row)`
 	/* height: 2.5rem; */
 	align-items: center;
 	/* justify-content: center; */
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+	width: 100%;
+	grid-template-columns: 1fr;
+	}
 `;
 
 const SearchBtn = styled(Button)`
@@ -78,6 +82,9 @@ const SearchBtn = styled(Button)`
 	height: 46px;
 	max-width: 13rem;
 	/* min-width: 12rem; */
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: none;
+	}
 `;
 
 const SearchFilterArea = styled(Row)`
@@ -99,6 +106,9 @@ const StyledSelector = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	margin-left: -1.5px;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: none;
+	}
 `;
 
 const StyledIcon = styled(Row)`
@@ -114,6 +124,7 @@ const StyledSearchInput = styled.input`
 	color: white;
 	padding-left: 1rem;
 	font-size: 0.875rem;
+	height: 46px;
 	font-weight: 500;
 	font-family: 'Sora';
 	letter-spacing: 0.1em;
@@ -190,6 +201,22 @@ const StyledSpan = styled.span`
 	color: #0fff9b;
 `;
 
+const SubHeader = styled(Row)`
+ gap: 2rem;
+ align-items: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		justify-content: space-between;
+	}
+`;
+const SearchIcon = styled(Icon)`
+ display: none;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: block;
+	}
+`
+
+
+
 interface IMainViewProps {
 	ilos: Array<IIlo>;
 	iloFilter: IIloFilter;
@@ -257,7 +284,7 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 	return (
 		<StyledContainer id={elementId} className={isMobile ? 'center' : undefined}>
 			<Header className="heading_width" width={isMobile ? width : undefined}>
-				<div style={{ display: "flex", alignItems: "center", gap: "10px" }} >
+				<SubHeader >
 					<Hading fontSize="xl">
 						Launchpad
 					</Hading>
@@ -265,7 +292,7 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 						<CreateIloText fontSize="s">Create Ilo</CreateIloText>
 						<Icon icon="plusOutline" width={30} color="undefined" />
 					</CreateIlo>
-				</div>
+				</SubHeader>
 				<Spacing vertical="m" />
 				<StyledSearchBar>
 					<SearchFilterArea>
@@ -281,6 +308,9 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 							</StyledIcon>
 						</StyledSelector>
 						<StyledSearchInput placeholder='Type here to Search...' />
+						<SearchIcon icon="searchIcon" width={22} color="undefined" />
+						<Spacing horizontal='s' mobileOnly />
+
 					</SearchFilterArea>
 					<SearchBtn label='Search' onClick={handleSearchFilter} />
 				</StyledSearchBar>
