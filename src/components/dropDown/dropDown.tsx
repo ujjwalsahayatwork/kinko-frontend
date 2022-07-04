@@ -24,10 +24,9 @@ const DropDownButton = styled(BaseButton)`
 	line-height: 18px;
 	color: ${({ theme }) => theme.primaryColor};
 	background-color: transparent;
-	border: none;
-	border-radius: 0px;
-	border-bottom: 1px solid #4B4B4B;
-	padding: .5rem 0rem;
+	border: 1px solid #103859;
+	border-radius: 5px;
+	padding: .8rem .5rem;
 `;
 
 const OptionContainer = styled(Col) <{ width: number }>`

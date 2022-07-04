@@ -1,6 +1,8 @@
 export const primaryColor = '#fff'; // white
 export const secondaryColor = '#909090';
 export const tertiaryColor = '#595959';
+export const greenyColor = '#0FB871';// green 
+export const lightBlackColor = '#103859';// lightBlack 
 export const primaryBrandColor = '#a873F7'; // purple
 export const secondaryBrandColor = '#F97A48'; // green
 export const onPrimaryBrandColor = '#fff'; // white

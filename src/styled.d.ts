@@ -10,7 +10,9 @@ declare module 'styled-components' {
 		onPrimaryBrandColor: string;
 		onSecondaryBrandColor: string;
 		primaryBackgroundColor: string;
+		lightBlackColor:string
 		secondaryBackgroundColor: string;
+		greenyColor:string
 		tertiaryBackgroundColor: string;
 		quaternaryBackgroundColor: string;
 		buttonBackgroundColor: string;

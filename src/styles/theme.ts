@@ -40,12 +40,16 @@ import {
 	tertiaryBackgroundColor,
 	tertiaryColor,
 	underPrimaryBandColor,
+	greenyColor,
+	lightBlackColor
 } from 'styles/base';
 
 export const theme: DefaultTheme = {
 	primaryColor,
 	secondaryColor,
+	lightBlackColor,
 	tertiaryColor,
+	greenyColor,
 	primaryBrandColor,
 	secondaryBrandColor,
 	onPrimaryBrandColor,

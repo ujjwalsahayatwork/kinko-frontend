@@ -35,7 +35,9 @@ const LeftDropDown = styled(Row)`
 `;
 
 const StyledInfoCard = styled(InfoCard)`
-	background: rgba(164, 102, 255, 0.3);
+	background:  #7079B9;
+	opacity: 0.7;
+	border-radius: 5px;
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		flex: 1;
 	}
@@ -44,15 +46,34 @@ const StyledInfoCard = styled(InfoCard)`
 const StyledDateLabel = styled(Text)`
 	font-style: normal;
 	font-weight: 600;
-	font-size: 18px;
+	font-size: 14px;
+	color: #828282;
 	line-height: 23px;
 `;
 
 const NextButton = styled(Button)`
 	width: 190px;
 	padding: 10px 20px 10px 0px;
+	background-color: #F97A48;
+	border: 1px solid #F97A48;
+	height: 47px;
 	text-align: center;
 `;
+
+const BackButton = styled(Button)`
+	width: 190px;
+	padding: 10px 20px 10px 0px;
+	/* background-color: #F97A48; */
+	border: 1px solid #F97A48;
+	height: 47px;
+	text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
 
 interface ICreateIloPeriodViewProps {
 	startBlockDate: Date | undefined;
@@ -87,7 +108,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 			<Spacing vertical="xxl" />
 			<Row mobileDirection="column">
 				<LeftCol className="bgcolor_hide">
-					<StyledDateLabel fontSize="m">
+					<StyledDateLabel fontSize="s">
 						Start Date
 					</StyledDateLabel>
 					<DateTimestampPicker date={startBlockDate} onChangeDate={onChangeStartBlockDate} />
@@ -96,7 +117,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 			<Spacing vertical="xl" />
 			<Row mobileDirection="column">
 				<LeftCol>
-					<StyledDateLabel fontSize="m">
+					<StyledDateLabel fontSize="s">
 						End Date
 					</StyledDateLabel>
 					<DateTimestampPicker date={endBlockDate} onChangeDate={onChangeEndBlockDate} />
@@ -136,10 +157,12 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 			) : (
 				null
 			)}
+
 			<Spacing vertical="xl" />
-			<Row justify={isDesktop ? 'flex-end' : 'center'}>
-				<NextButton label="Next to Summary" arrow onClick={onSubmit} />
-			</Row>
+			<ButtonContainer>
+				<BackButton label="Back"  onClick={onSubmit} />
+				<NextButton label="Next to Caps" arrow onClick={onSubmit} />
+			</ButtonContainer>
 			<Spacing vertical="xl" />
 		</StyledMainCol>
 	);
