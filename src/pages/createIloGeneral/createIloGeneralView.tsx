@@ -95,8 +95,9 @@ const NextButton = styled(Button)`
 	border: 1px solid #f97a48;
 	border-radius: 5px;
 	text-align: center;
+	padding-left: 15px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		background: transparent;
+		width: 150px;
 	}
 `;
 
@@ -107,6 +108,9 @@ const BackButton = styled(Button)`
 	height: 47px;
 	/* padding: 10px 20px 10px 0px; */
 	text-align: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 150px;
+	}
 `;
 
 const Box = styled.div`
@@ -326,8 +330,8 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 						<BottomSpacing />
 					</Row>
 					<Spacing vertical="l" desktopOnly />
-					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'center'}>
-						{isDesktop && <BackButton label="Back" onClick={onSubmit} />}
+					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
+						<BackButton label="Back" onClick={onSubmit} />
 						<NextButton label="Next to Caps" arrow onClick={onSubmit} />
 					</Row>
 					<Spacing vertical="m" />

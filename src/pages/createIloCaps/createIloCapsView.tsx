@@ -114,8 +114,9 @@ const NextButton = styled(Button)`
 	border: 1px solid #f97a48;
 	border-radius: 5px;
 	text-align: center;
+	padding-left: 15px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		background: transparent;
+		width: 150px;
 	}
 `;
 
@@ -126,6 +127,9 @@ const BackButton = styled(Button)`
 	height: 47px;
 	/* padding: 10px 20px 10px 0px; */
 	text-align: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 150px;
+	}
 `;
 
 const StyledTextHeading = styled(Text)`
@@ -350,8 +354,9 @@ export const CreateIloCapsView: FC<ICreateIloCapsViewProps> = ({
 						</Col>
 					</StyledInfoCard>
 					<Spacing vertical="l" desktopOnly />
-					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'center'}>
-						{isDesktop && <BackButton label="Back" onClick={onSubmit} />}
+					<Spacing vertical="m" mobileOnly />
+					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
+						<BackButton label="Back" onClick={onSubmit} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 				</BoxContain>
