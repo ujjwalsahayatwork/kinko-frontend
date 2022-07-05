@@ -22,14 +22,33 @@ const StyledTextarea = styled.textarea`
 	padding-right: 0px;
 	outline: none;
 	box-shadow: none;
-	border-radius: 0px;
+	border-radius: 5px;
+`;
+const StyledInputContainer = styled.div`
+	display: flex;
+	border: none;
+	border: 1px solid #103859;
+	color: ${({ theme }) => theme.primaryColor};
+	background: rgba(2, 34, 63, 0.8);
+	font-size: ${({ theme }) => toPx(theme.fontSizeM)};
+	font-weight: ${({ theme }) => theme.fontWeightNormal};
+	margin: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	box-shadow: none;
+	border-radius: 5px;
+	height: 46px;
+	flex: 1;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		font-size: 14px;
+	}
 `;
 
 const StyledInput = styled.input`
 	display: flex;
 	border: 1px solid #103859;
 	color: ${({ theme }) => theme.primaryColor};
-	background: rgba(2, 34, 63, 0.8)  !important;
+	background: rgba(2, 34, 63, 0.8) !important;
 	height: 46px;
 	font-size: ${({ theme }) => toPx(theme.fontSizeM)};
 	font-weight: ${({ theme }) => theme.fontWeightNormal};

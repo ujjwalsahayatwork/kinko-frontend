@@ -327,7 +327,7 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 					</Row>
 					<Spacing vertical="l" desktopOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'center'}>
-						{isDesktop && <BackButton label="Next to Caps" onClick={onSubmit} />}
+						{isDesktop && <BackButton label="Back" onClick={onSubmit} />}
 						<NextButton label="Next to Caps" arrow onClick={onSubmit} />
 					</Row>
 					<Spacing vertical="m" />
