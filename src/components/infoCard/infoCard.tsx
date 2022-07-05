@@ -30,7 +30,7 @@ interface IInfoCardProps {
 export const InfoCard: FC<IInfoCardProps> = ({ children, className, type }) => (
 	<StyledRow
 		className={className}
-		backgroundColor={type === 'info' ? 'primaryBrand' : 'errorBackground'}
+		backgroundColor={type === 'info' ? 'tertiaryBackground' : 'errorBackground'}
 		verticalPadding="m"
 		align="center"
 	>
