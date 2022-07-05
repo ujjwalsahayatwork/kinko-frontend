@@ -28,22 +28,30 @@ const isReached = (currentStepType: IStepType, reachedStepType: IStepType): bool
 
 const getStepIndex = (stepType: IStepType): number => steps.findIndex((step) => step.type === stepType);
 
-const ScrollingRow = styled(Col)<{ width: number }>`
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+const ScrollingRow = styled(Row)<{ width: number }>`
+	/* max-width: ${({ width }) => toPx(width)}; */
+	/* overflow-x: scroll; */
+	-ms-overflow-style: none; // IE
+	scrollbar-width: none; // Firefox
 	position: relative;
 	z-index: 0;
 	margin: 0 auto;
 	left: -0.75rem;
+	// Chrome, Edge, Opera, Safari
 	::-webkit-scrollbar {
 		display: none;
 	}
+	@media (max-width: 330px) {
+		left: 0.25rem;
+	}
 `;
 
-const TitleBox = styled.div`
-	top: -9px;
-	position: absolute;
-	left: 66px;
+const StyledCreateIlo = styled(Text)`
+	font-style: normal;
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 50px;
+	text-align: center;
 `;
 
 const StyledTabText = styled(Text)`
@@ -55,7 +63,8 @@ const StyledTabText = styled(Text)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 14px;
 		line-height: 18px;
-		margin-left: 8px;
+		/* margin-left: 8px; */
+		text-align: center;
 	}
 	@media (max-width: 653px) {
 		font-size: 10px;
@@ -64,20 +73,17 @@ const StyledTabText = styled(Text)`
 `;
 
 const StyledHorizontal = styled.div`
+	/* height: 3rem; */
 	display: flex;
 	align-items: center;
-	height: 95px;
-	width: auto;
+	/* height: 0px; */
+	width: 12vw;
 	max-width: 272px;
-	background-color: transparent;
+	/* background-color: #7079B9; */
+	border: 1px dashed #7079b9;
 	justify-content: center;
 	position: relative;
-	border-left: 2px dashed #7079B9;
-	left: 31px;
-	top: 0;
-	margin-top: 2rem;
-	margin-bottom: 1.5rem;
-
+	left: 5.5rem !important;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		left: 15px;
 	}
@@ -87,10 +93,17 @@ const StyledHorizontal = styled.div`
 	@media (max-width: 1024px) {
 		left: 67px;
 	}
-	@media (max-width: 767px) {
-		left: 15px;
+	@media (max-width: 820px) {
+		left: 4.5rem !important;
 	}
-
+	@media (max-width: 767px) {
+		left: 3.3rem !important;
+		width: 8vw;
+	}
+	@media (max-width: 330px) {
+		width: 6.5vw;
+		left: 2.8rem !important;
+	}
 	&::before {
 		content: '';
 		position: absolute;
@@ -98,11 +111,10 @@ const StyledHorizontal = styled.div`
 		height: 35px;
 		width: 35px;
 		border-radius: 50px;
-		border: 2px solid #7079B9;
+		border: 2px solid #7079b9;
 		justify-content: center;
-		left: -21px;
-		top: 0px;
-		margin-top: -3rem;
+		left: 1px;
+		margin-left: -2.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 22px;
 			width: 22px;
@@ -110,6 +122,8 @@ const StyledHorizontal = styled.div`
 		@media (max-width: 653px) {
 			height: 18px;
 			width: 18px;
+			margin-left: -1.8rem;
+			/* left: 11px; */
 		}
 	}
 `;
@@ -126,10 +140,9 @@ const StyledHorizontalLine = styled.div`
 		height: 35px;
 		width: 35px;
 		border-radius: 50px;
-		border: 2px solid #7079B9;
+		border: 2px solid #7079b9;
 		justify-content: center;
-		left: 13px;
-		top: -15px;
+		margin-left: -0.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 22px;
 			width: 22px;
@@ -137,15 +150,20 @@ const StyledHorizontalLine = styled.div`
 		@media (max-width: 653px) {
 			height: 18px;
 			width: 18px;
+			margin-left: 0.8rem;
+		}
+		@media (max-width: 330px) {
+			margin-left: 0.2rem;
 		}
 	}
 `;
 
 const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 	display: flex;
-	left: -2px;
-	border-left: 2px dashed #f97a48;
-	top: 0;
+	/* height: 2px; */
+	width: 100%;
+	/* background-color: #f97a48; */
+	border: 1px dashed #f97a48;
 	align-items: center;
 	justify-content: center;
 	border-top-left-radius: ${({ roundLeft }) => (roundLeft ? '0px' : '0px')};
@@ -155,7 +173,7 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 	box-shadow: none;
 	border-radius: 0px;
 	position: absolute;
-	height: 95px;
+	left: 0px;
 	&::before {
 		position: absolute;
 		content: '';
@@ -168,9 +186,8 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		background-size: 50%;
 		background-repeat: no-repeat;
 		border: 2px solid #f97a48;
-		left: -21px;
-		top: 0px;
-		margin-top: -3rem;
+		left: 0px;
+		margin-left: -2.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 25px;
 			width: 25px;
@@ -178,6 +195,7 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		@media (max-width: 653px) {
 			height: 18px;
 			width: 18px;
+			margin-left: -1.8rem;
 		}
 	}
 `;
@@ -198,7 +216,7 @@ const HorizontalLine = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		background-size: 50%;
 		background-repeat: no-repeat;
 		border: 2px solid #f97a48;
-		margin-top: -3rem;
+		margin-left: -0.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 25px;
 			width: 25px;
@@ -206,12 +224,12 @@ const HorizontalLine = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		@media (max-width: 653px) {
 			height: 18px;
 			width: 18px;
+			margin-left: 0.8rem;
 		}
 	}
 `;
 
 const NextCol = styled(Col)`
-	position: relative;
 	@media (min-width: 768px) and (max-width: 1024px) {
 		align-items: center;
 	}
@@ -221,7 +239,7 @@ interface ICreationStepsProps {
 	reachedStepType: IStepType;
 }
 
-export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
+export const CreationMobileSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
 	const { isDesktop } = useDevice();
 	const [elementId] = useState(uniqueId('CreationSteps-'));
 	const [width, setWidth] = useState(0);
@@ -240,6 +258,16 @@ export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
 
 	return (
 		<Col id={elementId}>
+			{isDesktop && (
+				<>
+					<Row>
+						<StyledCreateIlo fontSize="xxl" className="" fontWeight="bold" backgroundColor="transparent">
+							Create ILO
+						</StyledCreateIlo>
+					</Row>
+					<Spacing vertical="l" />
+				</>
+			)}
 			<ScrollingRow maxWidth justify="space-between" width={width}>
 				{steps.map((step) => (
 					<NextCol key={step.type} maxWidth>
@@ -247,7 +275,6 @@ export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
 							<StyledHorizontalLine>
 								{isReached(step.type, reachedStepType) && (
 									<HorizontalLine
-										className="HorizontalLine"
 										roundLeft={getStepIndex(step.type) === 0}
 										roundRight={getStepIndex(step.type) === getStepIndex(reachedStepType)}
 									/>
@@ -257,22 +284,21 @@ export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
 							<StyledHorizontal>
 								{isReached(step.type, reachedStepType) && (
 									<HorizontalBar
-										className="HorizontalBar"
 										roundLeft={getStepIndex(step.type) === 0}
 										roundRight={getStepIndex(step.type) === getStepIndex(reachedStepType)}
 									/>
 								)}
 							</StyledHorizontal>
 						)}
-						{/* <Spacing vertical="l" mobile="m" /> */}
-						<TitleBox>
+						<Spacing vertical="l" mobile="m" />
+						<Col>
 							<StyledTabText
 								fontSize="m"
 								color={getStepIndex(step.type) <= getStepIndex(reachedStepType) ? 'secondaryBrand' : 'tertiary'}
 							>
 								{step.title}
 							</StyledTabText>
-						</TitleBox>
+						</Col>
 					</NextCol>
 				))}
 			</ScrollingRow>

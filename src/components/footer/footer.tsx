@@ -9,10 +9,10 @@ import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { toPx } from 'components/utils';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
-import "./footer.scss";
+import './footer.scss';
 
 const StyledDiv = styled.div`
-	background-color: #001A23;
+	background-color: #001a23;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -41,8 +41,8 @@ const StyledFooterData = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 0.75rem;
-	padding: 1rem;
-	
+	/* padding: 1rem; */
+
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		grid-template-columns: 1fr;
 		gap: 1.25rem;
@@ -73,14 +73,14 @@ const Logo = styled.img`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		width: 6.8rem;
 	}
-	@media (min-width:768px){
+	@media (min-width: 768px) {
 		width: 50px;
 	}
 `;
 
 const StyledDescText = styled.div`
 	color: rgb(255 255 255 / 0.8);
-	font-size: .875rem;
+	font-size: 0.875rem;
 	line-height: 1.25rem;
 	font-weight: 400 !important;
 `;
@@ -131,7 +131,7 @@ const StyledForm = styled.form`
 `;
 
 const StyledFooter = styled(Col)`
-	background-color: #001A23;
+	background-color: #001a23;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		padding-top: 1rem;
 	}
@@ -162,7 +162,8 @@ const StyledInput = styled.input`
 
 const SubscribeArea = styled.div`
 	display: flex;
-	align-items: end;
+	/* align-items: end; */
+	justify-content: end;
 	width: 100%;
 `;
 
@@ -186,7 +187,7 @@ const StyledSubscribeButton = styled.button`
 	font-size: 1rem;
 	border-radius: 0.35rem;
 	margin-top: 0.5rem;
-	background: #F97A48;
+	background: #f97a48;
 	color: white;
 	font-family: 400;
 	font-family: inherit;
@@ -214,21 +215,21 @@ const StyledStayText = styled(Text)`
 const CopyrightText = styled(Text)`
 	color: #fff;
 	background-color: transparent;
-	font-size: .875rem;
+	font-size: 0.875rem;
 	font-weight: 300;
 	opacity: 1;
 `;
 export const Footer: FC = () => {
-	const [email, setEmail] = useState("");
+	const [email, setEmail] = useState('');
 
 	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.target
-		setEmail(value)
-	}
+		const { value } = event.target;
+		setEmail(value);
+	};
 	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		setEmail('')
-	}
+		event.preventDefault();
+		setEmail('');
+	};
 	return (
 		<>
 			<StyledDiv>
@@ -245,7 +246,7 @@ export const Footer: FC = () => {
 									features on Moonbeam, Avax, Near, Bsc and Echain (Kinko Chain) all while accelerating their adoption.
 								</StyledDescText>
 							</LogoWrapper>
-							<StyledCopyrightCol >
+							<StyledCopyrightCol>
 								<CopyrightText fontSize="xs">contact@Kinko.io</CopyrightText>
 							</StyledCopyrightCol>
 						</StyledData>
