@@ -38,6 +38,8 @@ export const getColor = (theme: DefaultTheme, color: IColor): string | undefined
 			return theme.secondaryBrandColor;
 		case 'greeny':
 			return theme.greenyColor;
+		case 'purple':
+				return theme.purpleColor;
 		case 'lightBlack':
 			return theme.lightBlackColor;
 		case 'onPrimaryBrand':

@@ -1,6 +1,6 @@
 export const primaryColor = '#fff'; // white
-export const secondaryColor = '#909090';
-export const tertiaryColor = '#595959';
+export const secondaryColor = '#7079B9';
+export const tertiaryColor = '#7079B9';
 export const greenyColor = '#0FB871';// green 
 export const lightBlackColor = '#103859';// lightBlack 
 export const primaryBrandColor = '#a873F7'; // purple
@@ -11,6 +11,7 @@ export const primaryBackgroundColor = '#212121'; // black
 export const secondaryBackgroundColor = '#282828'; // very dark grey
 export const tertiaryBackgroundColor = '#474747'; // dark grey
 export const quaternaryBackgroundColor = '#a873F71a'; // light purple
+export const purpleColor = '#4650A8'; // purple
 export const buttonBackgroundColor = '#232323'; // very dark grey
 export const underPrimaryBandColor = '#a873F71a'; // purpleish
 export const primaryErrorColor = 'rgba(255, 81, 58, 0.6)'; // red

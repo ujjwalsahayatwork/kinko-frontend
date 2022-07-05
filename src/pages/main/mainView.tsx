@@ -12,8 +12,7 @@ import { hiddenLaunchpadAddresses } from 'constants/constants';
 import { FilterButton } from 'pages/main/components/filterButton';
 import { IloCard } from 'pages/main/components/iloCard';
 import { IIlo } from 'types';
-import "./mainView.scss";
-import { Link } from 'components/link/link';
+import './mainView.scss';
 import { BaseButton } from 'components/baseButton/baseButton';
 import { Icon } from 'components/icon/icon';
 
@@ -24,38 +23,37 @@ const StyledContainer = styled(Col)`
 	max-width: 1152px;
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		
 	}
 `;
 
-const Header = styled(Col) <{ width?: number }>`
+const Header = styled(Col)<{ width?: number }>`
 	width: ${({ width }) => (width ? toPx(width) : undefined)};
 `;
 
 const Hading = styled(Text)`
-	color: #F97A48;
+	color: #f97a48;
 	font-family: 'Sora';
 	font-weight: 500;
 	font-size: 2rem;
 	line-height: 50px;
-`
+`;
 
 const CreateIloText = styled(Text)`
-	color: #F97A48;
-`
+	color: #f97a48;
+`;
 
 const FilterContainer = styled.div`
 	/* background-color: antiquewhite; */
 	display: flex;
-	border: 1px solid #7079B9;
+	border: 1px solid #7079b9;
 	/* width: 100%; */
 	row-gap: 1rem;
-    column-gap: 1rem;
+	column-gap: 1rem;
 	border-radius: ${({ theme }) => toPx(theme.buttonBorderRadius * 2)};
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		border: none;
 	}
-	@media screen and (max-width:767px){
+	@media screen and (max-width: 767px) {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		align-items: center;
@@ -71,13 +69,13 @@ const StyledSearchBar = styled(Row)`
 	align-items: center;
 	/* justify-content: center; */
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-	width: 100%;
-	grid-template-columns: 1fr;
+		width: 100%;
+		grid-template-columns: 1fr;
 	}
 `;
 
 const SearchBtn = styled(Button)`
-	background: #F97A48;
+	background: #f97a48;
 	border: none;
 	height: 46px;
 	max-width: 13rem;
@@ -90,17 +88,17 @@ const SearchBtn = styled(Button)`
 const SearchFilterArea = styled(Row)`
 	width: 100%;
 	border-radius: 0.5rem;
-	border: 1px solid #4650A8;
+	border: 1px solid #4650a8;
 `;
 
-const StyledSelector = styled(BaseButton)`
+const StyledSelector = styled.div`
 	color: white;
 	width: 100%;
-    justify-content: space-around;
-	background: #4650A8;
+	justify-content: space-around;
+	background: #4650a8;
 	border: none;
 	border-radius: 0.5rem 0rem 0rem 0.5rem;
-	height: 46px;
+	height: 48px;
 	max-width: 16rem;
 	min-width: 15rem;
 	display: flex;
@@ -109,6 +107,39 @@ const StyledSelector = styled(BaseButton)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: none;
 	}
+`;
+
+const Select = styled.select`
+	color: white;
+	width: 100%;
+	background: transparent;
+	border: none;
+	border-radius: 0.5rem 0rem 0rem 0.5rem;
+	height: 48px;
+	max-width: 13rem;
+	align-items: center;
+	outline: none;
+	font-size: 18px;
+	font-weight: 300;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: none;
+	}
+`;
+
+const Option = styled.option`
+	background: #4650a8;
+	:focus-visible {
+		outline: none;
+	}
+`;
+
+const OptionText = styled.option`
+	color: #fff;
+	background-color: transparent;
+	font-size: 18px;
+	font-weight: 300;
+	opacity: 1;
+	margin: 0px;
 `;
 
 const StyledIcon = styled(Row)`
@@ -120,7 +151,7 @@ const StyledSearchInput = styled.input`
 	width: 100%;
 	background: transparent;
 	border-radius: 0rem 0.5rem 0.5rem 0rem;
-    border: none;
+	border: none;
 	color: white;
 	padding-left: 1rem;
 	font-size: 0.875rem;
@@ -128,14 +159,13 @@ const StyledSearchInput = styled.input`
 	font-weight: 500;
 	font-family: 'Sora';
 	letter-spacing: 0.1em;
-	:focus-visible{
+	:focus-visible {
 		outline: none;
 	}
-	::placeholder{
-		color: #7079B9;
+	::placeholder {
+		color: #7079b9;
 	}
 `;
-
 
 const StyledHeading = styled(Text)`
 	font-weight: 500;
@@ -143,7 +173,7 @@ const StyledHeading = styled(Text)`
 	margin-top: 3rem;
 	margin-bottom: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		margin-top: .25rem;	
+		margin-top: 0.25rem;
 		margin-bottom: 0rem;
 	}
 `;
@@ -152,10 +182,10 @@ const CreateIlo = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 0.350rem;
+	border-radius: 0.35rem;
 	max-width: 8.5rem;
 	background-color: transparent;
-    border: 1px solid #F97A48;
+	border: 1px solid #f97a48;
 	width: 100%;
 	height: 45px;
 	min-height: 45px;
@@ -164,7 +194,7 @@ const CreateIlo = styled(BaseButton)`
 `;
 
 const SecondaryButton = styled(Button)`
-	background-color: #a873F7;
+	background-color: #a873f7;
 	width: 100%;
 	height: 45px;
 	min-height: 45px;
@@ -186,7 +216,7 @@ const StyledButtonCol = styled.div`
 
 const StyledBtnCol = styled(Row)`
 	display: flex;
-    column-gap: 1rem;
+	column-gap: 1rem;
 	border-radius: ${({ theme }) => toPx(theme.buttonBorderRadius * 2)};
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: grid;
@@ -202,20 +232,18 @@ const StyledSpan = styled.span`
 `;
 
 const SubHeader = styled(Row)`
- gap: 2rem;
- align-items: center;
+	gap: 2rem;
+	align-items: center;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		justify-content: space-between;
 	}
 `;
 const SearchIcon = styled(Icon)`
- display: none;
+	display: none;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: block;
 	}
-`
-
-
+`;
 
 interface IMainViewProps {
 	ilos: Array<IIlo>;
@@ -272,50 +300,49 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 		return (filteredIlos as Array<IIlo | undefined>).concat(fillUp);
 	}, [filteredIlos]);
 
-
 	const handleSearchFilter = () => {
-		console.log('SearchFilter')
-	}
+		console.log('SearchFilter');
+	};
 
 	const handleSelect = () => {
-		console.log('Select Me')
-	}
+		console.log('Select Me');
+	};
 
 	return (
 		<StyledContainer id={elementId} className={isMobile ? 'center' : undefined}>
 			<Header className="heading_width" width={isMobile ? width : undefined}>
-				<SubHeader >
-					<Hading fontSize="xl">
-						Launchpad
-					</Hading>
+				<Spacing vertical="l" />
+				<SubHeader>
+					<Hading fontSize="xl">Launchpad</Hading>
 					<CreateIlo onClick={onCreateIlo}>
 						<CreateIloText fontSize="s">Create Ilo</CreateIloText>
 						<Icon icon="plusOutline" width={30} color="undefined" />
 					</CreateIlo>
 				</SubHeader>
-				<Spacing vertical="m" />
+				<Spacing vertical="l" />
 				<StyledSearchBar>
 					<SearchFilterArea>
-						<StyledSelector onClick={handleSelect}>
-							<Row align='center'>
-								<Icon icon='non_profit' color='primary' />
-								<Text fontSize="m">
+						{/* <Text fontSize="m">Non Profitable</Text> */}
+						<StyledSelector>
+							<Icon icon="non_profit" color="primary" width={30} />
+							<Select>
+								<OptionText onClick={handleSelect} value="" hidden>
 									Non Profitable
-								</Text>
-							</Row>
-							<StyledIcon>
-								<Icon icon='downarrow' color='primary' />
-							</StyledIcon>
+								</OptionText>
+								<Option value="1">Audi</Option>
+								<Option value="2">BMW</Option>
+								<Option value="3">Citroen</Option>
+								<Option value="4">Ford</Option>
+							</Select>
 						</StyledSelector>
-						<StyledSearchInput placeholder='Type here to Search...' />
+						<StyledSearchInput placeholder="Type here to Search..." />
 						<SearchIcon icon="searchIcon" width={22} color="undefined" />
-						<Spacing horizontal='s' mobileOnly />
-
+						<Spacing horizontal="s" mobileOnly />
 					</SearchFilterArea>
-					<SearchBtn label='Search' onClick={handleSearchFilter} />
+					<SearchBtn label="Search" onClick={handleSearchFilter} />
 				</StyledSearchBar>
-				<Spacing vertical="m" />
-				<StyledButtonCol >
+				<Spacing vertical="l" />
+				<StyledButtonCol>
 					<FilterContainer>
 						<FilterButton
 							icon="clock"
@@ -347,35 +374,31 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 				</StyledButtonCol>
 			</Header>
 			<Spacing vertical="l" />
-			<Col align='center' className="space_bottom">
+			<Col align="center" className="space_bottom">
 				{isDesktop
 					? filledIlos.map((outerIlo, outerIndex) => {
-						if (outerIndex % 3 === 0) {
-							return (
-								<Col key={outerIlo ? outerIlo.launchpadAddress : outerIndex}>
-									{outerIndex > 0 && <Spacing vertical="m" />}
-									<Row>
-										{filledIlos.slice(outerIndex, outerIndex + 3).map((innerIlo, innerIndex) => (
-											<Row key={innerIlo ? innerIlo.launchpadAddress : innerIndex}>
-												{innerIlo === undefined ? (
-													<div />
-												) : (
-													<IloCard data={innerIlo} width={width} />
-												)}
-											</Row>
-										))}
-									</Row>
-								</Col>
-							);
-						}
-						return null;
-					})
+							if (outerIndex % 3 === 0) {
+								return (
+									<Col key={outerIlo ? outerIlo.launchpadAddress : outerIndex}>
+										{outerIndex > 0 && <Spacing vertical="m" />}
+										<Row>
+											{filledIlos.slice(outerIndex, outerIndex + 3).map((innerIlo, innerIndex) => (
+												<Row key={innerIlo ? innerIlo.launchpadAddress : innerIndex}>
+													{innerIlo === undefined ? <div /> : <IloCard data={innerIlo} width={width} />}
+												</Row>
+											))}
+										</Row>
+									</Col>
+								);
+							}
+							return null;
+					  })
 					: filteredIlos.map((ilo, index) => (
-						<Col key={ilo.launchpadAddress}>
-							{index > 0 && <Spacing vertical="m" />}
-							<IloCard data={ilo} width={width} />
-						</Col>
-					))}
+							<Col key={ilo.launchpadAddress}>
+								{index > 0 && <Spacing vertical="m" />}
+								<IloCard data={ilo} width={width} />
+							</Col>
+					  ))}
 			</Col>
 		</StyledContainer>
 	);

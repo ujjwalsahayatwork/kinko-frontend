@@ -41,11 +41,13 @@ import {
 	tertiaryColor,
 	underPrimaryBandColor,
 	greenyColor,
-	lightBlackColor
+	lightBlackColor,
+	purpleColor,
 } from 'styles/base';
 
 export const theme: DefaultTheme = {
 	primaryColor,
+	purpleColor,
 	secondaryColor,
 	lightBlackColor,
 	tertiaryColor,

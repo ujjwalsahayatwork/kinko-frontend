@@ -6,6 +6,8 @@ export type IColor =
 	| 'undefined'
 	| 'transparent'
 	| 'primary'
+	| 'purple'
+	| 'darkPurple'
 	| 'secondary'
 	| 'tertiary'
 	| 'lightBlack'
