@@ -1,5 +1,6 @@
 import { Button } from 'components/button/button';
 import { Col } from 'components/col/col';
+import { CreationMobileSteps } from 'components/creationSteps/creationMobileSteps';
 import { CreationSteps } from 'components/creationSteps/creationSteps';
 import { DateTimestampPicker } from 'components/dateTimestampPicker/dateTimestampPicker';
 import { DropDown, IDropDownOption } from 'components/dropDown/dropDown';
@@ -21,6 +22,46 @@ const StyledMainCol = styled(Col)`
 	}
 `;
 
+const StyledCreateIlo = styled(Text)`
+	font-family: 'Sora';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 30px;
+`;
+
+const SubText = styled(Text)`
+	font-family: 'Sora';
+	font-weight: 400;
+	font-size: 14px !important;
+	line-height: 18px;
+	color: #7079b9;
+`;
+
+const HorizontalLine = styled.div`
+	background: rgba(112, 121, 185, 0.3);
+	height: 1.5px;
+`;
+
+const VerticalLine = styled.div`
+	background: rgba(112, 121, 185, 0.3);
+	width: 1.5px;
+`;
+
+const BoxContain = styled.div`
+	max-width: 605px;
+`;
+
+const Box = styled.div`
+	display: grid;
+	grid-template-columns: 18% 3% 75%;
+	gap: 1rem;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		grid-template-columns: 100%;
+		margin: auto;
+	}
+`;
+
 const LeftCol = styled(Col)`
 	flex: 1;
 `;
@@ -35,7 +76,7 @@ const LeftDropDown = styled(Row)`
 `;
 
 const StyledInfoCard = styled(InfoCard)`
-	background:  #7079B9;
+	/* background:  #7079B9; */
 	opacity: 0.7;
 	border-radius: 5px;
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
@@ -52,21 +93,29 @@ const StyledDateLabel = styled(Text)`
 `;
 
 const NextButton = styled(Button)`
-	width: 190px;
-	padding: 10px 20px 10px 0px;
-	background-color: #F97A48;
-	border: 1px solid #F97A48;
+	box-sizing: border-box;
+	width: 172px;
 	height: 47px;
+	background: #f97a48;
+	border: 1px solid #f97a48;
+	border-radius: 5px;
 	text-align: center;
+	padding-left: 15px;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 150px;
+	}
 `;
 
 const BackButton = styled(Button)`
-	width: 190px;
-	padding: 10px 20px 10px 0px;
-	/* background-color: #F97A48; */
-	border: 1px solid #F97A48;
+	border: 1px solid #f97a48;
+	border-radius: 5px;
+	width: 172px;
 	height: 47px;
+	/* padding: 10px 20px 10px 0px; */
 	text-align: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 150px;
+	}
 `;
 
 const ButtonContainer = styled.div`
@@ -104,66 +153,95 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 
 	return (
 		<StyledMainCol>
-			<CreationSteps reachedStepType="period" />
-			<Spacing vertical="xxl" />
-			<Row mobileDirection="column">
-				<LeftCol className="bgcolor_hide">
-					<StyledDateLabel fontSize="s">
-						Start Date
-					</StyledDateLabel>
-					<DateTimestampPicker date={startBlockDate} onChangeDate={onChangeStartBlockDate} />
-				</LeftCol>
-			</Row>
-			<Spacing vertical="xl" />
-			<Row mobileDirection="column">
-				<LeftCol>
-					<StyledDateLabel fontSize="s">
-						End Date
-					</StyledDateLabel>
-					<DateTimestampPicker date={endBlockDate} onChangeDate={onChangeEndBlockDate} />
-				</LeftCol>
-			</Row>
-			<Spacing vertical="xl" />
-			<Row>
-				<LeftDropDown>
-					<DropDown<bigint>
-						label="Lock liquidity for"
-						options={liquidityLockPeriodOptions}
-						selected={selectedLockPeriod}
-						startEmpty={false}
-						onSelect={onChangeLiquidityLockPeriod}
-					/>
-				</LeftDropDown>
-			</Row>
-			{dateIssue ? (
+			<Spacing vertical="s" />
+			{isDesktop && (
 				<>
-					<Spacing horizontal="l" vertical="m" />
-					<StyledInfoCard type="alert">
-						<Text fontSize="m">{dateIssue}</Text>
-					</StyledInfoCard>
+					<Row>
+						<StyledCreateIlo fontSize="xxl" className="" fontWeight="bold" backgroundColor="transparent">
+							Create ILO
+						</StyledCreateIlo>
+					</Row>
+					<Spacing vertical="s" />
+					<SubText fontSize="xs">Follow the simple 5 steps to create your ILO</SubText>
+					<Spacing vertical="m" />
+					<HorizontalLine />
 				</>
-			) : (
-				null
 			)}
-			{showAwareness ? (
-				<>
-					<Spacing horizontal="l" vertical="m" />
-					<StyledInfoCard type="info">
-						<Text fontSize="m">
-							Presale should ideally start 1 week from today to give you time to raise awareness.
-						</Text>
-					</StyledInfoCard>
-				</>
-			) : (
-				null
-			)}
+			<Box>
+				{isDesktop ? (
+					<>
+						<Col>
+							<Spacing vertical="l" />
+							<CreationSteps reachedStepType="period" />
+						</Col>
+						<VerticalLine />
+					</>
+				) : (
+					<CreationMobileSteps reachedStepType="period" />
+				)}
+				<BoxContain>
+					<Spacing vertical="m" />
+					<Row mobileDirection="column">
+						<LeftCol className="bgcolor_hide">
+							<StyledDateLabel fontSize="s">
+								Start Date
+							</StyledDateLabel>
+							<DateTimestampPicker date={startBlockDate} onChangeDate={onChangeStartBlockDate} />
+						</LeftCol>
+					</Row>
+					<Spacing vertical="l" />
+					<Row mobileDirection="column">
+						<LeftCol>
+							<StyledDateLabel fontSize="s">
+								End Date
+							</StyledDateLabel>
+							<DateTimestampPicker date={endBlockDate} onChangeDate={onChangeEndBlockDate} />
+						</LeftCol>
+					</Row>
+					<Spacing vertical="l" />
+					<Row>
+						<LeftDropDown>
+							<DropDown<bigint>
+								label="Lock liquidity for"
+								options={liquidityLockPeriodOptions}
+								selected={selectedLockPeriod}
+								startEmpty={false}
+								onSelect={onChangeLiquidityLockPeriod}
+							/>
+						</LeftDropDown>
+					</Row>
+					{showAwareness ? (
+						<>
+							<Spacing horizontal="l" vertical="m" />
+							<StyledInfoCard type="info">
+								<Text fontSize="m">
+									Presale should ideally start 1 week from today to give you time to raise awareness.
+								</Text>
+							</StyledInfoCard>
+						</>
+					) : (
+						null
+					)}
+					{dateIssue ? (
+						<>
+							<Spacing horizontal="l" vertical="m" />
+							<StyledInfoCard type="alert">
+								<Text fontSize="m">{dateIssue}</Text>
+							</StyledInfoCard>
+						</>
+					) : (
+						null
+					)}
+					<Spacing vertical="l" desktopOnly />
+					<Spacing vertical="m" mobileOnly />
+					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
+						<BackButton label="Back" onClick={onSubmit} />
+						<NextButton label="Next to Period" arrow onClick={onSubmit} />
+					</Row>
+				</BoxContain>
+			</Box>
+			<Spacing vertical="xl" />
 
-			<Spacing vertical="xl" />
-			<ButtonContainer>
-				<BackButton label="Back"  onClick={onSubmit} />
-				<NextButton label="Next to Caps" arrow onClick={onSubmit} />
-			</ButtonContainer>
-			<Spacing vertical="xl" />
 		</StyledMainCol>
 	);
 };

@@ -9,17 +9,22 @@ import styled from 'styled-components';
 
 const StyledInput = styled.input`
 	display: flex;
-	width: 100%;
-	border: none;
+	border: 1px solid #103859;
 	color: ${({ theme }) => theme.primaryColor};
-	background-color: transparent;
+	background: rgba(2, 34, 63, 0.8) !important;
+	height: 46px;
 	font-size: ${({ theme }) => toPx(theme.fontSizeM)};
 	font-weight: ${({ theme }) => theme.fontWeightNormal};
 	opacity: ${({ theme, readOnly }) => (readOnly ? getOpacity(theme, 'normal') : getOpacity(theme, 'full'))};
 	margin: 0px;
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-bottom: .5rem;
+	padding-left: 10px;
+	padding-right: 10px;
+	box-shadow: none;
+	border-radius: 0.35rem;
+	flex: 1;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		font-size: 14px;
+	}
 
 	&:focus {
 		outline: none;
@@ -28,12 +33,12 @@ const StyledInput = styled.input`
 
 const CurrencyText = styled(Text)`
 	align-items: flex-end;
-	padding-bottom: .5rem;
+	padding-bottom: 0.5rem;
 `;
 
 const MaxButtonWrapper = styled.div`
 	display: flex;
-	padding-bottom: .5rem;
+	padding-bottom: 0.5rem;
 `;
 
 const MaxButton = styled(BaseButton)`
@@ -49,11 +54,12 @@ const MaxButton = styled(BaseButton)`
 `;
 
 const StyledInputContainer = styled(Row)`
-	border-bottom: 1px solid #4B4B4B;
+	height: 46px;
+	/* width: 605px; */
 `;
 
 const StyledLabel = styled(Text)`
-	color: #BDBDBD;
+	color: #828282;
 `;
 
 interface ICurrencyInputProps {
@@ -89,12 +95,10 @@ export const CurrencyInput: FC<ICurrencyInputProps> = ({
 	);
 
 	return (
-		<Col backgroundColor="primaryBackground" className={className}>
-			<StyledLabel fontSize="xs">
-				{label}
-			</StyledLabel>
+		<Col className={className}>
+			<StyledLabel fontSize="xs">{label}</StyledLabel>
 			<Spacing vertical="s" />
-			<StyledInputContainer align='center'>
+			<StyledInputContainer align="center">
 				<StyledInput value={value} readOnly={readOnly} onChange={handleChange} />
 				<CurrencyText fontSize="s">{currency}</CurrencyText>
 				{onMax && (
