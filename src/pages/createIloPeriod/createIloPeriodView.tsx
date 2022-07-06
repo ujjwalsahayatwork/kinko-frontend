@@ -232,12 +232,13 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 					) : (
 						null
 					)}
-					{/* <Spacing vertical="l" desktopOnly /> */}
-					{/* <Spacing vertical="m" mobileOnly />	 */}
+					<Spacing vertical="l" desktopOnly />
+					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
 						<BackButton label="Back" onClick={onSubmit} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
+					<Spacing vertical="xl" />
 				</BoxContain>
 			</Box>
 			<Spacing vertical="xl" />
