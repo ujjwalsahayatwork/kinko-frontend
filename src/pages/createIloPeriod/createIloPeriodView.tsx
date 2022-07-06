@@ -94,7 +94,7 @@ const StyledDateLabel = styled(Text)`
 
 const NextButton = styled(Button)`
 	box-sizing: border-box;
-	width: 172px;
+	width: 175px;
 	height: 47px;
 	background: #f97a48;
 	border: 1px solid #f97a48;
@@ -102,7 +102,7 @@ const NextButton = styled(Button)`
 	text-align: center;
 	padding-left: 15px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		width: 150px;
+		width: 175px;
 	}
 `;
 
@@ -114,7 +114,7 @@ const BackButton = styled(Button)`
 	/* padding: 10px 20px 10px 0px; */
 	text-align: center;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		width: 150px;
+		width: 120px;
 	}
 `;
 
@@ -232,8 +232,8 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 					) : (
 						null
 					)}
-					<Spacing vertical="l" desktopOnly />
-					<Spacing vertical="m" mobileOnly />
+					{/* <Spacing vertical="l" desktopOnly /> */}
+					{/* <Spacing vertical="m" mobileOnly />	 */}
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
 						<BackButton label="Back" onClick={onSubmit} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
