@@ -18,6 +18,7 @@ const StyledMainCol = styled(Col)`
 	max-width: 1152px;
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
 	}
 `;
 
@@ -59,7 +60,7 @@ const Box = styled.div`
 	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		grid-template-columns: 100%;
-		margin: auto;
+		/* margin: auto; */
 	}
 `;
 
@@ -131,7 +132,7 @@ const Forcolor = styled.div`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 16px;
 		display: grid;
-		max-width: 250px;
+		/* max-width: 250px; */
 		grid-template-columns: 30% 70%;
 	}
 `;
@@ -143,6 +144,7 @@ const StyledCardBox = styled.div`
 	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		gap: 1rem;
 	}
@@ -170,7 +172,7 @@ const StyledCard = styled(Col)`
 	height: 50px;
 	/* width: 100%; */
 	max-width: 280px;
-	min-width: 300px;
+	min-width: 280px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: flex;
 		flex-direction: column;
@@ -332,7 +334,7 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
 						<BackButton label="Back" onClick={onSubmit} />
-						<NextButton label="Next to Summary" arrow onClick={onSubmit} />
+						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 				</BoxContain>
 			</Box>
