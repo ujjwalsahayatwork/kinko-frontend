@@ -287,7 +287,7 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 									<OptionLink className={uniqueClickClass} href="/" disabled newTab={false}>
 										<Spacing vertical="m" />
 										<StyledMenuText fontSize="m" color="undefined">
-											Stake
+											Charity
 										</StyledMenuText>
 									</OptionLink>
 									<Spacing vertical="m" />
