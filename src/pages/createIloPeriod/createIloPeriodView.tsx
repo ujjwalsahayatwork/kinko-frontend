@@ -238,6 +238,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 						<BackButton label="Back" onClick={onSubmit} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
+					<Spacing vertical="xl" />
 				</BoxContain>
 			</Box>
 			<Spacing vertical="xl" />

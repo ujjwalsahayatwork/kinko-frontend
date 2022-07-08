@@ -47,11 +47,19 @@ const VerticalLine = styled.div`
 	background: rgba(112, 121, 185, 0.3);
 	width: 1.5px;
 `;
+const ButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between !important;
+`;
 
 const BoxContain = styled.div`
 	max-width: 650px;
 	display: flex;
 	flex-direction: column;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		max-width: 100%;
+		align-items: center;
+	}
 `;
 
 const Box = styled.div`
@@ -60,7 +68,6 @@ const Box = styled.div`
 	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		grid-template-columns: 100%;
-		/* margin: auto; */
 	}
 `;
 
@@ -70,6 +77,7 @@ const StyledStatus = styled.div`
 	justify-content: space-between;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		flex-direction: column;
+		align-items: center;
 	}
 `;
 
@@ -132,7 +140,8 @@ const Forcolor = styled.div`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 16px;
 		display: grid;
-		/* max-width: 250px; */
+		max-width: 250px;
+		justify-content: center;
 		grid-template-columns: 30% 70%;
 	}
 `;
@@ -292,7 +301,6 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 									<Spacing vertical="s" />
 								</StyledCard>
 							</StyledCardRow>
-							{/* {isDesktop && <Spacing vertical="m" horizontal="m" mobile="s" />} */}
 							<StyledCardRow>
 								<StyledCard>
 									<Text fontSize="s" fontWeight="normal" whiteSpace="nowrap" className="mob_text_size">
