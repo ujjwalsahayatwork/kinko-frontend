@@ -44,6 +44,10 @@ const StyledInputContainer = styled.div`
 	}
 `;
 
+const InputBox = styled(Row)`
+	position: relative;
+`
+
 const StyledInput = styled.input`
 	display: flex;
 	border: 1px solid #103859;
@@ -72,10 +76,12 @@ const StyledIcon = styled(Icon)``;
 
 const IconWrapper = styled.div`
 	display: flex;
-	border-bottom: 1px solid #4b4b4b;
-	align-items: flex-end;
+	align-items: center;
 	padding-bottom: ${({ theme }) => toPx(theme.distanceXS)};
-	padding-right: ${({ theme }) => toPx(theme.distanceS)};
+	padding-right: 1rem;
+	position: absolute;
+    right: 0;
+    height: 46px;
 `;
 
 const StyledLabel = styled(Text)`
@@ -95,6 +101,7 @@ interface ITextInputProps {
 	errorMessage?: string;
 	onChangeText: (value: string) => void;
 	InputCss?: string;
+	height?: number;
 }
 
 export const TextInput: FC<ITextInputProps> = ({
@@ -110,6 +117,7 @@ export const TextInput: FC<ITextInputProps> = ({
 	errorMessage,
 	onChangeText,
 	InputCss,
+	height,
 }) => {
 	const handleTextareaChange = useCallback(
 		(event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -146,7 +154,7 @@ export const TextInput: FC<ITextInputProps> = ({
 				</>
 			) : (
 				<>
-					<Row>
+					<InputBox>
 						<StyledInput
 							className={InputCss}
 							type="text"
@@ -156,10 +164,10 @@ export const TextInput: FC<ITextInputProps> = ({
 						/>
 						{icon && (
 							<IconWrapper>
-								<StyledIcon icon={icon} color={iconColor ?? 'primary'} height={22} />
+								<StyledIcon icon={icon} color={iconColor ?? 'primary'} height={height || 22} />
 							</IconWrapper>
 						)}
-					</Row>
+					</InputBox>
 					<Text fontSize="s" color="primaryError">
 						{errorMessage}
 					</Text>

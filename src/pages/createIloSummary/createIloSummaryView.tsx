@@ -18,6 +18,7 @@ const StyledMainCol = styled(Col)`
 	max-width: 1152px;
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
 	}
 `;
 
@@ -46,11 +47,19 @@ const VerticalLine = styled.div`
 	background: rgba(112, 121, 185, 0.3);
 	width: 1.5px;
 `;
+const ButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between !important;
+`;
 
 const BoxContain = styled.div`
 	max-width: 650px;
 	display: flex;
 	flex-direction: column;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		max-width: 100%;
+		align-items: center;
+	}
 `;
 
 const Box = styled.div`
@@ -59,7 +68,6 @@ const Box = styled.div`
 	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		grid-template-columns: 100%;
-		margin: auto;
 	}
 `;
 
@@ -69,6 +77,7 @@ const StyledStatus = styled.div`
 	justify-content: space-between;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		flex-direction: column;
+		align-items: center;
 	}
 `;
 
@@ -132,6 +141,7 @@ const Forcolor = styled.div`
 		font-size: 16px;
 		display: grid;
 		max-width: 250px;
+		justify-content: center;
 		grid-template-columns: 30% 70%;
 	}
 `;
@@ -143,6 +153,7 @@ const StyledCardBox = styled.div`
 	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		gap: 1rem;
 	}
@@ -170,7 +181,7 @@ const StyledCard = styled(Col)`
 	height: 50px;
 	/* width: 100%; */
 	max-width: 280px;
-	min-width: 300px;
+	min-width: 280px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: flex;
 		flex-direction: column;
@@ -290,7 +301,6 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 									<Spacing vertical="s" />
 								</StyledCard>
 							</StyledCardRow>
-							{/* {isDesktop && <Spacing vertical="m" horizontal="m" mobile="s" />} */}
 							<StyledCardRow>
 								<StyledCard>
 									<Text fontSize="s" fontWeight="normal" whiteSpace="nowrap" className="mob_text_size">
@@ -332,7 +342,7 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
 						<BackButton label="Back" onClick={onSubmit} />
-						<NextButton label="Next to Summary" arrow onClick={onSubmit} />
+						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 				</BoxContain>
 			</Box>
