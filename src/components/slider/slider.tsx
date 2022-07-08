@@ -142,8 +142,8 @@ const StyledSlider = styled.input<{ sliderSize: ISliderSize }>`
 `;
 
 const StyledButton = styled(BaseButton)<{ sliderSize: ISliderSize }>`
-	color: ${({ theme }) => theme.secondaryBrandColor};
-	background-color: ${({ theme }) => theme.secondaryBackgroundColor};
+	color: ${({ theme }) => theme.primaryColor};
+	background-color: ${({ theme }) => theme.purpleColor};
 	height: ${({ sliderSize }) => toPx(buttonSize(sliderSize))};
 	min-height: ${({ sliderSize }) => toPx(buttonSize(sliderSize))};
 	max-height: ${({ sliderSize }) => toPx(buttonSize(sliderSize))};

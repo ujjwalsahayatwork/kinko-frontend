@@ -5,7 +5,7 @@ import { Row } from 'components/row/row';
 import { Spacing } from 'components/spacing/spacing';
 import { TextInput } from 'components/textInput/textInput';
 import { toPx, useDevice } from 'components/utils';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import "./createSocialView.scss";
 
@@ -32,6 +32,7 @@ const StyledTextInput = styled(TextInput)`
 `;
 
 const StyledMultilineTextInput = styled(TextInput)`
+border-radius: 5px;
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		max-width: ${({ theme }) => toPx(theme.distanceM + 2 * 580)};
 	}
@@ -39,6 +40,8 @@ const StyledMultilineTextInput = styled(TextInput)`
 
 const NextButton = styled(Button)`
 	width: 170px; 
+	border: 1px solid #F97A48;
+	color: white;
 	padding: 14px 0px;
 	text-align: center;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
@@ -121,27 +124,6 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 				<Spacing horizontal="m" vertical="l" />
 				<MaxWidth>
 					<StyledTextInput
-						label="Link to header image"
-						value={headerImageURL}
-						errorMessage={headerImageURLIssue}
-						onChangeText={onChangeHeaderImageURL}
-					/>
-				</MaxWidth>
-			</Row>
-			<Spacing vertical="xl" mobile="l" />
-			<Row mobileDirection="column">
-				<MaxWidth>
-					<StyledTextInput
-						label="Telegram URL"
-						value={telegramURL}
-						errorMessage={telegramURLIssue}
-						icon="paperPlane"
-						onChangeText={onChangeTelegramURL}
-					/>
-				</MaxWidth>
-				<Spacing horizontal="m" vertical="l" />
-				<MaxWidth>
-					<StyledTextInput
 						label="Twitter URL"
 						value={twitterURL}
 						errorMessage={twitterURLIssue}
@@ -154,10 +136,31 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 			<Row mobileDirection="column">
 				<MaxWidth>
 					<StyledTextInput
+						label="Link to header image"
+						value={headerImageURL}
+						errorMessage={headerImageURLIssue}
+						onChangeText={onChangeHeaderImageURL}
+					/>
+				</MaxWidth>
+				<Spacing horizontal="m" vertical="l" />
+				<MaxWidth>
+					<StyledTextInput
 						label="Website URL"
 						value={websiteURL}
 						errorMessage={websiteURLIssue}
 						onChangeText={onChangeWebsiteURL}
+					/>
+				</MaxWidth>
+			</Row>
+			<Spacing vertical="xl" mobile="l" />
+			<Row mobileDirection="column">
+				<MaxWidth>
+					<StyledTextInput
+						label="Telegram URL"
+						value={telegramURL}
+						errorMessage={telegramURLIssue}
+						icon="paperPlane"
+						onChangeText={onChangeTelegramURL}
 					/>
 				</MaxWidth>
 				<Spacing horizontal="m" vertical="l" />
@@ -181,12 +184,12 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 				onChangeText={onChangeDescription}
 			/>
 			<Spacing vertical="xl" />
-			<Row justify={isDesktop ? 'flex-end' : undefined} align="center" mobileDirection="column">
+			<Row >
 				<NextButton label="Sign" disabled={signed || approved} onClick={onSign} />
 				<Spacing horizontal="m" vertical="s" />
-				<NextButton label="Approve" disabled={!signed || approved} onClick={onApprove} />
+				<NextButton label="Approve" disabled={signed || approved} onClick={onApprove} />
 				<Spacing horizontal="m" vertical="s" />
-				<NextButton label="Create Presale" disabled={!signed || !approved} onClick={onSubmit} />
+				<NextButton label="Create Presale" disabled={signed || approved} onClick={onSubmit} />
 			</Row>
 			<Spacing vertical="xl" />
 		</StyledMainCol>

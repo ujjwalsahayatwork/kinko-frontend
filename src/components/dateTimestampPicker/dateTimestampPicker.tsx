@@ -14,7 +14,9 @@ import styled from 'styled-components';
 import './react-datepicker.scss';
 
 const BorderWrapper = styled(Row)`
-	border-bottom: ${({ theme }) => `1px solid ${theme.primaryColor}`};
+	border: ${({ theme }) => `1px solid ${theme.lightBlackColor}`};
+	 border-radius: 5px ;
+	/* border: 1px solid #103859  */
 `;
 
 const DateText = styled(Text)`
@@ -23,6 +25,7 @@ const DateText = styled(Text)`
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 20px;
+	padding: .8rem .5rem;
 `;
 
 const IconContainer = styled(Row)`
@@ -126,6 +129,7 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 
 	return (
 		<Col className={className}>
+			<Spacing vertical="s" />
 			<BorderWrapper align="center">
 				<DateText fontSize="s">{date ? date.toLocaleString() : ''}</DateText>
 				<IconContainer>
@@ -134,7 +138,7 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 							<Row align="center">
 								<Icon icon="calendarOutlined" color="secondaryBrand" height={25} />
 								<Spacing horizontal="s" />
-								<Icon icon="angleDown" color="secondaryBrand" height={8} />
+								{/* <Icon icon="angleDown" color="secondaryBrand" height={8} /> */}
 							</Row>
 						</DateButton>
 					</Col>
@@ -143,7 +147,7 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 						<Row align="center">
 							<Icon icon="clockOutlined" color="secondaryBrand" height={25} />
 							<Spacing horizontal="s" />
-							<Icon icon="angleDown" color="secondaryBrand" height={8} />
+							{/* <Icon icon="angleDown" color="secondaryBrand" height={8} /> */}
 						</Row>
 					</TimestampButton>
 					{showDatePicker && (
@@ -191,7 +195,7 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 			</BorderWrapper>
 			<Spacing vertical="s" />
 			<Row justify="space-between">
-				<Text fontSize="s" color="secondaryBrand">
+				<Text fontSize="s" color="greeny">
 					{moment(date).fromNow()}
 				</Text>
 				<Text fontSize="s" color="secondary" align="end">

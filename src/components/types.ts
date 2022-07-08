@@ -6,10 +6,14 @@ export type IColor =
 	| 'undefined'
 	| 'transparent'
 	| 'primary'
+	| 'purple'
+	| 'darkPurple'
 	| 'secondary'
 	| 'tertiary'
+	| 'lightBlack'
 	| 'primaryBrand'
 	| 'secondaryBrand'
+	| 'greeny'
 	| 'onPrimaryBrand'
 	| 'onSecondaryBrand'
 	| 'primaryBackground'
@@ -21,7 +25,7 @@ export type IColor =
 
 export type IOpacity = 'light' | 'normal' | 'heavy' | 'full';
 
-export type IJustify = 'center' | 'flex-end' | 'space-between' | 'space-around';
+export type IJustify = 'center' | 'flex-end' | 'space-between' | 'space-around'| 'start';
 
 export type IAlign = 'center' | 'flex-end' | 'baseline'| 'start';
 

@@ -18,16 +18,19 @@ export interface IDropDownOption<T> {
 }
 
 const DropDownButton = styled(BaseButton)`
+	display: flex;
+	align-items: center;
 	font-style: normal;
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 18px;
 	color: ${({ theme }) => theme.primaryColor};
-	background-color: transparent;
-	border: none;
-	border-radius: 0px;
-	border-bottom: 1px solid #4B4B4B;
-	padding: .5rem 0rem;
+	height: 50px;
+	border-radius: .350rem;
+	border: 1px solid #103859;
+	background-color: rgba(2, 34, 63, 0.8);
+	padding-left: 10px;
+    padding-right: 10px;
 `;
 
 const OptionContainer = styled(Col) <{ width: number }>`
@@ -49,7 +52,7 @@ const OptionButton = styled(BaseButton)`
 `;
 
 const StyledLabel = styled(Text)`
-	color: #BDBDBD;
+	color: #828282;
 `;
 
 interface IDropDownProps<T> {

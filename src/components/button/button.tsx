@@ -69,10 +69,11 @@ export const Button: FC<IButtonProps> = ({ className, label, arrow, disabled, bu
 				<StyledButton className={className} arrow={arrow ?? false} disabled={disabled} onClick={onClick}>
 					{arrow ? (
 						<>
-							<Spacing horizontal={8} />
+							{/* <Spacing horizontal={8} /> */}
 							<Text color={color} fontSize="s" fontWeight="bold" whiteSpace="nowrap">
 								{label}
 							</Text>
+							<Spacing horizontal={8} />
 							<Icon icon="angleRight" color={color} width={8} />
 						</>
 					) : (
