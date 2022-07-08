@@ -48,7 +48,7 @@ const StyledHeader = styled(Col)`
 	border-radius: 0.35rem;
 `;
 
-const MainArea = styled(Col)<{ width: number }>`
+const MainArea = styled(Col) <{ width: number }>`
 	max-width: ${({ width }) => toPx(width)};
 	background: rgb(71 81 168 / 20%);
 	border: 1px solid rgb(112 121 185 / 20%);
@@ -255,6 +255,15 @@ const StyledIloText = styled(Text)`
 const StyledApproxText = styled(Text)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 0.75rem;
+	}
+`;
+const TimeStatus = styled.div`
+display: flex;
+justify-content: space-between;
+/* border: 1px solid red; */
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		/* font-size: 0.75rem; */
+		flex-direction: column;
 	}
 `;
 
@@ -710,19 +719,20 @@ export const IloView: FC<IIloViewProps> = ({
 										</>
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
-											<Svg src={kinkoLogo} height={60} width={60} />
+											{/* <Svg src={kinkoLogo} height={60} width={60} /> */}
 											<Spacing horizontal="s" />
 											<Row justify="space-between" maxWidth mobileDirection="column">
-												<Col>
+												{/* <Col>
 													<Text fontSize="m" fontWeight="bold">
 														{saleTokenName}
 													</Text>
 													<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 														Pancakeswap
 													</Text>
-												</Col>
+												</Col> */}
 												<Spacing vertical="m" mobileOnly />
-												<Col align={isDesktop ? 'flex-end' : undefined}>
+												{/* <Col align={isDesktop ? 'flex-end' : undefined}> */}
+												<Col>
 													<Text fontSize="xs" style={{ fontWeight: 600 }}>
 														{saleTokenLiquidityAmount.toFixed(3)} {saleTokenSymbol} ⁄{' '}
 														{baseTokenLiquidityAmount.toFixed(3)} {baseTokenSymbol}
@@ -784,33 +794,51 @@ export const IloView: FC<IIloViewProps> = ({
 										</div>
 										<div>
 											<Col horizontalPadding="s" verticalPadding="s">
-												<StyledTimeText fontSize="m" fontWeight="bold">
-													Start time
-												</StyledTimeText>
-												<StyledApproxText fontSize="xs" className="font-weight-400">
-													(Approx: {startBlockDate.toLocaleString()})
-												</StyledApproxText>
-												<Spacing vertical="l" />
-												<StyledTimeText fontSize="m" fontWeight="bold">
-													End time
-												</StyledTimeText>
-												<StyledApproxText fontSize="xs" className="font-weight-400">
-													(Approx: {endBlockDate.toLocaleString()})
-												</StyledApproxText>
-												<Spacing vertical="l" />
-												<StyledTimeText fontSize="m" fontWeight="bold">
-													Softcap
-												</StyledTimeText>
-												<StyledApproxText fontSize="xs" className="font-weight-400">
-													{softcap.toFixed(3)} {baseTokenSymbol}
-												</StyledApproxText>
-												<Spacing vertical="l" />
-												<StyledTimeText fontSize="m" fontWeight="bold">
-													Hardcap
-												</StyledTimeText>
-												<StyledApproxText fontSize="xs" className="font-weight-400">
-													{hardcap.toFixed(3)} {baseTokenSymbol}
-												</StyledApproxText>
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Start time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {startBlockDate.toLocaleString()})
+														</StyledApproxText>
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Softcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{softcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															End time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {endBlockDate.toLocaleString()})
+														</StyledApproxText>
+
+
+
+
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Hardcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{hardcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
 											</Col>
 										</div>
 									</div>
