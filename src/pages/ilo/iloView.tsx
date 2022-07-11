@@ -31,13 +31,26 @@ const StyledContainer = styled.div`
 	/* padding: 5rem 0;
 	margin-bottom: 10rem; */
 `;
+const ButtonContainer = styled.div`
+	display: flex;
+	width: 100%;
+	/* gap: 10; */
+	/* background-color: red; */
+	justify-content: space-between;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		flex-direction: column;
+	}
+	/* padding: 5rem 0;
+	margin-bottom: 10rem; */
+`;
+
+
 const StyledColumn = styled(Row)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		margin: 0 auto;
 		max-width: 100%;
 	}
 `;
-
 const StyledCol = styled(Col)`
 	margin: 0 auto;
 `;
@@ -68,6 +81,36 @@ const UnderstandButton = styled(BaseButton)`
 	width: 100%;
 	min-width: 10rem;
 	max-width: 10rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+`;
+const ReferButton = styled(BaseButton)`
+width: 30%;
+	height: 3rem;
+	/* width: 100%; */
+	/* min-width: 10rem;
+	max-width: 10rem; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
+	}
+`;
+const ConnectButton = styled(Buttons)`
+    width: 68% !important;
+	height: 3rem;
+	/* width: 100px; */
+	background-color: red;
+	/* min-width: 10rem;
+	max-width: 10rem; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -205,11 +248,22 @@ const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBo
 	display: flex;
 	height: 42px;
 	width: 9px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-top-left-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-top-right-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-bottom-left-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
 	border-bottom-right-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
+	position: relative;
+	::before{
+		position: absolute;
+		content: "";
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: 0px;
+		left: -3px;
+	}
 `;
 
 const VerticalBar = styled.div<{ reached: boolean }>`
@@ -224,8 +278,19 @@ const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBot
 	display: flex;
 	height: 8px;
 	width: 100px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-radius: 50px;
+	position: relative;
+	::before{
+		position: absolute;
+		content: "";
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: -3px;
+		left: -5px;
+	}
 `;
 
 const VerticalBarSpacing = styled.div<{ reached: boolean }>`
@@ -247,6 +312,10 @@ const StyledTimeText = styled(Text)`
 `;
 
 const StyledIloText = styled(Text)`
+	width: 79px;
+	text-align: center;
+	padding-top: 15px;
+	line-height: 20px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 0.9rem;
 	}
@@ -649,36 +718,56 @@ export const IloView: FC<IIloViewProps> = ({
 								</DataAreaHeader>
 								<Spacing className="abc" vertical="s" />
 								{isDesktop && (
-									<Buttons
-										isConnected={isConnected}
-										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
-										canClaimTokens={canClaimTokens}
-										canWithdrawLpTokens={canWithdrawLpTokens}
-										onConnect={onConnect}
-										onInvest={onInvest}
-										onFinalise={onFinalise}
-										onClaim={onClaim}
-										onWithdrawLpTokens={onWithdrawLpTokens}
-									/>
+									<ButtonContainer>
+										{/* // <ButtonContainer> */}
+										<ConnectButton
+											isConnected={isConnected}
+											iloStatus={status}
+											hasEarlyAccess={hasEarlyAccess}
+											canClaimTokens={canClaimTokens}
+											canWithdrawLpTokens={canWithdrawLpTokens}
+											onConnect={onConnect}
+											onInvest={onInvest}
+											onFinalise={onFinalise}
+											onClaim={onClaim}
+											onWithdrawLpTokens={onWithdrawLpTokens}
+										/>
+										{/* </ButtonContainer> */}
+										{/* <Spacing horizontal="s" /> */}
+										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
+											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+												Refer ILO
+											</Text>
+										</ReferButton>
+									</ButtonContainer>
 								)}
+
 							</Col>
 							{isMobile && (
-								<>
-									<Spacing vertical="s" />
-									<Buttons
-										isConnected={isConnected}
-										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
-										canClaimTokens={canClaimTokens}
-										canWithdrawLpTokens={canWithdrawLpTokens}
-										onConnect={onConnect}
-										onInvest={onInvest}
-										onFinalise={onFinalise}
-										onClaim={onClaim}
-										onWithdrawLpTokens={onWithdrawLpTokens}
-									/>
-								</>
+								// <>
+									<ButtonContainer>
+										<Spacing vertical="s" />
+
+										<ConnectButton
+											isConnected={isConnected}
+											iloStatus={status}
+											hasEarlyAccess={hasEarlyAccess}
+											canClaimTokens={canClaimTokens}
+											canWithdrawLpTokens={canWithdrawLpTokens}
+											onConnect={onConnect}
+											onInvest={onInvest}
+											onFinalise={onFinalise}
+											onClaim={onClaim}
+											onWithdrawLpTokens={onWithdrawLpTokens}
+										/>
+										{/* <Spacing horizontal="s" /> */}
+										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
+											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+												Refer ILO
+											</Text>
+										</ReferButton>
+									</ButtonContainer>
+								// </>
 							)}
 							<Spacing vertical="s" />
 							<StyledDataCol>
@@ -755,7 +844,7 @@ export const IloView: FC<IIloViewProps> = ({
 								{isDesktop ? (
 									<div>
 										<div>
-											<div style={{ display: 'flex' }}>
+											<div style={{ display: 'flex',justifyContent: "center",marginTop: '43px'}} >
 												{timeline.map((item, index) => (
 													<HorizontalBar
 														reached={item.reached}
@@ -766,13 +855,13 @@ export const IloView: FC<IIloViewProps> = ({
 											</div>
 											<Spacing vertical="s" />
 
-											<div style={{ display: 'flex' }}>
+											<div style={{ display: 'flex',paddingTop:'27px',columnGap:'22px',justifyContent: 'flex-start'}}>
 												{timeline.map((item, index) => (
 													<div>
 														<Col align="center">
 															<Icon
 																icon={item.icon}
-																color={item.reached ? 'primaryBrand' : 'tertiaryBackground'}
+																color={item.reached ? 'greeny' : 'tertiaryBackground'}
 																width={25}
 															/>
 														</Col>
@@ -880,19 +969,19 @@ export const IloView: FC<IIloViewProps> = ({
 												<Col>
 													{timeline.map((item, index) => (
 														<Col key={item.title}>
-															{index > 0 && <VerticalBarSpacing reached={item.reached} />}
+															{/* {index > 0 && <VerticalBarSpacing reached={item.reached} />} */}
 															<TimeLineWrapper align="center">
 																<VerticalBarMob
 																	reached={item.reached}
 																	roundTop={index === 0}
-																	roundBottom={index === timeline.length - 1}
+							 										roundBottom={index === timeline.length - 1}
 																/>
 																<Spacing horizontal="s" />
-																<HorizontalBarMob reached={item.reached} />
+																{/* <HorizontalBarMob reached={item.reached} /> */}
 																<Spacing horizontal="s" />
 																<Icon
 																	icon={item.icon}
-																	color={item.reached ? 'primaryBrand' : 'tertiaryBackground'}
+																	color={item.reached ? 'greeny' : 'tertiaryBackground'}
 																	width={25}
 																	className="ilo_cup_icon"
 																/>
@@ -910,7 +999,7 @@ export const IloView: FC<IIloViewProps> = ({
 																	</Text>
 																</Col>
 															</TimeLineWrapper>
-															{index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />}
+															{/* {index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />} */}
 														</Col>
 													))}
 												</Col>
