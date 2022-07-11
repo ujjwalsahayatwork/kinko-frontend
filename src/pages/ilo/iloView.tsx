@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import Svg from 'react-inlinesvg';
 import styled from 'styled-components';
@@ -19,43 +20,45 @@ import { toPx, useDevice } from 'components/utils';
 import { EXPLORER_URL, IMAGES_URL } from 'constants/env';
 import { Buttons } from 'pages/ilo/components/buttons';
 import { IIlo } from 'types';
+import Web3 from 'web3';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
-import "./iloView.scss";
+import './iloView.scss';
+import { createReferral } from 'utils/api';
 
 const StyledContainer = styled.div`
 	padding: 5rem 0;
 	margin-bottom: 10rem;
-`
+`;
 const StyledColumn = styled(Row)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		margin: 0 auto;
 		max-width: 100%;
 	}
-`
+`;
 
 const StyledCol = styled(Col)`
 	max-width: 80%;
 	margin: 0 auto;
-`
+`;
 
 const StyledHeader = styled(Col)`
-	background: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
-`
+	background: #1f1e1e;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
+`;
 
-const MainArea = styled(Col) <{ width: number }>`
+const MainArea = styled(Col)<{ width: number }>`
 	max-width: ${({ width }) => toPx(width)};
-	background: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background: #1f1e1e;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
 `;
 
 const StyledHeaderImage = styled.img`
 	border-radius: 50%;
 	width: 120px;
 	height: 120px;
-    object-fit: cover;
+	object-fit: cover;
 	margin: 0 auto;
 `;
 
@@ -67,8 +70,8 @@ const UnderstandButton = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #A466FF;
-	border-radius: 0.350rem;
+	border: 1px solid #a466ff;
+	border-radius: 0.35rem;
 	background-color: transparent;
 `;
 
@@ -88,7 +91,7 @@ const StyledDesc = styled(Text)`
 	overflow: auto;
 	width: 100%;
 	height: 2.8rem;
-	::-webkit-scrollbar{
+	::-webkit-scrollbar {
 		display: none;
 	}
 `;
@@ -113,20 +116,20 @@ const DataArea = styled(Col)`
 `;
 
 const DataAreaHeader = styled(Col)`
-	background-color: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background-color: #1f1e1e;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
 	padding: 1rem 1.5rem;
 `;
 
 const StyledDataCol = styled(Col)`
-	background-color: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background-color: #1f1e1e;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
 `;
 
 const StyledDataStatus = styled(Col)`
-	border-bottom: 1px solid #4B4B4B;
+	border-bottom: 1px solid #4b4b4b;
 `;
 
 const Address = styled(Text)`
@@ -135,8 +138,8 @@ const Address = styled(Text)`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
 	background: #252123;
 	padding-left: ${({ theme }) => toPx(theme.distanceM)};
 	padding-right: ${({ theme }) => toPx(theme.distanceL)};
@@ -144,11 +147,10 @@ const Address = styled(Text)`
 	padding-bottom: ${({ theme }) => toPx(theme.distanceS)};
 `;
 
-
 const CopyButton = styled(BaseButton)`
 	background-color: #252123;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	border: 1px solid #4b4b4b;
+	border-radius: 0.35rem;
 	padding: 0.6rem;
 `;
 
@@ -217,8 +219,8 @@ const VerticalBarSpacing = styled.div<{ reached: boolean }>`
 `;
 
 const StyledDivider = styled(Col)`
-	border: 1px solid #4B4B4B;
-    height: 100%;
+	border: 1px solid #4b4b4b;
+	height: 100%;
 `;
 
 const StyledTimeText = styled(Text)`
@@ -394,20 +396,29 @@ export const IloView: FC<IIloViewProps> = ({
 		[lpGenerationTimestamp, lockPeriod]
 	);
 
+	const handleSubmit = async () => {
+		const res = await createReferral({
+			referralId: 'rtety',
+			userId: 'rttryyry',
+			iloId: 1,
+			referralAddress: 'fhdsjfkhskfkfkidifhjkdfjjddfkj',
+			referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
+		});
+		console.log('res', res);
+	};
 	return (
 		<StyledContainer className="card_space_top">
 			<StyledCol id={elementId} maxWidth className="card_width_body">
 				{showSafetyAlert && (
 					<StyledHeader horizontalPadding="m" verticalPadding="m">
-
-						<Row mobileDirection="column" align='center' justify="space-around">
-							<Text fontSize="xs" className='font-weight-400'>
+						<Row mobileDirection="column" align="center" justify="space-around">
+							<Text fontSize="xs" className="font-weight-400">
 								<Text fontSize="m" fontWeight="bold">
 									DYOR
 								</Text>
 								<Spacing vertical="xs" />
-								Investing in an ILO may involve risks. Energyfi is permissionless, anyone can create an ILO, we disclaim any
-								responsibility for losses. Do your own research before investing.
+								Investing in an ILO may involve risks. Energyfi is permissionless, anyone can create an ILO, we disclaim
+								any responsibility for losses. Do your own research before investing.
 							</Text>
 							<Spacing horizontal="m" />
 							<UnderstandButton className="btn_margin" onClick={onHideSafetyAlert}>
@@ -421,21 +432,16 @@ export const IloView: FC<IIloViewProps> = ({
 				<Spacing vertical="m" />
 				<StyledColumn mobileDirection="column">
 					<Col flexGrow={isDesktop ? 1 : undefined} align="center">
-						<MainArea
-							flexGrow={isDesktop ? 1 : undefined}
-							overflow="hidden"
-							width={width}
-							className="mob_width"
-						>
+						<MainArea flexGrow={isDesktop ? 1 : undefined} overflow="hidden" width={width} className="mob_width">
 							<Spacing vertical="m" />
 							<StyledHeaderImage src={`${IMAGES_URL}/${headerImageFileName}`} alt="ILO" height={height} width={width} />
 							<Spacing vertical="m" />
 							<Col horizontalPadding="m">
-								<Text fontSize="xl" align='center' fontWeight="bold">
+								<Text fontSize="xl" align="center" fontWeight="bold">
 									{iloName}
 								</Text>
 								<Spacing vertical="m" />
-								<Row align='center'>
+								<Row align="center">
 									<Address fontSize="s">{saleTokenAddress}</Address>
 									<Spacing horizontal="s" />
 									<CopyButton onClick={onCopySaleTokenAddress}>
@@ -452,35 +458,31 @@ export const IloView: FC<IIloViewProps> = ({
 								</Row>
 							</Col>
 							<Spacing vertical="m" />
-							{
-								telegramURL && (
-									<Link href={telegramURL}>
+							{telegramURL && (
+								<Link href={telegramURL}>
+									<Spacing horizontal="xs" />
+									<Social maxWidth>
+										<Icon icon="telegram" color="primary" height={24} />
+										<SocialAddress fontSize="xs" color="primary">
+											{telegramLabel}
+										</SocialAddress>
+									</Social>
+								</Link>
+							)}
+							{twitterURL && (
+								<>
+									<Spacing vertical="s" />
+									<Link href={twitterURL}>
 										<Spacing horizontal="xs" />
 										<Social maxWidth>
-											<Icon icon="telegram" color="primary" height={24} />
+											<Icon icon="twitter" color="primary" height={22} />
 											<SocialAddress fontSize="xs" color="primary">
-												{telegramLabel}
+												{twitterLabel}
 											</SocialAddress>
 										</Social>
 									</Link>
-								)
-							}
-							{
-								twitterURL && (
-									<>
-										<Spacing vertical="s" />
-										<Link href={twitterURL}>
-											<Spacing horizontal="xs" />
-											<Social maxWidth>
-												<Icon icon="twitter" color="primary" height={22} />
-												<SocialAddress fontSize="xs" color="primary">
-													{twitterLabel}
-												</SocialAddress>
-											</Social>
-										</Link>
-									</>
-								)
-							}
+								</>
+							)}
 							<Spacing vertical="s" />
 							<Link href={websiteURL}>
 								<Social maxWidth>
@@ -524,16 +526,11 @@ export const IloView: FC<IIloViewProps> = ({
 								</Row>
 							</Col>
 							<Spacing vertical="m" />
-						</MainArea >
-					</Col >
+						</MainArea>
+					</Col>
 					<Spacing horizontal="m" />
 					<Col maxWidth flexGrow={isDesktop ? 1 : undefined}>
-						<DataArea
-							maxWidth
-							flexGrow={isDesktop ? 1 : undefined}
-							overflow="hidden"
-							className="mob_width"
-						>
+						<DataArea maxWidth flexGrow={isDesktop ? 1 : undefined} overflow="hidden" className="mob_width">
 							<Col mobileDirection="column-reverse">
 								<DataAreaHeader>
 									<Col mobileDirection="column">
@@ -579,7 +576,7 @@ export const IloView: FC<IIloViewProps> = ({
 												</Col>
 											) : null}
 										</Col>
-										<Row maxWidth justify='space-between'>
+										<Row maxWidth justify="space-between">
 											<StyledPercent className="mob_text_percent">
 												<Text fontSize="s" align="start">
 													Lock liquidity {lockYears} {lockYears === 1 ? 'year' : 'years'}
@@ -591,10 +588,12 @@ export const IloView: FC<IIloViewProps> = ({
 													</Text>
 												</PercentDoughnutWrapper>
 											</StyledPercent>
-											<StyledDivider justify='center' />
-											<Col justify='flex-end' className="right_mob_percent">
+											<StyledDivider justify="center" />
+											<Col justify="flex-end" className="right_mob_percent">
 												<StyledPercent className="text-block">
-													<Text align="center" fontSize="s">Participants</Text>
+													<Text align="center" fontSize="s">
+														Participants
+													</Text>
 													<PercentDoughnutWrapper>
 														<PercentDoughnut
 															value={totalBaseCollected
@@ -623,16 +622,16 @@ export const IloView: FC<IIloViewProps> = ({
 										</ProgressBarWrapper>
 										<Spacing vertical="s" />
 										<StyledProgressText>
-											<ProgressText fontSize="s" color='primary'>
+											<ProgressText fontSize="s" color="primary">
 												{totalBaseCollected.div(hardcap).times(100).toFixed(1)}%{isDesktop && ' complete'}
 											</ProgressText>
-											<ProgressText fontSize="s" color='primary'>
+											<ProgressText fontSize="s" color="primary">
 												{totalBaseCollected.toFixed(3)} ⁄ {hardcap.toFixed(3)} {baseTokenSymbol}
 											</ProgressText>
 										</StyledProgressText>
 									</Col>
 								</DataAreaHeader>
-								<Spacing className='abc' vertical="s" />
+								<Spacing className="abc" vertical="s" />
 								{isDesktop && (
 									<Buttons
 										isConnected={isConnected}
@@ -648,6 +647,7 @@ export const IloView: FC<IIloViewProps> = ({
 									/>
 								)}
 							</Col>
+							{/* <button onClick={() => handleSubmit()}>Click</button> */}
 							{isMobile && (
 								<>
 									<Spacing vertical="s" />
@@ -667,7 +667,7 @@ export const IloView: FC<IIloViewProps> = ({
 							)}
 							<Spacing vertical="s" />
 							<StyledDataCol>
-								<StyledDataStatus verticalPadding='m' horizontalPadding={isDesktop ? 'm' : undefined}>
+								<StyledDataStatus verticalPadding="m" horizontalPadding={isDesktop ? 'm' : undefined}>
 									{status === 'upcoming' || status === 'round1' ? (
 										<>
 											<Text fontSize="m" fontWeight="bold">
@@ -702,7 +702,6 @@ export const IloView: FC<IIloViewProps> = ({
 												<Spacing horizontal="m" />
 											</Row>
 										</>
-
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
 											<Svg src={kinkoLogo} height={60} width={60} />
@@ -712,7 +711,7 @@ export const IloView: FC<IIloViewProps> = ({
 													<Text fontSize="m" fontWeight="bold">
 														{saleTokenName}
 													</Text>
-													<Text fontSize="xs" mobileFontSize="xxs" className='font-weight-400'>
+													<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 														Pancakeswap
 													</Text>
 												</Col>
@@ -723,7 +722,7 @@ export const IloView: FC<IIloViewProps> = ({
 														{baseTokenLiquidityAmount.toFixed(3)} {baseTokenSymbol}
 													</Text>
 													<Row align="center">
-														<Text fontSize="xs" mobileFontSize="xxs" className='font-weight-400'>
+														<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 															Locked until {lockDate.toLocaleString()}
 														</Text>
 														<Spacing horizontal="s" />
@@ -738,30 +737,34 @@ export const IloView: FC<IIloViewProps> = ({
 									) : null}
 								</StyledDataStatus>
 								<Col horizontalPadding={isDesktop ? 'm' : undefined}>
-									<Spacing vertical='s' />
-									<Row maxWidth >
-										<Col horizontalPadding='s' verticalPadding='s'>
+									<Spacing vertical="s" />
+									<Row maxWidth>
+										<Col horizontalPadding="s" verticalPadding="s">
 											<StyledTimeText fontSize="m" fontWeight="bold">
 												Start time
 											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>(Approx: {startBlockDate.toLocaleString()})</StyledApproxText>
+											<StyledApproxText fontSize="xs" className="font-weight-400">
+												(Approx: {startBlockDate.toLocaleString()})
+											</StyledApproxText>
 											<Spacing vertical="l" />
 											<StyledTimeText fontSize="m" fontWeight="bold">
 												End time
 											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>(Approx: {endBlockDate.toLocaleString()})</StyledApproxText>
+											<StyledApproxText fontSize="xs" className="font-weight-400">
+												(Approx: {endBlockDate.toLocaleString()})
+											</StyledApproxText>
 											<Spacing vertical="l" />
 											<StyledTimeText fontSize="m" fontWeight="bold">
 												Softcap
 											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>
+											<StyledApproxText fontSize="xs" className="font-weight-400">
 												{softcap.toFixed(3)} {baseTokenSymbol}
 											</StyledApproxText>
 											<Spacing vertical="l" />
 											<StyledTimeText fontSize="m" fontWeight="bold">
 												Hardcap
 											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>
+											<StyledApproxText fontSize="xs" className="font-weight-400">
 												{hardcap.toFixed(3)} {baseTokenSymbol}
 											</StyledApproxText>
 										</Col>
@@ -790,7 +793,7 @@ export const IloView: FC<IIloViewProps> = ({
 															<Col>
 																<StyledIloText
 																	fontSize="xs"
-																	className='font-weight-400'
+																	className="font-weight-400"
 																	color={item.reached ? 'primary' : 'tertiaryBackground'}
 																>
 																	{item.title}
@@ -806,13 +809,13 @@ export const IloView: FC<IIloViewProps> = ({
 											</Col>
 										</Col>
 									</Row>
-									<Spacing vertical='s' />
+									<Spacing vertical="s" />
 								</Col>
 							</StyledDataCol>
 						</DataArea>
 					</Col>
-				</StyledColumn >
-			</StyledCol >
-		</StyledContainer >
+				</StyledColumn>
+			</StyledCol>
+		</StyledContainer>
 	);
 };

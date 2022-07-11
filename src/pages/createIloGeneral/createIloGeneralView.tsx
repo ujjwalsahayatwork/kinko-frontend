@@ -171,7 +171,6 @@ interface ICreateIloGeneralViewProps {
 	saleTokenName: string;
 	saleTokenSymbol: string;
 	baseTokenOptions: Array<IDropDownOption<IBaseToken>>;
-	bscBaseTokenOptions: Array<IDropDownOption<IBaseToken>>;
 	selectedBaseToken: string;
 	baseTokenName: string;
 	presaleCreator: string;
@@ -198,7 +197,6 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 	saleTokenName,
 	saleTokenSymbol,
 	baseTokenOptions,
-	bscBaseTokenOptions,
 	selectedBaseToken,
 	baseTokenName,
 	presaleCreator,
@@ -254,10 +252,10 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 						<Spacing vertical="s" />
 						<FieldsBox>
 							{FieldsObj.map((item) => (
-								<>
-									<CatButton label={item.name} onClick={() => console.log(item.values)} />
-									<Spacing horizontal="s" />
-								</>
+								<div key={item.name}>
+										<CatButton key={item.name} label={item.name} onClick={() => console.log(item.values)} />
+										<Spacing horizontal="s" />
+									</div>
 							))}
 						</FieldsBox>
 						<Spacing vertical="m" />
@@ -294,7 +292,7 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 						<LeftDropDown key={chainId}>
 							<DropDown<IBaseToken>
 								label="Buyers participate with"
-								options={chainId === ETHEREUM_CHAIN_ID ? baseTokenOptions : bscBaseTokenOptions}
+								options={baseTokenOptions}
 								selected={selectedBaseToken}
 								startEmpty={false}
 								onSelect={onChangeBuyersParticipateWith}

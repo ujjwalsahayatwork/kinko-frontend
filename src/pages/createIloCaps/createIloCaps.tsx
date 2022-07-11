@@ -303,9 +303,9 @@ class CreateIloCaps extends Component<ICreateIloCapsProps, ICreateIloCapsState> 
 			this.props.updateLiquidityRatePercent(liquidityRatePercent);
 			this.props.updateListingRatePercent(listingRatePercent);
 			this.props.updateMaxSpendPerBuyer(new BigNumber(maxSpendPerBuyer));
-			// this.props.navigate('/createIloPeriod');
+			this.props.navigate('/createIloPeriod');
 		}
-		this.props.navigate('/createIloPeriod');
+		// this.props.navigate('/createIloPeriod');
 	};
 
 	render() {

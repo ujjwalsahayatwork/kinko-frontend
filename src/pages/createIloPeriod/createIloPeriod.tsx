@@ -157,9 +157,9 @@ class CreateIloPeriod extends Component<ICreateIloPeriodProps, ICreateIloPeriodS
 			this.props.updateStartBlock(startBlockDate);
 			this.props.updateEndBlock(endBlockDate);
 			this.props.updateLiquidityLockPeriod(liquidityLockPeriod);
-			// this.props.navigate('/createIloSummary');
+			this.props.navigate('/createIloSummary');
 		}
-		this.props.navigate('/createIloSummary');
+		// this.props.navigate('/createIloSummary');
 	};
 
 	render() {

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { IIcon } from 'components/icon/icon';
 
-export type IBaseToken = 'dev' | 'dai' | 'wbtc' | 'usdc' | 'bnb'| 'bscdai' | 'bscwbtc' | 'bscusdc';
+export type IBaseToken = 'dai' | 'wbtc' | 'usdc' | 'bnb';
 
 export type IIloStatus = 'upcoming' | 'round1' | 'round2' | 'saleDone' | 'success' | 'failed';
 

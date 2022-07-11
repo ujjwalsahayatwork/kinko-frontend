@@ -5,20 +5,11 @@ import {
 	DAI_ADDRESS,
 	DAI_DECIMALS,
 	LAUNCHPAD_GENERATOR_ADDRESS,
-	BSC_LAUNCHPAD_GENERATOR_ADDRESS,
 	USDC_ADDRESS,
 	USDC_DECIMALS,
-	WDEV_ADDRESS,
-	WDEV_DECIMALS,
 	WBTC_ADDRESS,
 	WBTC_DECIMALS,
 	WBNB_ADDRESS,
-	BSC_DAI_ADDRESS,
-	BSC_USDC_ADDRESS,
-	BSC_WBTC_ADDRESS,
-	BSC_USDC_DECIMALS,
-	BSC_WBTC_DECIMALS,
-	BSC_DAI_DECIMALS,
 	WBNB_DECIMALS,
 	ETHEREUM_CHAIN_ID,
 
@@ -180,7 +171,7 @@ export const createLaunchpad = async (params: {
 	const  chainId  = await web3.eth.getChainId();
 	const launchpadGenerator = new web3.eth.Contract(
 		(chainId === ETHEREUM_CHAIN_ID?launchpadGeneratorAbi:bscLaunchpadGeneratorAbi) as Array<AbiItem>,
-	   chainId === ETHEREUM_CHAIN_ID?LAUNCHPAD_GENERATOR_ADDRESS:BSC_LAUNCHPAD_GENERATOR_ADDRESS
+	   LAUNCHPAD_GENERATOR_ADDRESS
 	);
 	const creationFee = await getDEVCreationFee(web3);
 	const transactionHash = await new Promise<string>((resolve, reject) => {
@@ -220,8 +211,6 @@ export const createLaunchpad = async (params: {
 export const getBaseTokenSymbol = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return 'GLMR';
 		case 'dai':
 			return 'DAI';
 		case 'wbtc':
@@ -230,20 +219,12 @@ export const getBaseTokenSymbol = (baseToken: IBaseToken): string => {
 			return 'USDC';
 		case 'bnb':
 			return 'BNB';
-		case 'bscdai':
-			return 'DAI';
-		case 'bscwbtc':
-			return 'Wrapped BTC';
-		case 'bscusdc':
-			return 'USDC';
 	}
 };
 
 export const getBaseTokenName = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return 'GLMR';
 		case 'dai':
 			return 'DAI';
 		case 'wbtc':
@@ -252,20 +233,12 @@ export const getBaseTokenName = (baseToken: IBaseToken): string => {
 			return 'USDC';
 		case 'bnb':
 			return 'BNB';
-		case 'bscdai':
-			return 'DAI';
-		case 'bscwbtc':
-			return 'Wrapped BTC';
-		case 'bscusdc':
-			return 'USDC';
 	}
 };
 
 export const getBaseTokenAddress = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return WDEV_ADDRESS;
 		case 'dai':
 			return DAI_ADDRESS;
 		case 'wbtc':
@@ -274,21 +247,12 @@ export const getBaseTokenAddress = (baseToken: IBaseToken): string => {
 			return USDC_ADDRESS;
 		case 'bnb':
 			return WBNB_ADDRESS;
-		case 'bscdai':
-			return BSC_DAI_ADDRESS;
-		case 'bscwbtc':
-			return BSC_WBTC_ADDRESS;
-		case 'bscusdc':
-			return BSC_USDC_ADDRESS;
-	
 	}
 };
 
 export const getBaseTokenDecimals = (baseToken: IBaseToken): number => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return WDEV_DECIMALS;
 		case 'dai':
 			return DAI_DECIMALS;
 		case 'wbtc':
@@ -297,12 +261,6 @@ export const getBaseTokenDecimals = (baseToken: IBaseToken): number => {
 			return USDC_DECIMALS;
 		case 'bnb':
 			return WBNB_DECIMALS;
-		case 'bscdai':
-			return BSC_DAI_DECIMALS;
-		case 'bscwbtc':
-			return BSC_WBTC_DECIMALS;
-		case 'bscusdc':
-			return BSC_USDC_DECIMALS;
 
 	}
 };
