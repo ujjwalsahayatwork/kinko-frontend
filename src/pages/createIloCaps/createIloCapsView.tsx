@@ -344,6 +344,15 @@ export const CreateIloCapsView: FC<ICreateIloCapsViewProps> = ({
 						</RightRow>
 					</StyledCardBox>
 					<Spacing vertical="l" />
+					<StyledCurrency
+						label="Max allocaton per user"
+						value={maxSpendPerBuyer}
+						currency={baseTokenSymbol}
+						errorMessage={maxSpendPerBuyerIssue}
+						onChangeText={onChangeMaxSpendPerBuyer}
+						onMax={onMaxSpendPerBuyer}
+					/>
+					<Spacing vertical="l" />
 					<StyledInfoCard type="info">
 						<Col>
 							<StyledInfoText fontSize="s">
