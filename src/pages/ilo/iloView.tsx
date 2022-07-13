@@ -23,34 +23,50 @@ import { IIlo } from 'types';
 import Web3 from 'web3';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
 import './iloView.scss';
-import { createReferral } from 'utils/api';
 
 const StyledContainer = styled.div`
-	padding: 5rem 0;
-	margin-bottom: 10rem;
+	width: 100%;
+	max-width: 1152px;
+	margin: 0 auto;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+	}
+	/* padding: 5rem 0;
+	margin-bottom: 10rem; */
 `;
+const ButtonContainer = styled.div`
+	display: flex;
+	width: 100%;
+	/* gap: 10; */
+	/* background-color: red; */
+	justify-content: space-between;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		flex-direction: column;
+	}
+	/* padding: 5rem 0;
+	margin-bottom: 10rem; */
+`;
+
+
 const StyledColumn = styled(Row)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		margin: 0 auto;
 		max-width: 100%;
 	}
 `;
-
 const StyledCol = styled(Col)`
-	max-width: 80%;
 	margin: 0 auto;
 `;
 
 const StyledHeader = styled(Col)`
-	background: #1f1e1e;
-	border: 1px solid #4b4b4b;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 `;
 
 const MainArea = styled(Col)<{ width: number }>`
 	max-width: ${({ width }) => toPx(width)};
-	background: #1f1e1e;
-	border: 1px solid #4b4b4b;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 `;
 
@@ -70,7 +86,37 @@ const UnderstandButton = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #a466ff;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+`;
+const ReferButton = styled(BaseButton)`
+width: 30%;
+	height: 3rem;
+	/* width: 100%; */
+	/* min-width: 10rem;
+	max-width: 10rem; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
+	}
+`;
+const ConnectButton = styled(Buttons)`
+    width: 68% !important;
+	height: 3rem;
+	/* width: 100px; */
+	background-color: red;
+	/* min-width: 10rem;
+	max-width: 10rem; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #f97a48;
 	border-radius: 0.35rem;
 	background-color: transparent;
 `;
@@ -116,20 +162,20 @@ const DataArea = styled(Col)`
 `;
 
 const DataAreaHeader = styled(Col)`
-	background-color: #1f1e1e;
-	border: 1px solid #4b4b4b;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 	padding: 1rem 1.5rem;
 `;
 
 const StyledDataCol = styled(Col)`
-	background-color: #1f1e1e;
-	border: 1px solid #4b4b4b;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 `;
 
 const StyledDataStatus = styled(Col)`
-	border-bottom: 1px solid #4b4b4b;
+	border-bottom: 1px solid rgb(112 121 185 / 20%);
 `;
 
 const Address = styled(Text)`
@@ -138,9 +184,9 @@ const Address = styled(Text)`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border: 1px solid #4b4b4b;
+	background: rgba(2, 34, 63, 0.8);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
-	background: #252123;
 	padding-left: ${({ theme }) => toPx(theme.distanceM)};
 	padding-right: ${({ theme }) => toPx(theme.distanceL)};
 	padding-top: ${({ theme }) => toPx(theme.distanceS)};
@@ -148,8 +194,8 @@ const Address = styled(Text)`
 `;
 
 const CopyButton = styled(BaseButton)`
-	background-color: #252123;
-	border: 1px solid #4b4b4b;
+	background: rgba(2, 34, 63, 0.8);
+	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 	padding: 0.6rem;
 `;
@@ -192,7 +238,7 @@ const TimeLineWrapper = styled(Row)`
 	height: 35px;
 `;
 
-const HorizontalBar = styled.div<{ reached: boolean }>`
+const HorizontalBarMob = styled.div<{ reached: boolean }>`
 	display: flex;
 	height: 4px;
 	width: 26px;
@@ -200,15 +246,53 @@ const HorizontalBar = styled.div<{ reached: boolean }>`
 	border-radius: 4px;
 `;
 
-const VerticalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
+const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
 	height: 42px;
 	width: 9px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-top-left-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-top-right-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-bottom-left-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
 	border-bottom-right-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
+	position: relative;
+	::before{
+		position: absolute;
+		content: "";
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: 0px;
+		left: -3px;
+	}
+`;
+
+const VerticalBar = styled.div<{ reached: boolean }>`
+	display: flex;
+	height: 8px;
+	width: 80px;
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+	border-radius: 50px;
+`;
+
+const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
+	display: flex;
+	height: 8px;
+	width: 100px;
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+	border-radius: 50px;
+	position: relative;
+	::before{
+		position: absolute;
+		content: "";
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: -3px;
+		left: -5px;
+	}
 `;
 
 const VerticalBarSpacing = styled.div<{ reached: boolean }>`
@@ -219,7 +303,7 @@ const VerticalBarSpacing = styled.div<{ reached: boolean }>`
 `;
 
 const StyledDivider = styled(Col)`
-	border: 1px solid #4b4b4b;
+	border: 1px solid rgb(112 121 185 / 20%);
 	height: 100%;
 `;
 
@@ -230,6 +314,10 @@ const StyledTimeText = styled(Text)`
 `;
 
 const StyledIloText = styled(Text)`
+	width: 79px;
+	text-align: center;
+	padding-top: 15px;
+	line-height: 20px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 0.9rem;
 	}
@@ -238,6 +326,15 @@ const StyledIloText = styled(Text)`
 const StyledApproxText = styled(Text)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 0.75rem;
+	}
+`;
+const TimeStatus = styled.div`
+display: flex;
+justify-content: space-between;
+/* border: 1px solid red; */
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		/* font-size: 0.75rem; */
+		flex-direction: column;
 	}
 `;
 
@@ -396,18 +493,18 @@ export const IloView: FC<IIloViewProps> = ({
 		[lpGenerationTimestamp, lockPeriod]
 	);
 
-	const handleSubmit = async () => {
-		const res = await createReferral({
-			referralId: 'rtety',
-			userId: 'rttryyry',
-			iloId: 1,
-			referralAddress: 'fhdsjfkhskfkfkidifhjkdfjjddfkj',
-			referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
-		});
-		console.log('res', res);
-	};
+	// const handleSubmit = async () => {
+	// 	const res = await createReferral({
+	// 		referralId: 'rtety',
+	// 		userId: 'rttryyry',
+	// 		iloId: 1,
+	// 		referralAddress: 'fhdsjfkhskfkfkidifhjkdfjjddfkj',
+	// 		referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
+	// 	});
+	// 	console.log('res', res);
+	// };
 	return (
-		<StyledContainer className="card_space_top">
+		<StyledContainer>
 			<StyledCol id={elementId} maxWidth className="card_width_body">
 				{showSafetyAlert && (
 					<StyledHeader horizontalPadding="m" verticalPadding="m">
@@ -422,7 +519,7 @@ export const IloView: FC<IIloViewProps> = ({
 							</Text>
 							<Spacing horizontal="m" />
 							<UnderstandButton className="btn_margin" onClick={onHideSafetyAlert}>
-								<Text fontSize="m" fontWeight="normal" color="primaryBrand">
+								<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
 									I Understand
 								</Text>
 							</UnderstandButton>
@@ -633,37 +730,57 @@ export const IloView: FC<IIloViewProps> = ({
 								</DataAreaHeader>
 								<Spacing className="abc" vertical="s" />
 								{isDesktop && (
-									<Buttons
-										isConnected={isConnected}
-										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
-										canClaimTokens={canClaimTokens}
-										canWithdrawLpTokens={canWithdrawLpTokens}
-										onConnect={onConnect}
-										onInvest={onInvest}
-										onFinalise={onFinalise}
-										onClaim={onClaim}
-										onWithdrawLpTokens={onWithdrawLpTokens}
-									/>
+									<ButtonContainer>
+										{/* // <ButtonContainer> */}
+										<ConnectButton
+											isConnected={isConnected}
+											iloStatus={status}
+											hasEarlyAccess={hasEarlyAccess}
+											canClaimTokens={canClaimTokens}
+											canWithdrawLpTokens={canWithdrawLpTokens}
+											onConnect={onConnect}
+											onInvest={onInvest}
+											onFinalise={onFinalise}
+											onClaim={onClaim}
+											onWithdrawLpTokens={onWithdrawLpTokens}
+										/>
+										{/* </ButtonContainer> */}
+										{/* <Spacing horizontal="s" /> */}
+										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
+											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+												Refer ILO
+											</Text>
+										</ReferButton>
+									</ButtonContainer>
 								)}
+
 							</Col>
 							{/* <button onClick={() => handleSubmit()}>Click</button> */}
 							{isMobile && (
-								<>
-									<Spacing vertical="s" />
-									<Buttons
-										isConnected={isConnected}
-										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
-										canClaimTokens={canClaimTokens}
-										canWithdrawLpTokens={canWithdrawLpTokens}
-										onConnect={onConnect}
-										onInvest={onInvest}
-										onFinalise={onFinalise}
-										onClaim={onClaim}
-										onWithdrawLpTokens={onWithdrawLpTokens}
-									/>
-								</>
+								// <>
+									<ButtonContainer>
+										<Spacing vertical="s" />
+
+										<ConnectButton
+											isConnected={isConnected}
+											iloStatus={status}
+											hasEarlyAccess={hasEarlyAccess}
+											canClaimTokens={canClaimTokens}
+											canWithdrawLpTokens={canWithdrawLpTokens}
+											onConnect={onConnect}
+											onInvest={onInvest}
+											onFinalise={onFinalise}
+											onClaim={onClaim}
+											onWithdrawLpTokens={onWithdrawLpTokens}
+										/>
+										{/* <Spacing horizontal="s" /> */}
+										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
+											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+												Refer ILO
+											</Text>
+										</ReferButton>
+									</ButtonContainer>
+								// </>
 							)}
 							<Spacing vertical="s" />
 							<StyledDataCol>
@@ -704,19 +821,20 @@ export const IloView: FC<IIloViewProps> = ({
 										</>
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
-											<Svg src={kinkoLogo} height={60} width={60} />
+											{/* <Svg src={kinkoLogo} height={60} width={60} /> */}
 											<Spacing horizontal="s" />
 											<Row justify="space-between" maxWidth mobileDirection="column">
-												<Col>
+												{/* <Col>
 													<Text fontSize="m" fontWeight="bold">
 														{saleTokenName}
 													</Text>
 													<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 														Pancakeswap
 													</Text>
-												</Col>
+												</Col> */}
 												<Spacing vertical="m" mobileOnly />
-												<Col align={isDesktop ? 'flex-end' : undefined}>
+												{/* <Col align={isDesktop ? 'flex-end' : undefined}> */}
+												<Col>
 													<Text fontSize="xs" style={{ fontWeight: 600 }}>
 														{saleTokenLiquidityAmount.toFixed(3)} {saleTokenSymbol} ⁄{' '}
 														{baseTokenLiquidityAmount.toFixed(3)} {baseTokenSymbol}
@@ -736,81 +854,173 @@ export const IloView: FC<IIloViewProps> = ({
 										</Row>
 									) : null}
 								</StyledDataStatus>
-								<Col horizontalPadding={isDesktop ? 'm' : undefined}>
-									<Spacing vertical="s" />
-									<Row maxWidth>
-										<Col horizontalPadding="s" verticalPadding="s">
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Start time
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className="font-weight-400">
-												(Approx: {startBlockDate.toLocaleString()})
-											</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												End time
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className="font-weight-400">
-												(Approx: {endBlockDate.toLocaleString()})
-											</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Softcap
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className="font-weight-400">
-												{softcap.toFixed(3)} {baseTokenSymbol}
-											</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Hardcap
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className="font-weight-400">
-												{hardcap.toFixed(3)} {baseTokenSymbol}
-											</StyledApproxText>
-										</Col>
-										<Spacing vertical="l" mobileOnly />
-										<Col align={isDesktop ? 'center' : undefined} maxWidth>
-											<Col>
+								{isDesktop ? (
+									<div>
+										<div>
+											<div style={{ display: 'flex',justifyContent: "center",marginTop: '43px'}} >
 												{timeline.map((item, index) => (
-													<Col key={item.title}>
-														{index > 0 && <VerticalBarSpacing reached={item.reached} />}
-														<TimeLineWrapper align="center">
-															<VerticalBar
-																reached={item.reached}
-																roundTop={index === 0}
-																roundBottom={index === timeline.length - 1}
-															/>
-															<Spacing horizontal="s" />
-															<HorizontalBar reached={item.reached} />
-															<Spacing horizontal="s" />
+													<HorizontalBar
+														reached={item.reached}
+														roundTop={index === 0}
+														roundBottom={index === timeline.length - 1}
+													/>
+												))}
+											</div>
+											<Spacing vertical="s" />
+
+											<div style={{ display: 'flex',paddingTop:'27px',columnGap:'22px',justifyContent: 'flex-start'}}>
+												{timeline.map((item, index) => (
+													<div>
+														<Col align="center">
 															<Icon
 																icon={item.icon}
-																color={item.reached ? 'primaryBrand' : 'tertiaryBackground'}
+																color={item.reached ? 'greeny' : 'tertiaryBackground'}
 																width={25}
-																className="ilo_cup_icon"
 															/>
-															<Spacing horizontal="s" />
-															<Col>
-																<StyledIloText
-																	fontSize="xs"
-																	className="font-weight-400"
-																	color={item.reached ? 'primary' : 'tertiaryBackground'}
-																>
-																	{item.title}
-																</StyledIloText>
-																<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
-																	{item.subtitle}
-																</Text>
-															</Col>
-														</TimeLineWrapper>
-														{index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />}
-													</Col>
+														</Col>
+														<Col>
+															<StyledIloText
+																fontSize="xs"
+																className="font-weight-400"
+																color={item.reached ? 'primary' : 'tertiaryBackground'}
+															>
+																{item.title}
+															</StyledIloText>
+															<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
+																{item.subtitle}
+															</Text>
+														</Col>
+													</div>
 												))}
+											</div>
+										</div>
+										<div>
+											<Col horizontalPadding="s" verticalPadding="s">
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Start time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {startBlockDate.toLocaleString()})
+														</StyledApproxText>
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Softcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{softcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															End time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {endBlockDate.toLocaleString()})
+														</StyledApproxText>
+
+
+
+
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Hardcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{hardcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
 											</Col>
-										</Col>
-									</Row>
-									<Spacing vertical="s" />
-								</Col>
+										</div>
+									</div>
+								) : (
+									<Col horizontalPadding={isDesktop ? 'm' : undefined}>
+										<Spacing vertical="s" />
+										<Row maxWidth>
+											<Col horizontalPadding="s" verticalPadding="s">
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Start time
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													(Approx: {startBlockDate.toLocaleString()})
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													End time
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													(Approx: {endBlockDate.toLocaleString()})
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Softcap
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													{softcap.toFixed(3)} {baseTokenSymbol}
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Hardcap
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													{hardcap.toFixed(3)} {baseTokenSymbol}
+												</StyledApproxText>
+											</Col>
+											<Spacing vertical="l" mobileOnly />
+											<Col align={isDesktop ? 'center' : undefined} maxWidth>
+												<Col>
+													{timeline.map((item, index) => (
+														<Col key={item.title}>
+															{/* {index > 0 && <VerticalBarSpacing reached={item.reached} />} */}
+															<TimeLineWrapper align="center">
+																<VerticalBarMob
+																	reached={item.reached}
+																	roundTop={index === 0}
+							 										roundBottom={index === timeline.length - 1}
+																/>
+																<Spacing horizontal="s" />
+																{/* <HorizontalBarMob reached={item.reached} /> */}
+																<Spacing horizontal="s" />
+																<Icon
+																	icon={item.icon}
+																	color={item.reached ? 'greeny' : 'tertiaryBackground'}
+																	width={25}
+																	className="ilo_cup_icon"
+																/>
+																<Spacing horizontal="s" />
+																<Col>
+																	<StyledIloText
+																		fontSize="xs"
+																		className="font-weight-400"
+																		color={item.reached ? 'primary' : 'tertiaryBackground'}
+																	>
+																		{item.title}
+																	</StyledIloText>
+																	<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
+																		{item.subtitle}
+																	</Text>
+																</Col>
+															</TimeLineWrapper>
+															{/* {index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />} */}
+														</Col>
+													))}
+												</Col>
+											</Col>
+										</Row>
+										<Spacing vertical="s" />
+									</Col>
+								)}
 							</StyledDataCol>
 						</DataArea>
 					</Col>
