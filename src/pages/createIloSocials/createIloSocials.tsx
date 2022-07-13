@@ -291,8 +291,8 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			} finally {
 				this.props.updateShowLoadingModal(false);
 			}
-			this.setState({ approved: false });
-			// this.setState({ approved: true });
+			// this.setState({ approved: false });
+			this.setState({ approved: true });
 		}
 	};
 
@@ -326,6 +326,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			signed,
 			approved,
 		} = this.state;
+		debugger
 		if ((await this.checkFields()) && library && account && baseToken && signed && approved) {
 			const web3 = new Web3(library);
 			const baseTokenAddress = getBaseTokenAddress(baseToken);
@@ -349,6 +350,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 					maxSpendPerBuyer,
 					liquidityLockPeriod,
 				});
+				debugger
 				await createIlo({
 					iloName,
 					launchpadAddress,

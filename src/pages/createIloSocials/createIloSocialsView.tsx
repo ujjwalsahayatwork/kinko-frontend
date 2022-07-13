@@ -257,9 +257,9 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 					<ButtonContainer >
 						<NextButton label="Sign" disabled={signed || approved} onClick={onSign} />
 						<Spacing horizontal="m" vertical="s" />
-						<NextButton label="Approve" disabled={signed || approved} onClick={onApprove} />
+						<NextButton label="Approve" disabled={!signed || approved} onClick={onApprove} />
 						<Spacing horizontal="m" vertical="s" />
-						<NextButton label="Create Presale" disabled={signed || approved} onClick={onSubmit} />
+						<NextButton label="Create Presale" disabled={!signed || !approved} onClick={onSubmit} />
 					</ButtonContainer>
 					<Spacing vertical="xl" />
 				</BoxContain>
