@@ -15,9 +15,8 @@ import {
 
 
 } from 'constants/env';
-import erc20Abi from 'constants/erc20Abi.json';
-import launchpadGeneratorAbi from 'constants/launchpadGeneratorAbi.json';
-import bscLaunchpadGeneratorAbi from 'constants/bscLaunchpadGeneratorAbi.json';
+import erc20Abi from 'constants/abi/ERC20.json';
+import launchpadGeneratorAbi from 'constants/abi/LaunchpadGenerator.json';
 
 import { ECSignature, IBaseToken, ITimeline } from 'types';
 import { getDEVCreationFee } from 'utils/launchpadSettings';
@@ -76,30 +75,30 @@ export const getBalance = async (web3: Web3, walletAddress: string): Promise<Big
 
 export const getERC20Decimals = async (web3: Web3, tokenAddress: string): Promise<BigNumber> => {
 
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const decimals: string = await token.methods.decimals().call();
 	return new BigNumber(decimals);
 };
 
 export const getERC20Balance = async (web3: Web3, walletAddress: string, tokenAddress: string): Promise<BigNumber> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const balance: string = await token.methods.balanceOf(walletAddress).call();
 	return new BigNumber(balance).div(new BigNumber(10).pow(await getERC20Decimals(web3, tokenAddress)));
 };
 
 export const getERC20TotalSupply = async (web3: Web3, tokenAddress: string): Promise<BigNumber> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const totalSupply: string = await token.methods.totalSupply().call();
 	return new BigNumber(totalSupply).div(new BigNumber(10).pow(await getERC20Decimals(web3, tokenAddress)));
 };
 
 export const getERC20Name = async (web3: Web3, tokenAddress: string): Promise<string> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	return token.methods.name().call();
 };
 
 export const getERC20Symbol = async (web3: Web3, tokenAddress: string): Promise<string> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	return token.methods.symbol().call();
 };
 
@@ -110,7 +109,7 @@ export const approveERC20 = async (
 	spenderAddress: string,
 	amount: BigNumber
 ): Promise<void> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	await token.methods
 		.approve(
 			spenderAddress,
@@ -170,7 +169,7 @@ export const createLaunchpad = async (params: {
 
 	const  chainId  = await web3.eth.getChainId();
 	const launchpadGenerator = new web3.eth.Contract(
-		(chainId === ETHEREUM_CHAIN_ID?launchpadGeneratorAbi:bscLaunchpadGeneratorAbi) as Array<AbiItem>,
+		(launchpadGeneratorAbi.abi) as Array<AbiItem>,
 	   LAUNCHPAD_GENERATOR_ADDRESS
 	);
 	const creationFee = await getDEVCreationFee(web3);

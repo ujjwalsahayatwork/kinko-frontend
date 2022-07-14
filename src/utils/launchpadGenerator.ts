@@ -1,8 +1,8 @@
 
 import BigNumber from 'bignumber.js';
 import {  ETHEREUM_CHAIN_ID, LAUNCHPAD_GENERATOR_ADDRESS } from 'constants/env';
-import launchpadGeneratorAbi from 'constants/launchpadGeneratorAbi.json';
-import basLaunchpadGeneratorAbi from 'constants/bscLaunchpadGeneratorAbi.json';
+import launchpadGeneratorAbi from 'constants/abi/LaunchpadGenerator.json';
+
 
 import { bigNumberToUint256, getERC20Decimals, numberToHex } from 'utils/utils';
 import Web3 from 'web3';
@@ -24,7 +24,7 @@ export const calculateAmountRequired = async (
 	const baseTokenDecimals = await getERC20Decimals(web3, baseTokenAddress);
 
 
-	const launchpadGenerator = new web3.eth.Contract((chainId=== ETHEREUM_CHAIN_ID?launchpadGeneratorAbi: basLaunchpadGeneratorAbi) as Array<AbiItem>,
+	const launchpadGenerator = new web3.eth.Contract((launchpadGeneratorAbi.abi) as Array<AbiItem>,
 	  LAUNCHPAD_GENERATOR_ADDRESS
 	);
 	const saleTokenAmountRequired: string = await launchpadGenerator.methods
