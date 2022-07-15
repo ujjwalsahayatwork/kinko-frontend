@@ -22,7 +22,7 @@ export const getDEVCreationFee = async (web3: Web3): Promise<BigNumber> => {
 		 LAUNCHPAD_SETTINGS_ADDRESS 
 	);
 
-	const creationFee = await launchpadSettings.methods.getBNBCreationFee().call();
+	const creationFee = await launchpadSettings.methods.getBnbCreationFee().call();
 	
 	return new BigNumber(creationFee).div(new BigNumber(10).pow(18));
 };
