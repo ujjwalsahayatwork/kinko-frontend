@@ -145,7 +145,7 @@ export const IloCard: FC<IIloCardProps> = ({ data, width }) => {
 				<StyledCardBackground>
 					<TitleWrapper justify="space-between" align="center">
 						<Text fontSize="m" fontWeight="bold">
-							{iloName}
+							{iloName}	
 						</Text>
 						<Icon icon="angleRight" color="secondaryBrand" height={13} />
 					</TitleWrapper>

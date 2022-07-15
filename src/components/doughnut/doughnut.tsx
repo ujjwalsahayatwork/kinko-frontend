@@ -10,7 +10,6 @@ interface IDoughnutProps {
 
 export const Doughnut: FC<IDoughnutProps> = ({ data, labels }) => {
 	const theme = useTheme();
-
 	const unitedData: ChartData<'doughnut', Array<number>, string> = useMemo(
 		() => ({
 			labels: labels ?? [],

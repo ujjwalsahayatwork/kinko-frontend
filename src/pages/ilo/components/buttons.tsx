@@ -9,7 +9,7 @@ import { IIloStatus } from 'types';
 const StyledButton = styled(Button)`
 	background-color: #F97A48;
 	border: none;
-	/* width: 70%; */
+	width: 100%; 
 	height: 3rem;
 `
 

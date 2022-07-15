@@ -34,22 +34,16 @@ const StyledContainer = styled.div`
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 	}
-	/* padding: 5rem 0;
-	margin-bottom: 10rem; */
 `;
 const ButtonContainer = styled.div`
-	display: flex;
-	width: 100%;
-	/* gap: 10; */
-	/* background-color: red; */
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 70% 28%;
+	gap: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		flex-direction: column;
+		grid-template-columns: 1fr;
+		gap: 5px;
 	}
-	/* padding: 5rem 0;
-	margin-bottom: 10rem; */
 `;
-
 
 const StyledColumn = styled(Row)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
@@ -95,11 +89,7 @@ const UnderstandButton = styled(BaseButton)`
 	background-color: transparent;
 `;
 const ReferButton = styled(BaseButton)`
-width: 30%;
 	height: 3rem;
-	/* width: 100%; */
-	/* min-width: 10rem;
-	max-width: 10rem; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -107,19 +97,10 @@ width: 30%;
 	border-radius: 0.35rem;
 	background-color: transparent;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		width: 100%;
 	}
 `;
 const ConnectButton = styled(Buttons)`
-    width: 68% !important;
 	height: 3rem;
-	/* width: 100px; */
-	background-color: red;
-	/* min-width: 10rem;
-	max-width: 10rem; */
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	border: 1px solid #f97a48;
 	border-radius: 0.35rem;
 	background-color: transparent;
@@ -252,17 +233,17 @@ const HorizontalBarMob = styled.div<{ reached: boolean }>`
 
 const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
-	height: 42px;
-	width: 9px;
+	height: 100px;
+	width: 8px;
 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-top-left-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-top-right-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-bottom-left-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
 	border-bottom-right-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
 	position: relative;
-	::before{
+	::before {
 		position: absolute;
-		content: "";
+		content: '';
 		height: 15px;
 		width: 15px;
 		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
@@ -287,9 +268,9 @@ const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBot
 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-radius: 50px;
 	position: relative;
-	::before{
+	::before {
 		position: absolute;
-		content: "";
+		content: '';
 		height: 15px;
 		width: 15px;
 		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
@@ -333,14 +314,16 @@ const StyledApproxText = styled(Text)`
 	}
 `;
 const TimeStatus = styled.div`
-display: flex;
-justify-content: space-between;
-/* border: 1px solid red; */
+	display: flex;
+	justify-content: space-between;
+	/* border: 1px solid red; */
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		/* font-size: 0.75rem; */
 		flex-direction: column;
 	}
 `;
+
+const LiquidityTextIcon = styled.div``;
 
 interface IIloViewProps {
 	data: IIlo;
@@ -465,12 +448,10 @@ export const IloView: FC<IIloViewProps> = ({
 		() => 100 - presalePercent - liquidityPercent - feesPercent,
 		[presalePercent, liquidityPercent, feesPercent]
 	);
-
 	const doughnutData = useMemo(
 		() => [presalePercent, liquidityPercent, feesPercent, freePercent],
 		[presalePercent, liquidityPercent, feesPercent, freePercent]
 	);
-
 	const lockYears = useMemo(
 		() => Math.round(Number(moment.unix(Number(lockPeriod)).diff(moment.unix(0), 'years', true))),
 		[lockPeriod]
@@ -498,7 +479,6 @@ export const IloView: FC<IIloViewProps> = ({
 	);
 	const { account, library } = useWeb3React();
 	const web3 = new Web3(library);
-		console.log('account',account)
 	const [signed, setSigned] = useState();
 
 	const handleSign = async () => {
@@ -506,7 +486,6 @@ export const IloView: FC<IIloViewProps> = ({
 			try {
 				updateShowLoadingModal(true);
 				const { r, s, v } = await createSignature(web3, account, 'kinko');
-				// this.setState({ r, s, v, signed: true });
 				console.log(' r, s, v', r, s, v);
 			} finally {
 				updateShowLoadingModal(false);
@@ -516,11 +495,11 @@ export const IloView: FC<IIloViewProps> = ({
 
 	const handleSubmit = async () => {
 		const res = await createReferral({
-			referralId: '',
 			userId: `${account}`,
-			iloId: 1,
 			referralAddress: `${saleTokenAddress}`,
 			referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
+			referralId: '',
+			iloId: 0
 		});
 		console.log('res', res);
 	};
@@ -567,13 +546,12 @@ export const IloView: FC<IIloViewProps> = ({
 									</CopyButton>
 								</Row>
 								<Spacing vertical="m" />
-								<Row align="center">
-									<Icon icon="lock" color="secondaryBrand" height={24} />
-									<Spacing horizontal="m" />
+								<LiquidityTextIcon>
+									<Icon icon="lock" color="greeny" height={24} />
 									<Text fontSize="m" fontWeight="bold">
 										{liquidityRatePercent}% Liquidity
 									</Text>
-								</Row>
+								</LiquidityTextIcon>
 							</Col>
 							<Spacing vertical="m" />
 							{telegramURL && (
@@ -749,60 +727,29 @@ export const IloView: FC<IIloViewProps> = ({
 										</StyledProgressText>
 									</Col>
 								</DataAreaHeader>
-								<Spacing className="abc" vertical="s" />
-								{isDesktop && (
-									<ButtonContainer>
-										{/* // <ButtonContainer> */}
-										<ConnectButton
-											isConnected={isConnected}
-											iloStatus={status}
-											hasEarlyAccess={hasEarlyAccess}
-											canClaimTokens={canClaimTokens}
-											canWithdrawLpTokens={canWithdrawLpTokens}
-											onConnect={onConnect}
-											onInvest={onInvest}
-											onFinalise={onFinalise}
-											onClaim={onClaim}
-											onWithdrawLpTokens={onWithdrawLpTokens}
-										/>
-										{/* </ButtonContainer> */}
-										{/* <Spacing horizontal="s" /> */}
-										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
-											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
-												Refer ILO
-											</Text>
-										</ReferButton>
-									</ButtonContainer>
-								)}
-
+								<Spacing vertical="s" />
+								<ButtonContainer>
+									<Spacing vertical="s" mobileOnly />
+									<ConnectButton
+										isConnected={isConnected}
+										iloStatus={status}
+										hasEarlyAccess={hasEarlyAccess}
+										canClaimTokens={canClaimTokens}
+										canWithdrawLpTokens={canWithdrawLpTokens}
+										onConnect={onConnect}
+										onInvest={onInvest}
+										onFinalise={onFinalise}
+										onClaim={onClaim}
+										onWithdrawLpTokens={onWithdrawLpTokens}
+									/>
+									<Spacing vertical="xs" mobileOnly />
+									<ReferButton onClick={() => handleSign()}>
+										<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+											Refer ILO
+										</Text>
+									</ReferButton>
+								</ButtonContainer>
 							</Col>
-							<button onClick={() => handleSign()}>Click</button>
-							{isMobile && (
-								// <>
-									<ButtonContainer>
-										<Spacing vertical="s" />
-
-										<ConnectButton
-											isConnected={isConnected}
-											iloStatus={status}
-											hasEarlyAccess={hasEarlyAccess}
-											canClaimTokens={canClaimTokens}
-											canWithdrawLpTokens={canWithdrawLpTokens}
-											onConnect={onConnect}
-											onInvest={onInvest}
-											onFinalise={onFinalise}
-											onClaim={onClaim}
-											onWithdrawLpTokens={onWithdrawLpTokens}
-										/>
-										{/* <Spacing horizontal="s" /> */}
-										<ReferButton className="btn_margin" onClick={onHideSafetyAlert}>
-											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
-												Refer ILO
-											</Text>
-										</ReferButton>
-									</ButtonContainer>
-								// </>
-							)}
 							<Spacing vertical="s" />
 							<StyledDataCol>
 								<StyledDataStatus verticalPadding="m" horizontalPadding={isDesktop ? 'm' : undefined}>
@@ -878,7 +825,7 @@ export const IloView: FC<IIloViewProps> = ({
 								{isDesktop ? (
 									<div>
 										<div>
-											<div style={{ display: 'flex',justifyContent: "center",marginTop: '43px'}} >
+											<div style={{ display: 'flex', justifyContent: 'center', marginTop: '43px' }}>
 												{timeline.map((item, index) => (
 													<HorizontalBar
 														reached={item.reached}
@@ -889,7 +836,9 @@ export const IloView: FC<IIloViewProps> = ({
 											</div>
 											<Spacing vertical="s" />
 
-											<div style={{ display: 'flex',paddingTop:'27px',columnGap:'22px',justifyContent: 'flex-start'}}>
+											<div
+												style={{ display: 'flex', paddingTop: '27px', columnGap: '22px', justifyContent: 'flex-start' }}
+											>
 												{timeline.map((item, index) => (
 													<div>
 														<Col align="center">
@@ -947,10 +896,6 @@ export const IloView: FC<IIloViewProps> = ({
 														<StyledApproxText fontSize="xs" className="font-weight-400">
 															(Approx: {endBlockDate.toLocaleString()})
 														</StyledApproxText>
-
-
-
-
 													</div>
 													<div>
 														<Spacing vertical="l" />
@@ -1003,15 +948,13 @@ export const IloView: FC<IIloViewProps> = ({
 												<Col>
 													{timeline.map((item, index) => (
 														<Col key={item.title}>
-															{/* {index > 0 && <VerticalBarSpacing reached={item.reached} />} */}
 															<TimeLineWrapper align="center">
 																<VerticalBarMob
 																	reached={item.reached}
 																	roundTop={index === 0}
-							 										roundBottom={index === timeline.length - 1}
+																	roundBottom={index === timeline.length - 1}
 																/>
 																<Spacing horizontal="s" />
-																{/* <HorizontalBarMob reached={item.reached} /> */}
 																<Spacing horizontal="s" />
 																<Icon
 																	icon={item.icon}
@@ -1033,7 +976,6 @@ export const IloView: FC<IIloViewProps> = ({
 																	</Text>
 																</Col>
 															</TimeLineWrapper>
-															{/* {index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />} */}
 														</Col>
 													))}
 												</Col>

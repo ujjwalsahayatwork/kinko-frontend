@@ -322,7 +322,7 @@ export const getTimeline = (params: {
 		{ reached: false, icon: 'trophy', title: 'Round 1 Ended', subtitle: '' },
 		{ reached: false, icon: 'trophy', title: 'Round 2 Started', subtitle: '' },
 		{ reached: false, icon: 'trophy', title: 'Round 2 Ended', subtitle: '' },
-		{ reached: false, icon: 'trophy', title: 'LP Token Locked', subtitle: '' },
+		{ reached: false, icon: 'lock', title: 'LP Token Locked', subtitle: '' },
 		{ reached: false, icon: 'trophy', title: 'ILO Successful', subtitle: '' },
 	];
 	timeline[0].reached = true;
