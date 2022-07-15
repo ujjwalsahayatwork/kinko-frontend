@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import {  PANCAKE_LOCKER_ADDRESS } from 'constants/env';
-import pancakeLockerAbi from 'constants/pancakeLockerAbi.json';
+import pancakeLockerAbi from 'constants/abi/PancakeLocker.json';
 import { bigintToHex, bigNumberToUint256, getERC20Decimals } from 'utils/utils';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils/types';
@@ -22,7 +22,7 @@ export const getUserLockForTokenAtIndex = async (
 ): Promise<IUserLock> => {
 	// const chainId = await web3.eth.getChainId();
 	const lpTokenDecimals = await getERC20Decimals(web3, lpTokenAddress);
-	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
+	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi.abi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
 	const userLock: { '0': string; '1': string; '2': string; '3': string; '4': string; '5': string } =
 		await pancakeLocker.methods.getUserLockForTokenAtIndex(creatorAddress, lpTokenAddress, bigintToHex(index)).call();
 	return {
@@ -44,7 +44,7 @@ export const withdraw = async (
 	amount: BigNumber
 ): Promise<void> => {
 	const lpTokenDecimals = await getERC20Decimals(web3, lpTokenAddress);
-	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
+	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi.abi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
 
 	await pancakeLocker.methods
 				.withdraw(lpTokenAddress, bigintToHex(index), lockId, bigNumberToUint256(amount, lpTokenDecimals))

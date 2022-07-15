@@ -23,6 +23,10 @@ import { IIlo } from 'types';
 import Web3 from 'web3';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
 import './iloView.scss';
+import { createReferral } from 'utils/api';
+import { useWeb3React } from '@web3-react/core';
+import { updateShowLoadingModal } from 'store/utils/actions';
+import { createSignature } from 'utils/utils';
 
 const StyledContainer = styled.div`
 	width: 100%;
@@ -492,17 +496,34 @@ export const IloView: FC<IIloViewProps> = ({
 		() => new Date(Number((lpGenerationTimestamp + lockPeriod) * BigInt(1000))),
 		[lpGenerationTimestamp, lockPeriod]
 	);
+	const { account, library } = useWeb3React();
+	const web3 = new Web3(library);
+		console.log('account',account)
+	const [signed, setSigned] = useState();
 
-	// const handleSubmit = async () => {
-	// 	const res = await createReferral({
-	// 		referralId: 'rtety',
-	// 		userId: 'rttryyry',
-	// 		iloId: 1,
-	// 		referralAddress: 'fhdsjfkhskfkfkidifhjkdfjjddfkj',
-	// 		referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
-	// 	});
-	// 	console.log('res', res);
-	// };
+	const handleSign = async () => {
+		if (library && account) {
+			try {
+				updateShowLoadingModal(true);
+				const { r, s, v } = await createSignature(web3, account, 'kinko');
+				// this.setState({ r, s, v, signed: true });
+				console.log(' r, s, v', r, s, v);
+			} finally {
+				updateShowLoadingModal(false);
+			}
+		}
+	};
+
+	const handleSubmit = async () => {
+		const res = await createReferral({
+			referralId: '',
+			userId: `${account}`,
+			iloId: 1,
+			referralAddress: `${saleTokenAddress}`,
+			referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
+		});
+		console.log('res', res);
+	};
 	return (
 		<StyledContainer>
 			<StyledCol id={elementId} maxWidth className="card_width_body">
@@ -755,7 +776,7 @@ export const IloView: FC<IIloViewProps> = ({
 								)}
 
 							</Col>
-							{/* <button onClick={() => handleSubmit()}>Click</button> */}
+							<button onClick={() => handleSign()}>Click</button>
 							{isMobile && (
 								// <>
 									<ButtonContainer>

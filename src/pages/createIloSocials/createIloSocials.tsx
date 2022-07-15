@@ -260,7 +260,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			const web3 = new Web3(library);
 			try {
 				this.props.updateShowLoadingModal(true);
-				const { r, s, v } = await createSignature(web3, account, 'energyfi');
+				const { r, s, v } = await createSignature(web3, account, 'kinko');
 				this.setState({ r, s, v, signed: true });
 			} finally {
 				this.props.updateShowLoadingModal(false);
@@ -326,7 +326,6 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			signed,
 			approved,
 		} = this.state;
-		debugger
 		if ((await this.checkFields()) && library && account && baseToken && signed && approved) {
 			const web3 = new Web3(library);
 			const baseTokenAddress = getBaseTokenAddress(baseToken);
@@ -350,7 +349,6 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 					maxSpendPerBuyer,
 					liquidityLockPeriod,
 				});
-				debugger
 				await createIlo({
 					iloName,
 					launchpadAddress,
