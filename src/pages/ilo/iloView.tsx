@@ -26,7 +26,8 @@ import './iloView.scss';
 import { createReferral } from 'utils/api';
 import { useWeb3React } from '@web3-react/core';
 import { updateShowLoadingModal } from 'store/utils/actions';
-import { createSignature } from 'utils/utils';
+import { createReferSignature, createSignature } from 'utils/utils';
+import { BaseModal } from 'components/baseModal/baseModal';
 
 const StyledContainer = styled.div`
 	width: 100%;
@@ -36,10 +37,12 @@ const StyledContainer = styled.div`
 	}
 `;
 const ButtonContainer = styled.div`
-	display: grid;
-	grid-template-columns: 70% 28%;
+	display: flex;
 	gap: 1rem;
+	align-items: center;
+	justify-content: center;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: grid;
 		grid-template-columns: 1fr;
 		gap: 5px;
 	}
@@ -89,6 +92,7 @@ const UnderstandButton = styled(BaseButton)`
 	background-color: transparent;
 `;
 const ReferButton = styled(BaseButton)`
+	width: 30%;
 	height: 3rem;
 	display: flex;
 	align-items: center;
@@ -97,6 +101,7 @@ const ReferButton = styled(BaseButton)`
 	border-radius: 0.35rem;
 	background-color: transparent;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
 	}
 `;
 const ConnectButton = styled(Buttons)`
@@ -137,7 +142,7 @@ const ColorRect = styled.div<{ colorIndex: number }>`
 
 const DoughnutWrapper = styled.div`
 	display: flex;
-	width: 10rem;
+	width: 8rem;
 `;
 
 const DataArea = styled(Col)`
@@ -182,7 +187,7 @@ const CopyButton = styled(BaseButton)`
 	background: rgba(2, 34, 63, 0.8);
 	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
-	padding: 0.6rem;
+	padding: 0.5rem;
 `;
 
 const StyledPercent = styled.div`
@@ -200,7 +205,7 @@ const PercentDoughnutWrapper = styled.div`
 
 const ProgressBarWrapper = styled.div`
 	display: flex;
-	height: 26px;
+	/* height: 26px; */
 	border-radius: 26px;
 	overflow: hidden;
 `;
@@ -220,7 +225,7 @@ const StyledProgressBar = styled(ProgressBar)`
 `;
 
 const TimeLineWrapper = styled(Row)`
-	height: 35px;
+	height: 50px;
 `;
 
 const HorizontalBarMob = styled.div<{ reached: boolean }>`
@@ -233,7 +238,7 @@ const HorizontalBarMob = styled.div<{ reached: boolean }>`
 
 const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
-	height: 100px;
+	height: 60px;
 	width: 8px;
 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-top-left-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
@@ -298,6 +303,11 @@ const StyledTimeText = styled(Text)`
 	}
 `;
 
+const StyledTimeStatus = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+`;
+
 const StyledIloText = styled(Text)`
 	width: 79px;
 	text-align: center;
@@ -313,17 +323,24 @@ const StyledApproxText = styled(Text)`
 		font-size: 0.75rem;
 	}
 `;
+
 const TimeStatus = styled.div`
 	display: flex;
 	justify-content: space-between;
-	/* border: 1px solid red; */
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		/* font-size: 0.75rem; */
 		flex-direction: column;
 	}
 `;
 
-const LiquidityTextIcon = styled.div``;
+const LiquidityTextIcon = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: 1px solid rgb(16 56 89 / 20%);
+	background: rgba(2, 34, 63, 0.45);
+	height: 100px;
+	width: 100px;
+`;
 
 interface IIloViewProps {
 	data: IIlo;
@@ -479,32 +496,49 @@ export const IloView: FC<IIloViewProps> = ({
 	);
 	const { account, library } = useWeb3React();
 	const web3 = new Web3(library);
-	const [signed, setSigned] = useState();
 
 	const handleSign = async () => {
 		if (library && account) {
 			try {
 				updateShowLoadingModal(true);
-				const { r, s, v } = await createSignature(web3, account, 'kinko');
-				console.log(' r, s, v', r, s, v);
+				const response = await createReferSignature(web3, account, data?.launchpadAddress);
+				console.log('response::-------- ', response);
+				return response;
 			} finally {
 				updateShowLoadingModal(false);
 			}
 		}
 	};
 
+	const [isRefer, setIsRefer] = useState(false);
 	const handleSubmit = async () => {
-		const res = await createReferral({
-			userId: `${account}`,
-			referralAddress: `${saleTokenAddress}`,
-			referralSign: 'fhdsjfkhskfkfkidifhjkdfjjddfkj84',
-			referralId: '',
-			iloId: 0
+		const Sign = await handleSign();
+		const response = await createReferral({
+			referralAddress: `${account}`,
+			launchpadAddress: `${data.launchpadAddress}`,
+			referralSign: `${Sign}`,
 		});
-		console.log('res', res);
+		if (response.status === 200) {
+			setIsRefer(true);
+		}
 	};
 	return (
 		<StyledContainer>
+			{isRefer ? (
+				<BaseModal onClose={() => undefined}>
+					<Col roundTop roundBottom backgroundColor="primaryBackground" horizontalPadding="m" verticalPadding="m">
+						<button onClick={() => setIsRefer(false)}>close me</button>
+						<Text fontSize="l" fontWeight="bold">
+							Refer your friends
+						</Text>
+						<Spacing vertical="m" />
+						<Text fontSize="m">referral link here </Text>
+					</Col>
+				</BaseModal>
+			) : (
+				''
+			)}
+
 			<StyledCol id={elementId} maxWidth className="card_width_body">
 				{showSafetyAlert && (
 					<StyledHeader horizontalPadding="m" verticalPadding="m">
@@ -546,49 +580,111 @@ export const IloView: FC<IIloViewProps> = ({
 									</CopyButton>
 								</Row>
 								<Spacing vertical="m" />
-								<LiquidityTextIcon>
-									<Icon icon="lock" color="greeny" height={24} />
-									<Text fontSize="m" fontWeight="bold">
-										{liquidityRatePercent}% Liquidity
-									</Text>
-								</LiquidityTextIcon>
+								{isDesktop ? (
+									<Row align="center" justify="center">
+										<LiquidityTextIcon>
+											<Icon icon="lock" color="greeny" height={24} />
+											<Spacing vertical="s" />
+											<Text fontSize="m" fontWeight="bold" align="center">
+												{liquidityRatePercent}%
+												<Text fontSize="m" fontWeight="bold">
+													Liquidity
+												</Text>
+											</Text>
+										</LiquidityTextIcon>
+									</Row>
+								) : (
+									<Row align="center">
+										<Icon icon="lock" color="greeny" height={24} />
+										<Spacing horizontal="m" />
+										<Text fontSize="m" fontWeight="bold">
+											{liquidityRatePercent}% Liquidity
+										</Text>
+									</Row>
+								)}
 							</Col>
 							<Spacing vertical="m" />
-							{telegramURL && (
-								<Link href={telegramURL}>
-									<Spacing horizontal="xs" />
-									<Social maxWidth>
-										<Icon icon="telegram" color="primary" height={24} />
-										<SocialAddress fontSize="xs" color="primary">
-											{telegramLabel}
-										</SocialAddress>
-									</Social>
-								</Link>
-							)}
-							{twitterURL && (
-								<>
-									<Spacing vertical="s" />
-									<Link href={twitterURL}>
+							<Col>
+								{telegramURL && (
+									// eslint-disable-next-line react/jsx-no-useless-fragment
+									<>
+										{isDesktop ? (
+											<Link href={telegramURL}>
+												<Col maxWidth align="center">
+													<Icon icon="telegram" color="primary" height={24} />
+													<Spacing vertical="s" />
+													<SocialAddress fontSize="xs" color="primary">
+														{telegramLabel}
+													</SocialAddress>
+												</Col>
+											</Link>
+										) : (
+											<Link href={telegramURL}>
+												<Spacing horizontal="xs" />
+												<Social maxWidth>
+													<Icon icon="telegram" color="primary" height={24} />
+													<SocialAddress fontSize="xs" color="primary">
+														{telegramLabel}
+													</SocialAddress>
+												</Social>
+											</Link>
+										)}
+									</>
+								)}
+							</Col>
+							<Spacing vertical="s" />
+							<Col>
+								{twitterURL && (
+									// eslint-disable-next-line react/jsx-no-useless-fragment
+									<>
+										{isDesktop ? (
+											<Link href={twitterURL}>
+												<Col maxWidth align="center">
+													<Icon icon="twitter" color="primary" height={22} />
+													<Spacing vertical="s" />
+													<SocialAddress fontSize="xs" color="primary">
+														{twitterLabel}
+													</SocialAddress>
+												</Col>
+											</Link>
+										) : (
+											<Link href={twitterURL}>
+												<Spacing horizontal="xs" />
+												<Social maxWidth>
+													<Icon icon="twitter" color="primary" height={22} />
+													<SocialAddress fontSize="xs" color="primary">
+														{twitterLabel}
+													</SocialAddress>
+												</Social>
+											</Link>
+										)}
+									</>
+								)}
+							</Col>
+							<Spacing vertical="s" />
+							<Col>
+								{isDesktop ? (
+									<Link href={websiteURL}>
+										<Col maxWidth align="center">
+											<Icon icon="globe" color="primary" height={24} />
+											<Spacing vertical="s" />
+											<SocialAddress fontSize="xs" color="primary">
+												{websiteURL}
+											</SocialAddress>
+										</Col>
+									</Link>
+								) : (
+									<Link href={websiteURL}>
 										<Spacing horizontal="xs" />
 										<Social maxWidth>
-											<Icon icon="twitter" color="primary" height={22} />
+											<Icon icon="globe" color="primary" height={18} />
 											<SocialAddress fontSize="xs" color="primary">
-												{twitterLabel}
+												{websiteURL}
 											</SocialAddress>
 										</Social>
 									</Link>
-								</>
-							)}
-							<Spacing vertical="s" />
-							<Link href={websiteURL}>
-								<Social maxWidth>
-									<Spacing horizontal="xs" />
-									<Icon icon="globe" color="primary" height={24} />
-									<SocialAddress fontSize="xs" color="primary">
-										{websiteURL}
-									</SocialAddress>
-								</Social>
-							</Link>
+								)}
+							</Col>
 							<Spacing vertical="m" />
 							<Col horizontalPadding="m">
 								<StyledDesc fontSize="xs">{description}</StyledDesc>
@@ -712,7 +808,7 @@ export const IloView: FC<IIloViewProps> = ({
 											<StyledProgressBar
 												value={totalBaseCollected.toNumber()}
 												max={hardcap.toNumber()}
-												color="primaryBrand"
+												color="secondaryBrand"
 												backgroundColor="secondaryBackground"
 											/>
 										</ProgressBarWrapper>
@@ -743,7 +839,7 @@ export const IloView: FC<IIloViewProps> = ({
 										onWithdrawLpTokens={onWithdrawLpTokens}
 									/>
 									<Spacing vertical="xs" mobileOnly />
-									<ReferButton onClick={() => handleSign()}>
+									<ReferButton onClick={() => handleSubmit()}>
 										<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
 											Refer ILO
 										</Text>
@@ -789,17 +885,17 @@ export const IloView: FC<IIloViewProps> = ({
 										</>
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
-											{/* <Svg src={kinkoLogo} height={60} width={60} /> */}
+											<Svg src={kinkoLogo} height={60} width={60} />
 											<Spacing horizontal="s" />
 											<Row justify="space-between" maxWidth mobileDirection="column">
-												{/* <Col>
+												<Col>
 													<Text fontSize="m" fontWeight="bold">
 														{saleTokenName}
 													</Text>
 													<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 														Pancakeswap
 													</Text>
-												</Col> */}
+												</Col>
 												<Spacing vertical="m" mobileOnly />
 												{/* <Col align={isDesktop ? 'flex-end' : undefined}> */}
 												<Col>
@@ -913,7 +1009,7 @@ export const IloView: FC<IIloViewProps> = ({
 								) : (
 									<Col horizontalPadding={isDesktop ? 'm' : undefined}>
 										<Spacing vertical="s" />
-										<Row maxWidth>
+										<StyledTimeStatus>
 											<Col horizontalPadding="s" verticalPadding="s">
 												<StyledTimeText fontSize="m" fontWeight="bold">
 													Start time
@@ -943,7 +1039,7 @@ export const IloView: FC<IIloViewProps> = ({
 													{hardcap.toFixed(3)} {baseTokenSymbol}
 												</StyledApproxText>
 											</Col>
-											<Spacing vertical="l" mobileOnly />
+											{/* <Spacing vertical="l" mobileOnly /> */}
 											<Col align={isDesktop ? 'center' : undefined} maxWidth>
 												<Col>
 													{timeline.map((item, index) => (
@@ -980,7 +1076,7 @@ export const IloView: FC<IIloViewProps> = ({
 													))}
 												</Col>
 											</Col>
-										</Row>
+										</StyledTimeStatus>
 										<Spacing vertical="s" />
 									</Col>
 								)}

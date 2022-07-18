@@ -1,0 +1,127 @@
+{
+    "data": {
+        "link": {
+            "frontend": "ilo/0xa155D12C5AB84b9b8B6A1cC714cfE911e29f6D9b/r-890043",
+            "backend": "api/v1/get-referral-by-id"
+        },
+        "result": [
+            {
+                "id": 1,
+                "ilos_id": 2,
+                "referral_address": "0xa155D12C5AB84b9b8B6A1cC714cfE911e29f6D9b",
+                "referral_sign": "0x2224d9e14992b085df14bbc38e497c93d22759c4b611f66daca9ac2f990d70f45f8bc693417f14d3a54363c21c871202a99dcb808ab88d1ac1e4b537f763ad141c",
+                "referral_id": "r-786912",
+                "status": 1,
+                "id:1": 2,
+                "ilo_name": "test2",
+                "creator_address": "0xa155d12c5ab84b9b8b6a1cc714cfe911e29f6d9b",
+                "launchpad_address": "0xd8013e9a64f1c7bfcf07d13dec5003f10ad8930b",
+                "sale_token_address": "0x484bd168dac658502aa5cd3a85692497cbbcc6fe",
+                "sale_token_name": "Gold",
+                "sale_token_symbol": "GLD",
+                "base_token_address": "0xae13d989dac2f0debff460ac112a837c89baa7cd",
+                "base_token_name": "GLMR",
+                "base_token_symbol": "GLMR",
+                "hardcap": "10",
+                "softcap": "1",
+                "start_block_date": 1658493036,
+                "end_block_date": 1659702636,
+                "logo_file_name": "5db2f5af1f0109bbb4eeca6abeb86154bb26c4ca8ad95ba611fc7f6003945a49.jpg",
+                "header_image_file_name": "192987d5a0c504aa8031c4560bdf815966380d9e4a9cdb0d8e7b497ee4596d5f.jpg",
+                "telegram_url": "",
+                "twitter_url": "",
+                "website_url": "https://kinko.com",
+                "whitepaper_url": "",
+                "description": "test Ilo",
+                "liquidity_rate_percent": "25",
+                "lock_period": 31556925,
+                "max_spend_per_buyer": "10",
+                "presale_amount": "10000",
+                "energyfi_token_fee_percent": "NaN",
+                "referral_fee_percent": "10",
+                "base_fee_address": "0xB11203735EE60FffD8315ea7739a254527465016",
+                "token_fee_address": "0xB11203735EE60FffD8315ea7739a254527465016",
+                "referral_fee_address": "0x0000000000000000000000000000000000000000",
+                "listing_rate_percent": "0",
+                "is_bnb": 0,
+                "add_liquidity_transaction_hash": null,
+                "ilosId": 2
+            },
+            {
+                "id": 2,
+                "ilos_id": 2,
+                "referral_address": "0xa155D12C5AB84b9b8B6A1cC714cfE911e29f6D9b",
+                "referral_sign": "0x2224d9e14992b085df14bbc38e497c93d22759c4b611f66daca9ac2f990d70f45f8bc693417f14d3a54363c21c871202a99dcb808ab88d1ac1e4b537f763ad141c",
+                "referral_id": "r-890043",
+                "status": 1,
+                "id:1": 2,
+                "ilo_name": "test2",
+                "creator_address": "0xa155d12c5ab84b9b8b6a1cc714cfe911e29f6d9b",
+                "launchpad_address": "0xd8013e9a64f1c7bfcf07d13dec5003f10ad8930b",
+                "sale_token_address": "0x484bd168dac658502aa5cd3a85692497cbbcc6fe",
+                "sale_token_name": "Gold",
+                "sale_token_symbol": "GLD",
+                "base_token_address": "0xae13d989dac2f0debff460ac112a837c89baa7cd",
+                "base_token_name": "GLMR",
+                "base_token_symbol": "GLMR",
+                "hardcap": "10",
+                "softcap": "1",
+                "start_block_date": 1658493036,
+                "end_block_date": 1659702636,
+                "logo_file_name": "5db2f5af1f0109bbb4eeca6abeb86154bb26c4ca8ad95ba611fc7f6003945a49.jpg",
+                "header_image_file_name": "192987d5a0c504aa8031c4560bdf815966380d9e4a9cdb0d8e7b497ee4596d5f.jpg",
+                "telegram_url": "",
+                "twitter_url": "",
+                "website_url": "https://kinko.com",
+                "whitepaper_url": "",
+                "description": "test Ilo",
+                "liquidity_rate_percent": "25",
+                "lock_period": 31556925,
+                "max_spend_per_buyer": "10",
+                "presale_amount": "10000",
+                "energyfi_token_fee_percent": "NaN",
+                "referral_fee_percent": "10",
+                "base_fee_address": "0xB11203735EE60FffD8315ea7739a254527465016",
+                "token_fee_address": "0xB11203735EE60FffD8315ea7739a254527465016",
+                "referral_fee_address": "0x0000000000000000000000000000000000000000",
+                "listing_rate_percent": "0",
+                "is_bnb": 0,
+                "add_liquidity_transaction_hash": null,
+                "ilosId": 2
+            }
+        ]
+    },
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+        "content-length": "3128",
+        "content-type": "application/json; charset=utf-8"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        },
+        "baseURL": "http://38.242.138.23",
+        "method": "post",
+        "url": "/api/v1/create-referral",
+        "data": "{\"launchpadAddress\":\"0xd8013e9a64f1c7bfcf07d13dec5003f10ad8930b\",\"referralAddress\":\"0xa155D12C5AB84b9b8B6A1cC714cfE911e29f6D9b\",\"referralSign\":\"0x2224d9e14992b085df14bbc38e497c93d22759c4b611f66daca9ac2f990d70f45f8bc693417f14d3a54363c21c871202a99dcb808ab88d1ac1e4b537f763ad141c\"}"
+    },
+    "request": {}
+}

@@ -194,19 +194,16 @@ export const addLiquidityTransactionHash = (transactionHash: string): Promise<vo
 createInstance();
 
 export const createReferral = async (params: {
-	referralId: string;
-	userId: string;
-	iloId: number;
+	launchpadAddress: string;
 	referralAddress: string;
 	referralSign: string;
-}): Promise<void> => {
-	const { referralId, userId, iloId, referralAddress, referralSign } = params;
+}): Promise<any> => {
+	const { launchpadAddress, referralAddress, referralSign } = params;
 	createInstance();
-	await instance.post('/api/v1/create-referral', {
-		referralId,
-		userId,
-		iloId,
+	const res = await instance.post('/api/v1/create-referral', {
+		launchpadAddress,
 		referralAddress,
 		referralSign,
 	});
+	return res;
 };

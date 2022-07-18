@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import {
@@ -11,9 +10,6 @@ import {
 	WBTC_DECIMALS,
 	WBNB_ADDRESS,
 	WBNB_DECIMALS,
-	ETHEREUM_CHAIN_ID,
-
-
 } from 'constants/env';
 import erc20Abi from 'constants/abi/ERC20.json';
 import launchpadGeneratorAbi from 'constants/abi/LaunchpadGenerator.json';
@@ -74,7 +70,6 @@ export const getBalance = async (web3: Web3, walletAddress: string): Promise<Big
 };
 
 export const getERC20Decimals = async (web3: Web3, tokenAddress: string): Promise<BigNumber> => {
-
 	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const decimals: string = await token.methods.decimals().call();
 	return new BigNumber(decimals);
@@ -167,21 +162,19 @@ export const createLaunchpad = async (params: {
 	data.push(numberToHex(startBlockDate.getTime() / 1000)); // 7 startTime
 	data.push(numberToHex(endBlockDate.getTime() / 1000)); // 8 endTime
 
-	const  chainId  = await web3.eth.getChainId();
+	const chainId = await web3.eth.getChainId();
 	const launchpadGenerator = new web3.eth.Contract(
-		(launchpadGeneratorAbi.abi) as Array<AbiItem>,
-	   LAUNCHPAD_GENERATOR_ADDRESS
+		launchpadGeneratorAbi.abi as Array<AbiItem>,
+		LAUNCHPAD_GENERATOR_ADDRESS
 	);
 	const creationFee = await getDEVCreationFee(web3);
 	const transactionHash = await new Promise<string>((resolve, reject) => {
-
 		launchpadGenerator.methods
 			.createLaunchpad(walletAddress, saleTokenAddress, baseTokenAddress, referralAddress, data)
 			.send(
 				{ from: walletAddress, value: bigNumberToUint256(creationFee, new BigNumber(18)) },
 				(error: unknown, transactionHash: string) => {
 					if (error) {
-
 						reject(error);
 					} else {
 						resolve(transactionHash);
@@ -260,7 +253,6 @@ export const getBaseTokenDecimals = (baseToken: IBaseToken): number => {
 			return USDC_DECIMALS;
 		case 'bnb':
 			return WBNB_DECIMALS;
-
 	}
 };
 
@@ -278,6 +270,17 @@ export const createSignature = async (web3: Web3, walletAddress: string, message
 	const s = signature.slice(2).slice(64, 128);
 	const v = signature.slice(2).slice(128, 130);
 	return { r, s, v };
+};
+
+export const createReferSignature = async (
+	web3: Web3,
+	walletAddress: string,
+	launchpadAddress: string
+): Promise<string> => {
+	const hash = web3.utils.soliditySha3(walletAddress, launchpadAddress) || '';
+	const signature = await web3.eth.personal.sign(hash, walletAddress, '');
+	const ESignature = signature;
+	return ESignature;
 };
 
 export const blobToBase64 = (blob: Blob): Promise<string> =>
