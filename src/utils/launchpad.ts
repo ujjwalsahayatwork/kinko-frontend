@@ -4,6 +4,7 @@ import launchpadAbi from 'constants/abi/Launchpad.json';
 import { bigNumberToUint256, getERC20Decimals } from 'utils/utils';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils/types';
+import { debug } from 'console';
 
 
 export const userDeposit = async (
@@ -110,7 +111,7 @@ export const getEthMessageHash = async (
 	launchpadAddress: string,
 	amount: BigNumber
 ): Promise<{ ethmessageHash: string; }> => {
-
+	
 	const launchpad = new web3.eth.Contract((launchpadAbi.abi) as Array<AbiItem>,launchpadAddress );
 	const messageHash:  string  = await launchpad.methods.getMessageHash(refferAddress,launchpadAddress,amount).call();
 	const ethmessageHash:  string  = await launchpad.methods.getEthSignedMessageHash(messageHash).call();

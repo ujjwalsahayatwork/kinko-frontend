@@ -233,7 +233,7 @@ export const Footer: FC = () => {
 	return (
 		<>
 			<StyledDiv>
-			<Spacing vertical="m" />
+				<Spacing vertical="m" />
 				<StyledFooterCol maxWidth>
 					<StyledFooterData>
 						<StyledData>
@@ -243,12 +243,12 @@ export const Footer: FC = () => {
 								</Link>
 								<Spacing vertical="s" mobile="s" />
 								<StyledDescText>
-									Kinko is designing green and cost-effective Decentralized Finance by providing a complete set of DeFi
-									features on Moonbeam, Avax, Near, Bsc and Echain (Kinko Chain) all while accelerating their adoption.
+									Fundex is designing green and cost-effective Decentralized Finance by providing a complete set of DeFi
+									features on Bsc while accelerating their adoption.
 								</StyledDescText>
 							</LogoWrapper>
 							<StyledCopyrightCol>
-								<CopyrightText fontSize="xs">contact@Kinko.io</CopyrightText>
+								<CopyrightText fontSize="xs">contact@Fundex.com</CopyrightText>
 							</StyledCopyrightCol>
 						</StyledData>
 						<SubscribeArea>

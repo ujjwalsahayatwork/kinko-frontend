@@ -66,7 +66,10 @@ class Ilo extends Component<IIloProps, IIloState> {
 	async componentDidMount() {
 		const { params } = this.props;
 		if (params.launchpadAddress) {
+			debugger
 			const ilo = await getIlo(params.launchpadAddress);
+
+			console.log('ilo', ilo);
 			this.setState({ ilo });
 		}
 	}
@@ -113,7 +116,6 @@ class Ilo extends Component<IIloProps, IIloState> {
 			this.setState({ earlyAccessTokenBalance });
 		}
 	};
-
 	updateClaims = async () => {
 		const {
 			web3: { library, account },
@@ -126,7 +128,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 			if (library && account && ilo) {
 				const { launchpadAddress, saleTokenAddress, baseTokenAddress, creatorAddress } = ilo;
 				const web3 = new Web3(library);
-				const buyer = await getBuyer(web3, account, launchpadAddress,saleTokenAddress, baseTokenAddress);
+				const buyer = await getBuyer(web3, account, launchpadAddress, saleTokenAddress, baseTokenAddress);
 				const { baseDeposited, tokensOwed } = buyer;
 				canClaimSaleTokens = tokensOwed.gt(0);
 				canClaimBaseTokens = baseDeposited.gt(0);
@@ -262,7 +264,6 @@ class Ilo extends Component<IIloProps, IIloState> {
 			}
 		}
 	};
-
 	render() {
 		const {
 			web3: { active },
