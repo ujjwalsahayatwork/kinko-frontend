@@ -345,10 +345,10 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 								<OptionText onClick={handleSelect} value="" hidden>
 									Non Profitable
 								</OptionText>
-								<Option value="1">Audi</Option>
-								<Option value="2">BMW</Option>
-								<Option value="3">Citroen</Option>
-								<Option value="4">Ford</Option>
+								<Option value="1">Ilo 1</Option>
+								<Option value="2">Ilo 2</Option>
+								<Option value="3">Ilo 3</Option>
+								<Option value="4">Ilo 4</Option>
 							</Select>
 						</StyledSelector>
 						<StyledSearchInput
