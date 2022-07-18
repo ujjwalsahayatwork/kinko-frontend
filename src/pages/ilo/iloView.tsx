@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import Svg from 'react-inlinesvg';
 import styled from 'styled-components';
@@ -19,43 +20,63 @@ import { toPx, useDevice } from 'components/utils';
 import { EXPLORER_URL, IMAGES_URL } from 'constants/env';
 import { Buttons } from 'pages/ilo/components/buttons';
 import { IIlo } from 'types';
+import Web3 from 'web3';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
-import "./iloView.scss";
+import './iloView.scss';
+import { createReferral } from 'utils/api';
+import { useWeb3React } from '@web3-react/core';
+import { updateShowLoadingModal } from 'store/utils/actions';
+import { createReferSignature, createSignature } from 'utils/utils';
+import { BaseModal } from 'components/baseModal/baseModal';
+import { getEthMessageHash } from 'utils/launchpad';
 
 const StyledContainer = styled.div`
-	padding: 5rem 0;
-	margin-bottom: 10rem;
-`
+	width: 100%;
+	max-width: 1152px;
+	margin: 0 auto;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+	}
+`;
+const ButtonContainer = styled.div`
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 5px;
+	}
+`;
+
 const StyledColumn = styled(Row)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		margin: 0 auto;
 		max-width: 100%;
 	}
-`
-
+`;
 const StyledCol = styled(Col)`
-	max-width: 80%;
 	margin: 0 auto;
-`
+`;
 
 const StyledHeader = styled(Col)`
-	background: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
-`
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
+`;
 
-const MainArea = styled(Col) <{ width: number }>`
+const MainArea = styled(Col)<{ width: number }>`
 	max-width: ${({ width }) => toPx(width)};
-	background: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
 `;
 
 const StyledHeaderImage = styled.img`
 	border-radius: 50%;
 	width: 120px;
 	height: 120px;
-    object-fit: cover;
+	object-fit: cover;
 	margin: 0 auto;
 `;
 
@@ -67,8 +88,27 @@ const UnderstandButton = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #A466FF;
-	border-radius: 0.350rem;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+`;
+const ReferButton = styled(BaseButton)`
+	width: 30%;
+	height: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
+	background-color: transparent;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		width: 100%;
+	}
+`;
+const ConnectButton = styled(Buttons)`
+	height: 3rem;
+	border: 1px solid #f97a48;
+	border-radius: 0.35rem;
 	background-color: transparent;
 `;
 
@@ -88,7 +128,7 @@ const StyledDesc = styled(Text)`
 	overflow: auto;
 	width: 100%;
 	height: 2.8rem;
-	::-webkit-scrollbar{
+	::-webkit-scrollbar {
 		display: none;
 	}
 `;
@@ -103,7 +143,7 @@ const ColorRect = styled.div<{ colorIndex: number }>`
 
 const DoughnutWrapper = styled.div`
 	display: flex;
-	width: 10rem;
+	width: 8rem;
 `;
 
 const DataArea = styled(Col)`
@@ -113,20 +153,20 @@ const DataArea = styled(Col)`
 `;
 
 const DataAreaHeader = styled(Col)`
-	background-color: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
 	padding: 1rem 1.5rem;
 `;
 
 const StyledDataCol = styled(Col)`
-	background-color: #1F1E1E;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
+	background: rgb(71 81 168 / 20%);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
 `;
 
 const StyledDataStatus = styled(Col)`
-	border-bottom: 1px solid #4B4B4B;
+	border-bottom: 1px solid rgb(112 121 185 / 20%);
 `;
 
 const Address = styled(Text)`
@@ -135,21 +175,20 @@ const Address = styled(Text)`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
-	background: #252123;
+	background: rgba(2, 34, 63, 0.8);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
 	padding-left: ${({ theme }) => toPx(theme.distanceM)};
 	padding-right: ${({ theme }) => toPx(theme.distanceL)};
 	padding-top: ${({ theme }) => toPx(theme.distanceS)};
 	padding-bottom: ${({ theme }) => toPx(theme.distanceS)};
 `;
 
-
 const CopyButton = styled(BaseButton)`
-	background-color: #252123;
-	border: 1px solid #4B4B4B;
-	border-radius: 0.350rem;
-	padding: 0.6rem;
+	background: rgba(2, 34, 63, 0.8);
+	border: 1px solid rgb(112 121 185 / 20%);
+	border-radius: 0.35rem;
+	padding: 0.5rem;
 `;
 
 const StyledPercent = styled.div`
@@ -167,7 +206,7 @@ const PercentDoughnutWrapper = styled.div`
 
 const ProgressBarWrapper = styled.div`
 	display: flex;
-	height: 26px;
+	/* height: 26px; */
 	border-radius: 26px;
 	overflow: hidden;
 `;
@@ -187,10 +226,10 @@ const StyledProgressBar = styled(ProgressBar)`
 `;
 
 const TimeLineWrapper = styled(Row)`
-	height: 35px;
+	height: 50px;
 `;
 
-const HorizontalBar = styled.div<{ reached: boolean }>`
+const HorizontalBarMob = styled.div<{ reached: boolean }>`
 	display: flex;
 	height: 4px;
 	width: 26px;
@@ -198,15 +237,53 @@ const HorizontalBar = styled.div<{ reached: boolean }>`
 	border-radius: 4px;
 `;
 
-const VerticalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
+const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
-	height: 42px;
-	width: 9px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
+	height: 60px;
+	width: 8px;
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
 	border-top-left-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-top-right-radius: ${({ roundTop }) => (roundTop ? '9px' : '0px')};
 	border-bottom-left-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
 	border-bottom-right-radius: ${({ roundBottom }) => (roundBottom ? '9px' : '0px')};
+	position: relative;
+	::before {
+		position: absolute;
+		content: '';
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: 0px;
+		left: -3px;
+	}
+`;
+
+const VerticalBar = styled.div<{ reached: boolean }>`
+	display: flex;
+	height: 8px;
+	width: 80px;
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+	border-radius: 50px;
+`;
+
+const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
+	display: flex;
+	height: 8px;
+	width: 100px;
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+	border-radius: 50px;
+	position: relative;
+	::before {
+		position: absolute;
+		content: '';
+		height: 15px;
+		width: 15px;
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		border-radius: 50px;
+		top: -3px;
+		left: -5px;
+	}
 `;
 
 const VerticalBarSpacing = styled.div<{ reached: boolean }>`
@@ -217,8 +294,8 @@ const VerticalBarSpacing = styled.div<{ reached: boolean }>`
 `;
 
 const StyledDivider = styled(Col)`
-	border: 1px solid #4B4B4B;
-    height: 100%;
+	border: 1px solid rgb(112 121 185 / 20%);
+	height: 100%;
 `;
 
 const StyledTimeText = styled(Text)`
@@ -227,7 +304,16 @@ const StyledTimeText = styled(Text)`
 	}
 `;
 
+const StyledTimeStatus = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+`;
+
 const StyledIloText = styled(Text)`
+	width: 79px;
+	text-align: center;
+	padding-top: 15px;
+	line-height: 20px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 0.9rem;
 	}
@@ -239,12 +325,30 @@ const StyledApproxText = styled(Text)`
 	}
 `;
 
+const TimeStatus = styled.div`
+	display: flex;
+	justify-content: space-between;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		flex-direction: column;
+	}
+`;
+
+const LiquidityTextIcon = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: 1px solid rgb(16 56 89 / 20%);
+	background: rgba(2, 34, 63, 0.45);
+	height: 100px;
+	width: 100px;
+`;
+
 interface IIloViewProps {
 	data: IIlo;
 	earlyAccessTokenBalance: BigNumber;
 	showSafetyAlert: boolean;
 	isConnected: boolean;
-	hasEarlyAccess: boolean;
+	// hasEarlyAccess: boolean;
 	canClaimTokens: boolean;
 	canWithdrawLpTokens: boolean;
 	onHideSafetyAlert: () => void;
@@ -261,7 +365,7 @@ export const IloView: FC<IIloViewProps> = ({
 	earlyAccessTokenBalance,
 	showSafetyAlert,
 	isConnected,
-	hasEarlyAccess,
+	// hasEarlyAccess,
 	canClaimTokens,
 	canWithdrawLpTokens,
 	onHideSafetyAlert,
@@ -307,6 +411,7 @@ export const IloView: FC<IIloViewProps> = ({
 	const { isDesktop, isMobile } = useDevice();
 	const [elementId] = useState(uniqueId('IloView-Col-'));
 	const [elementWidth, setElementWidth] = useState(0);
+	const [isRefer, setIsRefer] = useState(false);
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -362,12 +467,10 @@ export const IloView: FC<IIloViewProps> = ({
 		() => 100 - presalePercent - liquidityPercent - feesPercent,
 		[presalePercent, liquidityPercent, feesPercent]
 	);
-
 	const doughnutData = useMemo(
 		() => [presalePercent, liquidityPercent, feesPercent, freePercent],
 		[presalePercent, liquidityPercent, feesPercent, freePercent]
 	);
-
 	const lockYears = useMemo(
 		() => Math.round(Number(moment.unix(Number(lockPeriod)).diff(moment.unix(0), 'years', true))),
 		[lockPeriod]
@@ -393,25 +496,80 @@ export const IloView: FC<IIloViewProps> = ({
 		() => new Date(Number((lpGenerationTimestamp + lockPeriod) * BigInt(1000))),
 		[lpGenerationTimestamp, lockPeriod]
 	);
+	const { account, library } = useWeb3React();
+	const web3 = new Web3(library);
 
+	const handleReferSign = async () => {
+		if (library && account) {
+			try {
+				updateShowLoadingModal(true);
+				const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
+				const response = await createReferSignature(web3, account,e.ethmessageHash);
+				console.log('response::-------- ', response);
+				return response;
+			} finally {
+				updateShowLoadingModal(false);
+			}
+		}
+	};
+
+	// const handleReferSign = async () => {
+    //     if (library && account) {
+    //         try {
+    //             updateShowLoadingModal(true);
+    //              const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
+    //             const signature = await createRefferSignature(web3, account,e.ethmessageHash );
+    //             console.log('signature', signature);
+    //             return signature;
+    //         } finally {
+    //             updateShowLoadingModal(false);
+    //         }
+    //     }
+    // };
+
+	const handleSubmit = async () => {
+		const Sign = await handleReferSign();
+		const response = await createReferral({
+			launchpadAddress: `${data.launchpadAddress}`,
+			referralAddress: `${account}`,
+			referralSign: `${Sign}`,
+		});
+		if (response.status === 200) {
+			setIsRefer(true);
+		}
+	};
 	return (
-		<StyledContainer className="card_space_top">
+		<StyledContainer>
+			{isRefer ? (
+				<BaseModal onClose={() => undefined}>
+					<Col roundTop roundBottom backgroundColor="primaryBackground" horizontalPadding="m" verticalPadding="m">
+						<button onClick={() => setIsRefer(false)}>close me</button>
+						<Text fontSize="l" fontWeight="bold">
+							Refer your friends
+						</Text>
+						<Spacing vertical="m" />
+						<Text fontSize="m">referral link here </Text>
+					</Col>
+				</BaseModal>
+			) : (
+				''
+			)}
+
 			<StyledCol id={elementId} maxWidth className="card_width_body">
 				{showSafetyAlert && (
 					<StyledHeader horizontalPadding="m" verticalPadding="m">
-
-						<Row mobileDirection="column" align='center' justify="space-around">
-							<Text fontSize="xs" className='font-weight-400'>
+						<Row mobileDirection="column" align="center" justify="space-around">
+							<Text fontSize="xs" className="font-weight-400">
 								<Text fontSize="m" fontWeight="bold">
 									DYOR
 								</Text>
 								<Spacing vertical="xs" />
-								Investing in an ILO may involve risks. Energyfi is permissionless, anyone can create an ILO, we disclaim any
-								responsibility for losses. Do your own research before investing.
+								Investing in an ILO may involve risks. Energyfi is permissionless, anyone can create an ILO, we disclaim
+								any responsibility for losses. Do your own research before investing.
 							</Text>
 							<Spacing horizontal="m" />
 							<UnderstandButton className="btn_margin" onClick={onHideSafetyAlert}>
-								<Text fontSize="m" fontWeight="normal" color="primaryBrand">
+								<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
 									I Understand
 								</Text>
 							</UnderstandButton>
@@ -421,21 +579,16 @@ export const IloView: FC<IIloViewProps> = ({
 				<Spacing vertical="m" />
 				<StyledColumn mobileDirection="column">
 					<Col flexGrow={isDesktop ? 1 : undefined} align="center">
-						<MainArea
-							flexGrow={isDesktop ? 1 : undefined}
-							overflow="hidden"
-							width={width}
-							className="mob_width"
-						>
+						<MainArea flexGrow={isDesktop ? 1 : undefined} overflow="hidden" width={width} className="mob_width">
 							<Spacing vertical="m" />
 							<StyledHeaderImage src={`${IMAGES_URL}/${headerImageFileName}`} alt="ILO" height={height} width={width} />
 							<Spacing vertical="m" />
 							<Col horizontalPadding="m">
-								<Text fontSize="xl" align='center' fontWeight="bold">
+								<Text fontSize="xl" align="center" fontWeight="bold">
 									{iloName}
 								</Text>
 								<Spacing vertical="m" />
-								<Row align='center'>
+								<Row align="center">
 									<Address fontSize="s">{saleTokenAddress}</Address>
 									<Spacing horizontal="s" />
 									<CopyButton onClick={onCopySaleTokenAddress}>
@@ -443,54 +596,111 @@ export const IloView: FC<IIloViewProps> = ({
 									</CopyButton>
 								</Row>
 								<Spacing vertical="m" />
-								<Row align="center">
-									<Icon icon="lock" color="secondaryBrand" height={24} />
-									<Spacing horizontal="m" />
-									<Text fontSize="m" fontWeight="bold">
-										{liquidityRatePercent}% Liquidity
-									</Text>
-								</Row>
+								{isDesktop ? (
+									<Row align="center" justify="center">
+										<LiquidityTextIcon>
+											<Icon icon="lock" color="greeny" height={24} />
+											<Spacing vertical="s" />
+											<Text fontSize="m" fontWeight="bold" align="center">
+												{liquidityRatePercent}%
+												<Text fontSize="m" fontWeight="bold">
+													Liquidity
+												</Text>
+											</Text>
+										</LiquidityTextIcon>
+									</Row>
+								) : (
+									<Row align="center">
+										<Icon icon="lock" color="greeny" height={24} />
+										<Spacing horizontal="m" />
+										<Text fontSize="m" fontWeight="bold">
+											{liquidityRatePercent}% Liquidity
+										</Text>
+									</Row>
+								)}
 							</Col>
 							<Spacing vertical="m" />
-							{
-								telegramURL && (
-									<Link href={telegramURL}>
+							<Col>
+								{telegramURL && (
+									// eslint-disable-next-line react/jsx-no-useless-fragment
+									<>
+										{isDesktop ? (
+											<Link href={telegramURL}>
+												<Col maxWidth align="center">
+													<Icon icon="telegram" color="primary" height={24} />
+													<Spacing vertical="s" />
+													<SocialAddress fontSize="xs" color="primary">
+														{telegramLabel}
+													</SocialAddress>
+												</Col>
+											</Link>
+										) : (
+											<Link href={telegramURL}>
+												<Spacing horizontal="xs" />
+												<Social maxWidth>
+													<Icon icon="telegram" color="primary" height={24} />
+													<SocialAddress fontSize="xs" color="primary">
+														{telegramLabel}
+													</SocialAddress>
+												</Social>
+											</Link>
+										)}
+									</>
+								)}
+							</Col>
+							<Spacing vertical="s" />
+							<Col>
+								{twitterURL && (
+									// eslint-disable-next-line react/jsx-no-useless-fragment
+									<>
+										{isDesktop ? (
+											<Link href={twitterURL}>
+												<Col maxWidth align="center">
+													<Icon icon="twitter" color="primary" height={22} />
+													<Spacing vertical="s" />
+													<SocialAddress fontSize="xs" color="primary">
+														{twitterLabel}
+													</SocialAddress>
+												</Col>
+											</Link>
+										) : (
+											<Link href={twitterURL}>
+												<Spacing horizontal="xs" />
+												<Social maxWidth>
+													<Icon icon="twitter" color="primary" height={22} />
+													<SocialAddress fontSize="xs" color="primary">
+														{twitterLabel}
+													</SocialAddress>
+												</Social>
+											</Link>
+										)}
+									</>
+								)}
+							</Col>
+							<Spacing vertical="s" />
+							<Col>
+								{isDesktop ? (
+									<Link href={websiteURL}>
+										<Col maxWidth align="center">
+											<Icon icon="globe" color="primary" height={24} />
+											<Spacing vertical="s" />
+											<SocialAddress fontSize="xs" color="primary">
+												{websiteURL}
+											</SocialAddress>
+										</Col>
+									</Link>
+								) : (
+									<Link href={websiteURL}>
 										<Spacing horizontal="xs" />
 										<Social maxWidth>
-											<Icon icon="telegram" color="primary" height={24} />
+											<Icon icon="globe" color="primary" height={18} />
 											<SocialAddress fontSize="xs" color="primary">
-												{telegramLabel}
+												{websiteURL}
 											</SocialAddress>
 										</Social>
 									</Link>
-								)
-							}
-							{
-								twitterURL && (
-									<>
-										<Spacing vertical="s" />
-										<Link href={twitterURL}>
-											<Spacing horizontal="xs" />
-											<Social maxWidth>
-												<Icon icon="twitter" color="primary" height={22} />
-												<SocialAddress fontSize="xs" color="primary">
-													{twitterLabel}
-												</SocialAddress>
-											</Social>
-										</Link>
-									</>
-								)
-							}
-							<Spacing vertical="s" />
-							<Link href={websiteURL}>
-								<Social maxWidth>
-									<Spacing horizontal="xs" />
-									<Icon icon="globe" color="primary" height={24} />
-									<SocialAddress fontSize="xs" color="primary">
-										{websiteURL}
-									</SocialAddress>
-								</Social>
-							</Link>
+								)}
+							</Col>
 							<Spacing vertical="m" />
 							<Col horizontalPadding="m">
 								<StyledDesc fontSize="xs">{description}</StyledDesc>
@@ -524,16 +734,11 @@ export const IloView: FC<IIloViewProps> = ({
 								</Row>
 							</Col>
 							<Spacing vertical="m" />
-						</MainArea >
-					</Col >
+						</MainArea>
+					</Col>
 					<Spacing horizontal="m" />
 					<Col maxWidth flexGrow={isDesktop ? 1 : undefined}>
-						<DataArea
-							maxWidth
-							flexGrow={isDesktop ? 1 : undefined}
-							overflow="hidden"
-							className="mob_width"
-						>
+						<DataArea maxWidth flexGrow={isDesktop ? 1 : undefined} overflow="hidden" className="mob_width">
 							<Col mobileDirection="column-reverse">
 								<DataAreaHeader>
 									<Col mobileDirection="column">
@@ -545,14 +750,14 @@ export const IloView: FC<IIloViewProps> = ({
 													</Text>
 													<Text fontSize="s">{startBlockDate.toLocaleString()}</Text>
 												</Col>
-											) : status === 'round1' ? (
-												<Col>
-													<Text fontSize="m" fontWeight="bold">
-														Round 1 ends in {moment(round1EndDate).diff(moment(), 'days')} days
-													</Text>
-													<Text fontSize="s">{round1EndDate.toLocaleString()}</Text>
-												</Col>
-											) : status === 'round2' ? (
+											) : // ) : status === 'round1' ? (
+											// 	<Col>
+											// 		<Text fontSize="m" fontWeight="bold">
+											// 			Round 1 ends in {moment(round1EndDate).diff(moment(), 'days')} days
+											// 		</Text>
+											// 		<Text fontSize="s">{round1EndDate.toLocaleString()}</Text>
+											// 	</Col>
+											status === 'round2' || status === 'round1' ? (
 												<Col>
 													<Text fontSize="s" fontWeight="bold">
 														Round 2 ends in {moment(endBlockDate).diff(moment(), 'days')} days
@@ -579,7 +784,7 @@ export const IloView: FC<IIloViewProps> = ({
 												</Col>
 											) : null}
 										</Col>
-										<Row maxWidth justify='space-between'>
+										<Row maxWidth justify="space-between">
 											<StyledPercent className="mob_text_percent">
 												<Text fontSize="s" align="start">
 													Lock liquidity {lockYears} {lockYears === 1 ? 'year' : 'years'}
@@ -591,10 +796,12 @@ export const IloView: FC<IIloViewProps> = ({
 													</Text>
 												</PercentDoughnutWrapper>
 											</StyledPercent>
-											<StyledDivider justify='center' />
-											<Col justify='flex-end' className="right_mob_percent">
+											<StyledDivider justify="center" />
+											<Col justify="flex-end" className="right_mob_percent">
 												<StyledPercent className="text-block">
-													<Text align="center" fontSize="s">Participants</Text>
+													<Text align="center" fontSize="s">
+														Participants
+													</Text>
 													<PercentDoughnutWrapper>
 														<PercentDoughnut
 															value={totalBaseCollected
@@ -617,27 +824,28 @@ export const IloView: FC<IIloViewProps> = ({
 											<StyledProgressBar
 												value={totalBaseCollected.toNumber()}
 												max={hardcap.toNumber()}
-												color="primaryBrand"
+												color="secondaryBrand"
 												backgroundColor="secondaryBackground"
 											/>
 										</ProgressBarWrapper>
 										<Spacing vertical="s" />
 										<StyledProgressText>
-											<ProgressText fontSize="s" color='primary'>
+											<ProgressText fontSize="s" color="primary">
 												{totalBaseCollected.div(hardcap).times(100).toFixed(1)}%{isDesktop && ' complete'}
 											</ProgressText>
-											<ProgressText fontSize="s" color='primary'>
+											<ProgressText fontSize="s" color="primary">
 												{totalBaseCollected.toFixed(3)} ⁄ {hardcap.toFixed(3)} {baseTokenSymbol}
 											</ProgressText>
 										</StyledProgressText>
 									</Col>
 								</DataAreaHeader>
-								<Spacing className='abc' vertical="s" />
-								{isDesktop && (
-									<Buttons
+								<Spacing vertical="s" />
+								<ButtonContainer>
+									<Spacing vertical="s" mobileOnly />
+									<ConnectButton
 										isConnected={isConnected}
 										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
+										// hasEarlyAccess={hasEarlyAccess}
 										canClaimTokens={canClaimTokens}
 										canWithdrawLpTokens={canWithdrawLpTokens}
 										onConnect={onConnect}
@@ -646,28 +854,17 @@ export const IloView: FC<IIloViewProps> = ({
 										onClaim={onClaim}
 										onWithdrawLpTokens={onWithdrawLpTokens}
 									/>
-								)}
+									<Spacing vertical="xs" mobileOnly />
+									<ReferButton onClick={() => handleSubmit()}>
+										<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+											Refer ILO
+										</Text>
+									</ReferButton>
+								</ButtonContainer>
 							</Col>
-							{isMobile && (
-								<>
-									<Spacing vertical="s" />
-									<Buttons
-										isConnected={isConnected}
-										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
-										canClaimTokens={canClaimTokens}
-										canWithdrawLpTokens={canWithdrawLpTokens}
-										onConnect={onConnect}
-										onInvest={onInvest}
-										onFinalise={onFinalise}
-										onClaim={onClaim}
-										onWithdrawLpTokens={onWithdrawLpTokens}
-									/>
-								</>
-							)}
 							<Spacing vertical="s" />
 							<StyledDataCol>
-								<StyledDataStatus verticalPadding='m' horizontalPadding={isDesktop ? 'm' : undefined}>
+								<StyledDataStatus verticalPadding="m" horizontalPadding={isDesktop ? 'm' : undefined}>
 									{status === 'upcoming' || status === 'round1' ? (
 										<>
 											<Text fontSize="m" fontWeight="bold">
@@ -684,7 +881,7 @@ export const IloView: FC<IIloViewProps> = ({
 												<Row justify="space-between" maxWidth>
 													<Col>
 														<Text fontSize="m" fontWeight="bold">
-															EFT
+															No Early Access Token
 														</Text>
 														<Text fontSize="s" mobileFontSize="xxs">
 															Pancakeswap
@@ -692,17 +889,16 @@ export const IloView: FC<IIloViewProps> = ({
 													</Col>
 													<Col align="flex-end">
 														<Text fontSize="m" fontWeight="bold">
-															{earlyAccessTokenAmount.toFixed(3)} EFT
+															{/* {earlyAccessTokenAmount.toFixed(3)} Null */}
 														</Text>
 														<Text fontSize="s" mobileFontSize="xxs">
-															Your balance: {earlyAccessTokenBalance.toFixed(3)}
+															{/* Your balance: {earlyAccessTokenBalance.toFixed(3)} */}
 														</Text>
 													</Col>
 												</Row>
 												<Spacing horizontal="m" />
 											</Row>
 										</>
-
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
 											<Svg src={kinkoLogo} height={60} width={60} />
@@ -712,18 +908,19 @@ export const IloView: FC<IIloViewProps> = ({
 													<Text fontSize="m" fontWeight="bold">
 														{saleTokenName}
 													</Text>
-													<Text fontSize="xs" mobileFontSize="xxs" className='font-weight-400'>
+													<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 														Pancakeswap
 													</Text>
 												</Col>
 												<Spacing vertical="m" mobileOnly />
-												<Col align={isDesktop ? 'flex-end' : undefined}>
+												{/* <Col align={isDesktop ? 'flex-end' : undefined}> */}
+												<Col>
 													<Text fontSize="xs" style={{ fontWeight: 600 }}>
 														{saleTokenLiquidityAmount.toFixed(3)} {saleTokenSymbol} ⁄{' '}
 														{baseTokenLiquidityAmount.toFixed(3)} {baseTokenSymbol}
 													</Text>
 													<Row align="center">
-														<Text fontSize="xs" mobileFontSize="xxs" className='font-weight-400'>
+														<Text fontSize="xs" mobileFontSize="xxs" className="font-weight-400">
 															Locked until {lockDate.toLocaleString()}
 														</Text>
 														<Spacing horizontal="s" />
@@ -737,82 +934,173 @@ export const IloView: FC<IIloViewProps> = ({
 										</Row>
 									) : null}
 								</StyledDataStatus>
-								<Col horizontalPadding={isDesktop ? 'm' : undefined}>
-									<Spacing vertical='s' />
-									<Row maxWidth >
-										<Col horizontalPadding='s' verticalPadding='s'>
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Start time
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>(Approx: {startBlockDate.toLocaleString()})</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												End time
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>(Approx: {endBlockDate.toLocaleString()})</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Softcap
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>
-												{softcap.toFixed(3)} {baseTokenSymbol}
-											</StyledApproxText>
-											<Spacing vertical="l" />
-											<StyledTimeText fontSize="m" fontWeight="bold">
-												Hardcap
-											</StyledTimeText>
-											<StyledApproxText fontSize="xs" className='font-weight-400'>
-												{hardcap.toFixed(3)} {baseTokenSymbol}
-											</StyledApproxText>
-										</Col>
-										<Spacing vertical="l" mobileOnly />
-										<Col align={isDesktop ? 'center' : undefined} maxWidth>
-											<Col>
+								{isDesktop ? (
+									<div>
+										<div>
+											<div style={{ display: 'flex', justifyContent: 'center', marginTop: '43px' }}>
 												{timeline.map((item, index) => (
-													<Col key={item.title}>
-														{index > 0 && <VerticalBarSpacing reached={item.reached} />}
-														<TimeLineWrapper align="center">
-															<VerticalBar
-																reached={item.reached}
-																roundTop={index === 0}
-																roundBottom={index === timeline.length - 1}
-															/>
-															<Spacing horizontal="s" />
-															<HorizontalBar reached={item.reached} />
-															<Spacing horizontal="s" />
+													<HorizontalBar
+														reached={item.reached}
+														roundTop={index === 0}
+														roundBottom={index === timeline.length - 1}
+													/>
+												))}
+											</div>
+											<Spacing vertical="s" />
+
+											<div
+												style={{ display: 'flex', paddingTop: '27px', columnGap: '22px', justifyContent: 'flex-start' }}
+											>
+												{timeline.map((item, index) => (
+													<div>
+														<Col align="center">
 															<Icon
 																icon={item.icon}
-																color={item.reached ? 'primaryBrand' : 'tertiaryBackground'}
+																color={item.reached ? 'greeny' : 'tertiaryBackground'}
 																width={25}
-																className="ilo_cup_icon"
 															/>
-															<Spacing horizontal="s" />
-															<Col>
-																<StyledIloText
-																	fontSize="xs"
-																	className='font-weight-400'
-																	color={item.reached ? 'primary' : 'tertiaryBackground'}
-																>
-																	{item.title}
-																</StyledIloText>
-																<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
-																	{item.subtitle}
-																</Text>
-															</Col>
-														</TimeLineWrapper>
-														{index < timeline.length - 1 && <VerticalBarSpacing reached={item.reached} />}
-													</Col>
+														</Col>
+														<Col>
+															<StyledIloText
+																fontSize="xs"
+																className="font-weight-400"
+																color={item.reached ? 'primary' : 'tertiaryBackground'}
+															>
+																{item.title}
+															</StyledIloText>
+															<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
+																{item.subtitle}
+															</Text>
+														</Col>
+													</div>
 												))}
+											</div>
+										</div>
+										<div>
+											<Col horizontalPadding="s" verticalPadding="s">
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Start time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {startBlockDate.toLocaleString()})
+														</StyledApproxText>
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Softcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{softcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
+												<TimeStatus>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															End time
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															(Approx: {endBlockDate.toLocaleString()})
+														</StyledApproxText>
+													</div>
+													<div>
+														<Spacing vertical="l" />
+														<StyledTimeText fontSize="m" fontWeight="bold">
+															Hardcap
+														</StyledTimeText>
+														<StyledApproxText fontSize="xs" className="font-weight-400">
+															{hardcap.toFixed(3)} {baseTokenSymbol}
+														</StyledApproxText>
+													</div>
+												</TimeStatus>
 											</Col>
-										</Col>
-									</Row>
-									<Spacing vertical='s' />
-								</Col>
+										</div>
+									</div>
+								) : (
+									<Col horizontalPadding={isDesktop ? 'm' : undefined}>
+										<Spacing vertical="s" />
+										<StyledTimeStatus>
+											<Col horizontalPadding="s" verticalPadding="s">
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Start time
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													(Approx: {startBlockDate.toLocaleString()})
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													End time
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													(Approx: {endBlockDate.toLocaleString()})
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Softcap
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													{softcap.toFixed(3)} {baseTokenSymbol}
+												</StyledApproxText>
+												<Spacing vertical="l" />
+												<StyledTimeText fontSize="m" fontWeight="bold">
+													Hardcap
+												</StyledTimeText>
+												<StyledApproxText fontSize="xs" className="font-weight-400">
+													{hardcap.toFixed(3)} {baseTokenSymbol}
+												</StyledApproxText>
+											</Col>
+											{/* <Spacing vertical="l" mobileOnly /> */}
+											<Col align={isDesktop ? 'center' : undefined} maxWidth>
+												<Col>
+													{timeline.map((item, index) => (
+														<Col key={item.title}>
+															<TimeLineWrapper align="center">
+																<VerticalBarMob
+																	reached={item.reached}
+																	roundTop={index === 0}
+																	roundBottom={index === timeline.length - 1}
+																/>
+																<Spacing horizontal="s" />
+																<Spacing horizontal="s" />
+																<Icon
+																	icon={item.icon}
+																	color={item.reached ? 'greeny' : 'tertiaryBackground'}
+																	width={25}
+																	className="ilo_cup_icon"
+																/>
+																<Spacing horizontal="s" />
+																<Col>
+																	<StyledIloText
+																		fontSize="xs"
+																		className="font-weight-400"
+																		color={item.reached ? 'primary' : 'tertiaryBackground'}
+																	>
+																		{item.title}
+																	</StyledIloText>
+																	<Text fontSize="xs" color={item.reached ? 'primary' : 'tertiaryBackground'}>
+																		{item.subtitle}
+																	</Text>
+																</Col>
+															</TimeLineWrapper>
+														</Col>
+													))}
+												</Col>
+											</Col>
+										</StyledTimeStatus>
+										<Spacing vertical="s" />
+									</Col>
+								)}
 							</StyledDataCol>
 						</DataArea>
 					</Col>
-				</StyledColumn >
-			</StyledCol >
-		</StyledContainer >
+				</StyledColumn>
+			</StyledCol>
+		</StyledContainer>
 	);
 };

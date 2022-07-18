@@ -1,11 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { ENERGYFI_LOCKER_ADDRESS, ETHEREUM_CHAIN_ID, PANCAKE_LOCKER_ADDRESS } from 'constants/env';
-import energyFiLockerAbi from 'constants/energyFiLockerAbi.json';
-import pancakeLockerAbi from 'constants/pancakeLockerAbi.json';
+import {  PANCAKE_LOCKER_ADDRESS } from 'constants/env';
+import pancakeLockerAbi from 'constants/abi/PancakeLocker.json';
 import { bigintToHex, bigNumberToUint256, getERC20Decimals } from 'utils/utils';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils/types';
-
 
 interface IUserLock {
 	lockDate: Date;
@@ -22,14 +20,11 @@ export const getUserLockForTokenAtIndex = async (
 	lpTokenAddress: string,
 	index: bigint
 ): Promise<IUserLock> => {
-	const  chainId  = await web3.eth.getChainId();
+	// const chainId = await web3.eth.getChainId();
 	const lpTokenDecimals = await getERC20Decimals(web3, lpTokenAddress);
-	const energyFiLocker = new web3.eth.Contract(energyFiLockerAbi as Array<AbiItem>, ENERGYFI_LOCKER_ADDRESS);
-	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
+	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi.abi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
 	const userLock: { '0': string; '1': string; '2': string; '3': string; '4': string; '5': string } =
-		chainId === ETHEREUM_CHAIN_ID ? await energyFiLocker.methods.getUserLockForTokenAtIndex(creatorAddress, lpTokenAddress, bigintToHex(index)).call()
-			:
-			await pancakeLocker.methods.getUserLockForTokenAtIndex(creatorAddress, lpTokenAddress, bigintToHex(index)).call()
+		await pancakeLocker.methods.getUserLockForTokenAtIndex(creatorAddress, lpTokenAddress, bigintToHex(index)).call();
 	return {
 		lockDate: new Date(Number(userLock[0]) * 1000),
 		amount: new BigNumber(userLock[1]).div(new BigNumber(10).pow(lpTokenDecimals)),
@@ -48,18 +43,10 @@ export const withdraw = async (
 	lockId: string,
 	amount: BigNumber
 ): Promise<void> => {
-	const  chainId  = await web3.eth.getChainId();
 	const lpTokenDecimals = await getERC20Decimals(web3, lpTokenAddress);
-	const energyFiLocker = new web3.eth.Contract(energyFiLockerAbi as Array<AbiItem>, ENERGYFI_LOCKER_ADDRESS);
-	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
+	const pancakeLocker = new web3.eth.Contract(pancakeLockerAbi.abi as Array<AbiItem>, PANCAKE_LOCKER_ADDRESS);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-	chainId === ETHEREUM_CHAIN_ID
-		?
-		await energyFiLocker.methods
-			.withdraw(lpTokenAddress, bigintToHex(index), lockId, bigNumberToUint256(amount, lpTokenDecimals))
-			.send({ from: walletAddress }) :
-		await pancakeLocker.methods
-			.withdraw(lpTokenAddress, bigintToHex(index), lockId, bigNumberToUint256(amount, lpTokenDecimals))
-			.send({ from: walletAddress });
+	await pancakeLocker.methods
+				.withdraw(lpTokenAddress, bigintToHex(index), lockId, bigNumberToUint256(amount, lpTokenDecimals))
+				.send({ from: walletAddress });
 };

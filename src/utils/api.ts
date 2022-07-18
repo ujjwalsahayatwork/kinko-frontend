@@ -1,23 +1,19 @@
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
-import { BACKEND_URL_MOONBEAM, BACKEND_URL_BSC, BSC_CHAIN_ID } from 'constants/env';
+import { BACKEND_URL_BSC, ETHEREUM_CHAIN_ID } from 'constants/env';
 import { IIlo, IResponseIlo } from 'types';
 import { getTimeline } from 'utils/utils';
 import Web3 from 'web3';
 
-let instance = axios.create({ baseURL: BACKEND_URL_MOONBEAM });
+let instance = axios.create({ baseURL: BACKEND_URL_BSC });
 
 const createInstance = async () => {
-	const web3 = new Web3(Web3.givenProvider)
-	const chainId = await web3.eth.getChainId()
-	if (chainId !== BSC_CHAIN_ID) {
-
-		instance = axios.create({ baseURL: BACKEND_URL_MOONBEAM });
-	} else {
+	const web3 = new Web3(Web3.givenProvider);
+	const chainId = await web3.eth.getChainId();
+	if (chainId === ETHEREUM_CHAIN_ID) {
 		instance = axios.create({ baseURL: BACKEND_URL_BSC });
-
 	}
-}
+};
 
 export const createIlo = async (params: {
 	iloName: string;
@@ -33,7 +29,6 @@ export const createIlo = async (params: {
 	whitepaperURL: string;
 	description: string;
 }): Promise<void> => {
-
 	const {
 		iloName,
 		launchpadAddress,
@@ -48,7 +43,7 @@ export const createIlo = async (params: {
 		whitepaperURL,
 		description,
 	} = params;
-	createInstance()
+	createInstance();
 	await instance.post('/api/v1/create_ilo', {
 		iloName,
 		launchpadAddress,
@@ -66,7 +61,6 @@ export const createIlo = async (params: {
 };
 
 const castIlo = (ilo: IResponseIlo): IIlo => {
-
 	const {
 		iloName,
 		creatorAddress,
@@ -103,7 +97,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		kinkoTokenFeePercent,
 		saleTokenTotalSupply,
 		listingRatePercent,
-		isGlmr,
+		isBnb,
 		totalTokensSold,
 		lpGenerationTimestamp,
 		addLiquidityTransactionHash,
@@ -152,7 +146,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		kinkoTokenFeePercent,
 		saleTokenTotalSupply: new BigNumber(saleTokenTotalSupply),
 		listingRatePercent,
-		isGlmr,
+		isBnb,
 		totalTokensSold: new BigNumber(totalTokensSold),
 		lpGenerationTimestamp: BigInt(lpGenerationTimestamp),
 		addLiquidityTransactionHash,
@@ -197,4 +191,19 @@ export const isSaleTokenAvailable = (saleTokenAddress: string): Promise<boolean>
 
 export const addLiquidityTransactionHash = (transactionHash: string): Promise<void> =>
 	instance.post('/api/v1/add_liquidity_transaction', { transactionHash });
-createInstance()
+createInstance();
+
+export const createReferral = async (params: {
+	launchpadAddress: string;
+	referralAddress: string;
+	referralSign: string;
+}): Promise<any> => {
+	const { launchpadAddress, referralAddress, referralSign } = params;
+	createInstance();
+	const res = await instance.post('/api/v1/create-referral', {
+		launchpadAddress,
+		referralAddress,
+		referralSign,
+	});
+	return res;
+};
