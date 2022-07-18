@@ -499,33 +499,33 @@ export const IloView: FC<IIloViewProps> = ({
 	const { account, library } = useWeb3React();
 	const web3 = new Web3(library);
 
+	// const handleReferSign = async () => {
+	// 	if (library && account) {
+	// 		try {
+	// 			updateShowLoadingModal(true);
+	// 			const e: any = await getEthMessageHash(web3, account, data.launchpadAddress, new BigNumber('1000'));
+	// 			const response = await createReferSignature(web3, account, e.ethmessageHash);
+	// 			console.log('response::-------- ', response);
+	// 			return response;
+	// 		} finally {
+	// 			updateShowLoadingModal(false);
+	// 		}
+	// 	}
+	// };
+	// console.log('data.launchpadAddress', data.launchpadAddress);
 	const handleReferSign = async () => {
 		if (library && account) {
 			try {
 				updateShowLoadingModal(true);
-				const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
-				const response = await createReferSignature(web3, account,e.ethmessageHash);
-				console.log('response::-------- ', response);
-				return response;
+				const e: any = await getEthMessageHash(web3, account, data.launchpadAddress, new BigNumber('1000'));
+				const signature = await createReferSignature(web3, account, e.ethmessageHash);
+				console.log('signature', signature);
+				return signature;
 			} finally {
 				updateShowLoadingModal(false);
 			}
 		}
 	};
-
-	// const handleReferSign = async () => {
-    //     if (library && account) {
-    //         try {
-    //             updateShowLoadingModal(true);
-    //              const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
-    //             const signature = await createRefferSignature(web3, account,e.ethmessageHash );
-    //             console.log('signature', signature);
-    //             return signature;
-    //         } finally {
-    //             updateShowLoadingModal(false);
-    //         }
-    //     }
-    // };
 
 	const handleSubmit = async () => {
 		const Sign = await handleReferSign();
