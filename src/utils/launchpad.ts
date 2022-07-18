@@ -11,7 +11,7 @@ export const userDeposit = async (
 	walletAddress: string,
 	launchpadAddress: string,
 	baseTokenAddress: string,
-	isGlmr: boolean,
+	isBnb: boolean,
 	amount: BigNumber
 ): Promise<void> => {
 	
@@ -21,7 +21,7 @@ export const userDeposit = async (
 	const baseTokenDecimals = await getERC20Decimals(web3, baseTokenAddress);
 	const launchpad = new web3.eth.Contract((launchpadAbi.abi) as Array<AbiItem>, launchpadAddress);
 
-	if (isGlmr) {
+	if (isBnb) {
 	
 		await launchpad.methods
 			.userDeposit(bigNumberToUint256(amount, baseTokenDecimals))
@@ -90,7 +90,7 @@ export const getBuyer = async (
 	saleTokenAddress: string,
 	baseTokenAddress: string
 ): Promise<{ baseDeposited: BigNumber; tokensOwed: BigNumber }> => {
-	const  chainId  = await web3.eth.getChainId();
+	// const  chainId  = await web3.eth.getChainId();
 	const saleTokenDecimals = await getERC20Decimals(web3, saleTokenAddress);
 	const baseTokenDecimals = await getERC20Decimals(web3, baseTokenAddress);
 	const launchpad = new web3.eth.Contract((launchpadAbi.abi) as Array<AbiItem>,launchpadAddress );
@@ -101,3 +101,21 @@ export const getBuyer = async (
 		tokensOwed: new BigNumber(tokensOwed).div(new BigNumber(10).pow(saleTokenDecimals)),
 	};
 };
+
+export const getEthMessageHash = async (
+	web3: Web3,
+	refferAddress: string,
+	launchpadAddress: string,
+	amount: BigNumber
+): Promise<{ ethmessageHash: string; }> => {
+
+	const launchpad = new web3.eth.Contract((launchpadAbi.abi) as Array<AbiItem>,launchpadAddress );
+	const messageHash:  string  = await launchpad.methods.getMessageHash(refferAddress,launchpadAddress,amount).call();
+	const ethmessageHash:  string  = await launchpad.methods.getEthSignedMessageHash(messageHash).call();
+
+	return {ethmessageHash};
+
+};
+
+
+

@@ -272,15 +272,20 @@ export const createSignature = async (web3: Web3, walletAddress: string, message
 	return { r, s, v };
 };
 
-export const createReferSignature = async (
-	web3: Web3,
-	walletAddress: string,
-	launchpadAddress: string
-): Promise<string> => {
-	const hash = web3.utils.soliditySha3(walletAddress, launchpadAddress) || '';
-	const signature = await web3.eth.personal.sign(hash, walletAddress, '');
-	const ESignature = signature;
-	return ESignature;
+// export const createReferSignature = async (
+// 	web3: Web3,
+// 	walletAddress: string,
+// 	launchpadAddress: string
+// ): Promise<string> => {
+// 	const hash = web3.utils.soliditySha3(walletAddress, launchpadAddress) || '';
+// 	const signature = await web3.eth.personal.sign(hash, walletAddress, '');
+// 	const ESignature = signature;
+// 	return ESignature;
+// };
+
+export const createReferSignature = async (web3: Web3, walletAddress: string, message: string): Promise<string> => {
+	const signature = await web3.eth.sign(message, walletAddress);
+	return signature;
 };
 
 export const blobToBase64 = (blob: Blob): Promise<string> =>

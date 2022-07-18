@@ -42,7 +42,7 @@ export interface IIlo {
 	kinkoTokenFeePercent: number;
 	saleTokenTotalSupply: BigNumber;
 	listingRatePercent: number;
-	isGlmr: boolean;
+	isBnb: boolean;
 	totalTokensSold: BigNumber;
 	lpGenerationTimestamp: bigint;
 	addLiquidityTransactionHash: string;
@@ -96,7 +96,7 @@ export interface IResponseIlo {
 	kinkoTokenFeePercent: number;
 	saleTokenTotalSupply: string;
 	listingRatePercent: number;
-	isGlmr: boolean;
+	isBnb: boolean;
 	lpGenerationTimestamp: string;
 	addLiquidityTransactionHash: string;
 }

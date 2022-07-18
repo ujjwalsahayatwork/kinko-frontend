@@ -333,7 +333,7 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 							<Spacing vertical="xl" mobile="m" />
 							<InfoCard type="issue">
 								<Text fontSize="m">
-									You do not have enough GLMR in your wallet to perform this transaction. 1.5 GLMR required.
+									You do not have enough BNB in your wallet to perform this transaction. 1.5 BNB required.
 								</Text>
 							</InfoCard>
 						</>

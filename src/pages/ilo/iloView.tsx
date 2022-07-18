@@ -28,6 +28,7 @@ import { useWeb3React } from '@web3-react/core';
 import { updateShowLoadingModal } from 'store/utils/actions';
 import { createReferSignature, createSignature } from 'utils/utils';
 import { BaseModal } from 'components/baseModal/baseModal';
+import { getEthMessageHash } from 'utils/launchpad';
 
 const StyledContainer = styled.div`
 	width: 100%;
@@ -347,7 +348,7 @@ interface IIloViewProps {
 	earlyAccessTokenBalance: BigNumber;
 	showSafetyAlert: boolean;
 	isConnected: boolean;
-	hasEarlyAccess: boolean;
+	// hasEarlyAccess: boolean;
 	canClaimTokens: boolean;
 	canWithdrawLpTokens: boolean;
 	onHideSafetyAlert: () => void;
@@ -364,7 +365,7 @@ export const IloView: FC<IIloViewProps> = ({
 	earlyAccessTokenBalance,
 	showSafetyAlert,
 	isConnected,
-	hasEarlyAccess,
+	// hasEarlyAccess,
 	canClaimTokens,
 	canWithdrawLpTokens,
 	onHideSafetyAlert,
@@ -410,6 +411,7 @@ export const IloView: FC<IIloViewProps> = ({
 	const { isDesktop, isMobile } = useDevice();
 	const [elementId] = useState(uniqueId('IloView-Col-'));
 	const [elementWidth, setElementWidth] = useState(0);
+	const [isRefer, setIsRefer] = useState(false);
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -497,11 +499,12 @@ export const IloView: FC<IIloViewProps> = ({
 	const { account, library } = useWeb3React();
 	const web3 = new Web3(library);
 
-	const handleSign = async () => {
+	const handleReferSign = async () => {
 		if (library && account) {
 			try {
 				updateShowLoadingModal(true);
-				const response = await createReferSignature(web3, account, data?.launchpadAddress);
+				const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
+				const response = await createReferSignature(web3, account,e.ethmessageHash);
 				console.log('response::-------- ', response);
 				return response;
 			} finally {
@@ -510,12 +513,25 @@ export const IloView: FC<IIloViewProps> = ({
 		}
 	};
 
-	const [isRefer, setIsRefer] = useState(false);
+	// const handleReferSign = async () => {
+    //     if (library && account) {
+    //         try {
+    //             updateShowLoadingModal(true);
+    //              const e :any    =  await getEthMessageHash(web3,account,data.launchpadAddress,new BigNumber('1000')) ;
+    //             const signature = await createRefferSignature(web3, account,e.ethmessageHash );
+    //             console.log('signature', signature);
+    //             return signature;
+    //         } finally {
+    //             updateShowLoadingModal(false);
+    //         }
+    //     }
+    // };
+
 	const handleSubmit = async () => {
-		const Sign = await handleSign();
+		const Sign = await handleReferSign();
 		const response = await createReferral({
-			referralAddress: `${account}`,
 			launchpadAddress: `${data.launchpadAddress}`,
+			referralAddress: `${account}`,
 			referralSign: `${Sign}`,
 		});
 		if (response.status === 200) {
@@ -734,14 +750,14 @@ export const IloView: FC<IIloViewProps> = ({
 													</Text>
 													<Text fontSize="s">{startBlockDate.toLocaleString()}</Text>
 												</Col>
-											) : status === 'round1' ? (
-												<Col>
-													<Text fontSize="m" fontWeight="bold">
-														Round 1 ends in {moment(round1EndDate).diff(moment(), 'days')} days
-													</Text>
-													<Text fontSize="s">{round1EndDate.toLocaleString()}</Text>
-												</Col>
-											) : status === 'round2' ? (
+											) : // ) : status === 'round1' ? (
+											// 	<Col>
+											// 		<Text fontSize="m" fontWeight="bold">
+											// 			Round 1 ends in {moment(round1EndDate).diff(moment(), 'days')} days
+											// 		</Text>
+											// 		<Text fontSize="s">{round1EndDate.toLocaleString()}</Text>
+											// 	</Col>
+											status === 'round2' || status === 'round1' ? (
 												<Col>
 													<Text fontSize="s" fontWeight="bold">
 														Round 2 ends in {moment(endBlockDate).diff(moment(), 'days')} days
@@ -829,7 +845,7 @@ export const IloView: FC<IIloViewProps> = ({
 									<ConnectButton
 										isConnected={isConnected}
 										iloStatus={status}
-										hasEarlyAccess={hasEarlyAccess}
+										// hasEarlyAccess={hasEarlyAccess}
 										canClaimTokens={canClaimTokens}
 										canWithdrawLpTokens={canWithdrawLpTokens}
 										onConnect={onConnect}
@@ -865,7 +881,7 @@ export const IloView: FC<IIloViewProps> = ({
 												<Row justify="space-between" maxWidth>
 													<Col>
 														<Text fontSize="m" fontWeight="bold">
-															EFT
+															No Early Access Token
 														</Text>
 														<Text fontSize="s" mobileFontSize="xxs">
 															Pancakeswap
@@ -873,10 +889,10 @@ export const IloView: FC<IIloViewProps> = ({
 													</Col>
 													<Col align="flex-end">
 														<Text fontSize="m" fontWeight="bold">
-															{earlyAccessTokenAmount.toFixed(3)} EFT
+															{/* {earlyAccessTokenAmount.toFixed(3)} Null */}
 														</Text>
 														<Text fontSize="s" mobileFontSize="xxs">
-															Your balance: {earlyAccessTokenBalance.toFixed(3)}
+															{/* Your balance: {earlyAccessTokenBalance.toFixed(3)} */}
 														</Text>
 													</Col>
 												</Row>
