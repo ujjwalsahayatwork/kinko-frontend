@@ -191,9 +191,9 @@ class CreateIloSummary extends Component<ICreateIloSummaryProps, ICreateIloSumma
 		const { saleTokenTotalRequired, showDEVIssue } = this.state;
 		if (!showDEVIssue && saleTokenTotalRequired.gt(0)) {
 			this.props.updateSaleTokenTotalRequired(saleTokenTotalRequired);
-			// 		this.props.navigate('/createIloSocials');
+					this.props.navigate('/createIloSocials');
 		}
-		this.props.navigate('/createIloSocials');
+		// this.props.navigate('/createIloSocials');
 	};
 
 	render() {

@@ -8,11 +8,11 @@ import { IColor } from 'components/types';
 import { getColor } from 'components/utils';
 
 const StyledProgress = styled.progress<{ color: IColor; backgroundColor: IColor }>`
-	/* display: flex;
-	height: 26px;
+	display: flex;
+	height: 10px;
 	background-color: ${({ theme, backgroundColor }) => getColor(theme, backgroundColor)};
 	width: 100%;
-	justify-content:center; */
+	justify-content:center;
 
 	// Firefox
 	::-moz-progress-bar {

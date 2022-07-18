@@ -5,8 +5,7 @@ import trustWallet from 'assets/images/wallets/trustwallet.png';
 import walletConnect from 'assets/images/wallets/walletconnect.svg';
 import { IDropDownOption } from 'components/dropDown/dropDown';
 import { IEthereumConnector } from 'components/types';
-import { BSC_CHAIN_ID, ETHEREUM_CHAIN_ID, ETHEREUM_RPC_URL } from 'constants/env';
-import { chain } from 'lodash';
+import { ETHEREUM_CHAIN_ID, ETHEREUM_RPC_URL } from 'constants/env';
 import { IBaseToken } from 'types';
 import { createBaseTokenDropDownOption } from 'utils/utils';
 
@@ -25,14 +24,9 @@ export const ethereumConnectors: Array<IEthereumConnector> = [
 		icon: walletConnect,
 		getConnector: () =>
 			new WalletConnectConnector({
-				supportedChainIds: [ETHEREUM_CHAIN_ID,BSC_CHAIN_ID],
+				supportedChainIds: [ETHEREUM_CHAIN_ID],
 				chainId: ETHEREUM_CHAIN_ID,
-				rpc:
-					ETHEREUM_CHAIN_ID === 1287
-						? { 1287: ETHEREUM_RPC_URL }
-						: BSC_CHAIN_ID === 56
-						? { 56: ETHEREUM_RPC_URL }
-						: undefined,
+				rpc: ETHEREUM_CHAIN_ID === 97 ? { 97: ETHEREUM_RPC_URL } : undefined,
 			}),
 		isAuthorized: async () => Promise.resolve(false),
 	},
@@ -47,22 +41,11 @@ export const ethereumConnectors: Array<IEthereumConnector> = [
 	},
 ];
 
-export const baseTokenOptions: Array<IDropDownOption<IBaseToken>> = [ 
-
-	createBaseTokenDropDownOption('dev'),
+export const baseTokenOptions: Array<IDropDownOption<IBaseToken>> = [
+	createBaseTokenDropDownOption('bnb'),
 	createBaseTokenDropDownOption('dai'),
-	// createBaseTokenDropDownOption('wbtc'),
 	createBaseTokenDropDownOption('usdc'),
 ];
-
-export const bscBaseTokenOptions: Array<IDropDownOption<IBaseToken>> = [ 
-
-	createBaseTokenDropDownOption('bnb'),
-	createBaseTokenDropDownOption('bscdai'),
-	// createBaseTokenDropDownOption('bscwbtc'),
-	createBaseTokenDropDownOption('bscusdc'),
-];	
-
 
 export const minLiquidityRatePercent = 25;
 

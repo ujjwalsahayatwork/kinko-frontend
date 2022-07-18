@@ -92,7 +92,7 @@ interface IInvestViewProps {
 	saleTokenAmount: BigNumber;
 	saleTokenSymbol: string;
 	selectedPercentage: IPercentage | undefined;
-	isGlmr: boolean;
+	isBnb: boolean;
 	accepted: boolean;
 	approved: boolean;
 	onChangeInvestAmount: (investAmount: string) => void;
@@ -111,7 +111,7 @@ export const InvestView: FC<IInvestViewProps> = ({
 	saleTokenAmount,
 	saleTokenSymbol,
 	selectedPercentage,
-	isGlmr,
+	isBnb,
 	accepted,
 	approved,
 	onChangeInvestAmount,
@@ -199,13 +199,13 @@ export const InvestView: FC<IInvestViewProps> = ({
 					<Spacing vertical="xl" mobile="m" />
 					<Col mobileDirection="column-reverse" align={isDesktop ? 'flex-end' : undefined}>
 						<Row justify={isDesktop ? 'flex-end' : undefined} align="center" mobileDirection="column">
-							{!isGlmr && (
+							{!isBnb && (
 								<>
 									<NextButton label="Approve" disabled={!accepted || approved} onClick={onApprove} />
 									<Spacing horizontal="m" vertical="s" />
 								</>
 							)}
-							<NextButton label="Purchase" disabled={!accepted || (!isGlmr && !approved)} onClick={onSubmit} />
+							<NextButton label="Purchase" disabled={!accepted || (!isBnb && !approved)} onClick={onSubmit} />
 						</Row>
 						<Spacing vertical="m" mobile="s" />
 						<Text fontSize="s" mobileFontSize="xs" color="primary">

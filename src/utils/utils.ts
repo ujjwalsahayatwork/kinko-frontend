@@ -1,32 +1,18 @@
-
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import {
 	DAI_ADDRESS,
 	DAI_DECIMALS,
 	LAUNCHPAD_GENERATOR_ADDRESS,
-	BSC_LAUNCHPAD_GENERATOR_ADDRESS,
 	USDC_ADDRESS,
 	USDC_DECIMALS,
-	WDEV_ADDRESS,
-	WDEV_DECIMALS,
 	WBTC_ADDRESS,
 	WBTC_DECIMALS,
 	WBNB_ADDRESS,
-	BSC_DAI_ADDRESS,
-	BSC_USDC_ADDRESS,
-	BSC_WBTC_ADDRESS,
-	BSC_USDC_DECIMALS,
-	BSC_WBTC_DECIMALS,
-	BSC_DAI_DECIMALS,
 	WBNB_DECIMALS,
-	ETHEREUM_CHAIN_ID,
-
-
 } from 'constants/env';
-import erc20Abi from 'constants/erc20Abi.json';
-import launchpadGeneratorAbi from 'constants/launchpadGeneratorAbi.json';
-import bscLaunchpadGeneratorAbi from 'constants/bscLaunchpadGeneratorAbi.json';
+import erc20Abi from 'constants/abi/ERC20.json';
+import launchpadGeneratorAbi from 'constants/abi/LaunchpadGenerator.json';
 
 import { ECSignature, IBaseToken, ITimeline } from 'types';
 import { getDEVCreationFee } from 'utils/launchpadSettings';
@@ -84,31 +70,30 @@ export const getBalance = async (web3: Web3, walletAddress: string): Promise<Big
 };
 
 export const getERC20Decimals = async (web3: Web3, tokenAddress: string): Promise<BigNumber> => {
-
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const decimals: string = await token.methods.decimals().call();
 	return new BigNumber(decimals);
 };
 
 export const getERC20Balance = async (web3: Web3, walletAddress: string, tokenAddress: string): Promise<BigNumber> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const balance: string = await token.methods.balanceOf(walletAddress).call();
 	return new BigNumber(balance).div(new BigNumber(10).pow(await getERC20Decimals(web3, tokenAddress)));
 };
 
 export const getERC20TotalSupply = async (web3: Web3, tokenAddress: string): Promise<BigNumber> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	const totalSupply: string = await token.methods.totalSupply().call();
 	return new BigNumber(totalSupply).div(new BigNumber(10).pow(await getERC20Decimals(web3, tokenAddress)));
 };
 
 export const getERC20Name = async (web3: Web3, tokenAddress: string): Promise<string> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	return token.methods.name().call();
 };
 
 export const getERC20Symbol = async (web3: Web3, tokenAddress: string): Promise<string> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	return token.methods.symbol().call();
 };
 
@@ -119,7 +104,7 @@ export const approveERC20 = async (
 	spenderAddress: string,
 	amount: BigNumber
 ): Promise<void> => {
-	const token = new web3.eth.Contract(erc20Abi as Array<AbiItem>, tokenAddress);
+	const token = new web3.eth.Contract(erc20Abi.abi as Array<AbiItem>, tokenAddress);
 	await token.methods
 		.approve(
 			spenderAddress,
@@ -177,21 +162,19 @@ export const createLaunchpad = async (params: {
 	data.push(numberToHex(startBlockDate.getTime() / 1000)); // 7 startTime
 	data.push(numberToHex(endBlockDate.getTime() / 1000)); // 8 endTime
 
-	const  chainId  = await web3.eth.getChainId();
+	const chainId = await web3.eth.getChainId();
 	const launchpadGenerator = new web3.eth.Contract(
-		(chainId === ETHEREUM_CHAIN_ID?launchpadGeneratorAbi:bscLaunchpadGeneratorAbi) as Array<AbiItem>,
-	   chainId === ETHEREUM_CHAIN_ID?LAUNCHPAD_GENERATOR_ADDRESS:BSC_LAUNCHPAD_GENERATOR_ADDRESS
+		launchpadGeneratorAbi.abi as Array<AbiItem>,
+		LAUNCHPAD_GENERATOR_ADDRESS
 	);
 	const creationFee = await getDEVCreationFee(web3);
 	const transactionHash = await new Promise<string>((resolve, reject) => {
-
 		launchpadGenerator.methods
 			.createLaunchpad(walletAddress, saleTokenAddress, baseTokenAddress, referralAddress, data)
 			.send(
 				{ from: walletAddress, value: bigNumberToUint256(creationFee, new BigNumber(18)) },
 				(error: unknown, transactionHash: string) => {
 					if (error) {
-
 						reject(error);
 					} else {
 						resolve(transactionHash);
@@ -220,8 +203,6 @@ export const createLaunchpad = async (params: {
 export const getBaseTokenSymbol = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return 'GLMR';
 		case 'dai':
 			return 'DAI';
 		case 'wbtc':
@@ -230,20 +211,12 @@ export const getBaseTokenSymbol = (baseToken: IBaseToken): string => {
 			return 'USDC';
 		case 'bnb':
 			return 'BNB';
-		case 'bscdai':
-			return 'DAI';
-		case 'bscwbtc':
-			return 'Wrapped BTC';
-		case 'bscusdc':
-			return 'USDC';
 	}
 };
 
 export const getBaseTokenName = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return 'GLMR';
 		case 'dai':
 			return 'DAI';
 		case 'wbtc':
@@ -252,20 +225,12 @@ export const getBaseTokenName = (baseToken: IBaseToken): string => {
 			return 'USDC';
 		case 'bnb':
 			return 'BNB';
-		case 'bscdai':
-			return 'DAI';
-		case 'bscwbtc':
-			return 'Wrapped BTC';
-		case 'bscusdc':
-			return 'USDC';
 	}
 };
 
 export const getBaseTokenAddress = (baseToken: IBaseToken): string => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return WDEV_ADDRESS;
 		case 'dai':
 			return DAI_ADDRESS;
 		case 'wbtc':
@@ -274,21 +239,12 @@ export const getBaseTokenAddress = (baseToken: IBaseToken): string => {
 			return USDC_ADDRESS;
 		case 'bnb':
 			return WBNB_ADDRESS;
-		case 'bscdai':
-			return BSC_DAI_ADDRESS;
-		case 'bscwbtc':
-			return BSC_WBTC_ADDRESS;
-		case 'bscusdc':
-			return BSC_USDC_ADDRESS;
-	
 	}
 };
 
 export const getBaseTokenDecimals = (baseToken: IBaseToken): number => {
 	// eslint-disable-next-line default-case
 	switch (baseToken) {
-		case 'dev':
-			return WDEV_DECIMALS;
 		case 'dai':
 			return DAI_DECIMALS;
 		case 'wbtc':
@@ -297,13 +253,6 @@ export const getBaseTokenDecimals = (baseToken: IBaseToken): number => {
 			return USDC_DECIMALS;
 		case 'bnb':
 			return WBNB_DECIMALS;
-		case 'bscdai':
-			return BSC_DAI_DECIMALS;
-		case 'bscwbtc':
-			return BSC_WBTC_DECIMALS;
-		case 'bscusdc':
-			return BSC_USDC_DECIMALS;
-
 	}
 };
 
@@ -321,6 +270,22 @@ export const createSignature = async (web3: Web3, walletAddress: string, message
 	const s = signature.slice(2).slice(64, 128);
 	const v = signature.slice(2).slice(128, 130);
 	return { r, s, v };
+};
+
+// export const createReferSignature = async (
+// 	web3: Web3,
+// 	walletAddress: string,
+// 	launchpadAddress: string
+// ): Promise<string> => {
+// 	const hash = web3.utils.soliditySha3(walletAddress, launchpadAddress) || '';
+// 	const signature = await web3.eth.personal.sign(hash, walletAddress, '');
+// 	const ESignature = signature;
+// 	return ESignature;
+// };
+
+export const createReferSignature = async (web3: Web3, walletAddress: string, message: string): Promise<string> => {
+	const signature = await web3.eth.sign(message, walletAddress);
+	return signature;
 };
 
 export const blobToBase64 = (blob: Blob): Promise<string> =>

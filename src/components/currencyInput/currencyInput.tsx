@@ -38,19 +38,25 @@ const CurrencyText = styled(Text)`
 
 const MaxButtonWrapper = styled.div`
 	display: flex;
-	padding-bottom: 0.5rem;
+	justify-content: center;
+	align-items: center;
+	/* padding-bottom: 0.5rem; */
 `;
 
 const MaxButton = styled(BaseButton)`
-	background-color: ${({ theme }) => theme.primaryBrandColor};
+	background-color: ${({ theme }) => theme.secondaryBrandColor};
 	align-items: center;
-	border-radius: 8px;
-	margin-bottom: 1px;
+	border-radius: 5px;
+	/* margin-bottom: 1px; */
+	display: flex;
+	justify-content: center;
 	margin-left: ${({ theme }) => toPx(theme.distanceS)};
-	padding-top: 4px;
+	/* padding-top: 4px;
 	padding-bottom: 4px;
 	padding-left: 6px;
-	padding-right: 6px;
+	padding-right: 6px; */
+	height: 48px;
+	width: 4rem;
 `;
 
 const StyledInputContainer = styled(Row)`

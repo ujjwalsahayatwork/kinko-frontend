@@ -260,7 +260,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			const web3 = new Web3(library);
 			try {
 				this.props.updateShowLoadingModal(true);
-				const { r, s, v } = await createSignature(web3, account, 'energyfi');
+				const { r, s, v } = await createSignature(web3, account, 'kinko');
 				this.setState({ r, s, v, signed: true });
 			} finally {
 				this.props.updateShowLoadingModal(false);
@@ -291,8 +291,8 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			} finally {
 				this.props.updateShowLoadingModal(false);
 			}
-			this.setState({ approved: false });
-			// this.setState({ approved: true });
+			// this.setState({ approved: false });
+			this.setState({ approved: true });
 		}
 	};
 

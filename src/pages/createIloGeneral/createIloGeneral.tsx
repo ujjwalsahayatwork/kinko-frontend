@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import { IRouterProps, IWeb3Props } from 'components/types';
 import { loadState, saveState, withRouter, withWeb3 } from 'components/utils';
-import { baseTokenOptions, bscBaseTokenOptions } from 'constants/constants';
+import { baseTokenOptions } from 'constants/constants';
 import { CreateIloGeneralView } from 'pages/createIloGeneral/createIloGeneralView';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -83,19 +83,16 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				saleTokenName: '',
 				saleTokenSymbol: '',
 				saleTokenTotalSupply: undefined,
-				selectedBaseToken: baseTokenOptions[0].key || bscBaseTokenOptions[0].key,
-				baseToken: baseTokenOptions[0].payload || bscBaseTokenOptions[0].payload,
-				baseTokenName: baseTokenOptions[0].label || bscBaseTokenOptions[0].label,
+				selectedBaseToken: baseTokenOptions[0].key,
+				baseToken: baseTokenOptions[0].payload,
+				baseTokenName: baseTokenOptions[0].label,
 				presaleCreator: props.web3.account ?? '',
 				presaleAmount: '',
 				showWarning: false,
-				counter: 1
-
+				counter: 1,
 			};
 		});
 	}
-
-
 
 	async componentDidMount() {
 		this.updatePresaleCreator();
@@ -117,12 +114,12 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 
 		const web_3 = new Web3(library);
 		const chainId = await web_3.eth.getChainId();
-		const selectedBaseToken = chainId === 1287 ? baseTokenOptions[0].key : bscBaseTokenOptions[0].key
-		const baseTokenName = chainId === 1287 ? baseTokenOptions[0].label : bscBaseTokenOptions[0].label
+		const selectedBaseToken = baseTokenOptions[0].key;
+		const baseTokenName = baseTokenOptions[0].label;
 		this.setState({
 			selectedBaseToken,
 			baseTokenName,
-		})
+		});
 
 		const { saleTokenAddress, presaleAmount } = this.state;
 		if (prevState !== this.state) {
@@ -189,7 +186,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			const { saleTokenAddress, presaleAmount } = this.state;
 			if (presaleAmount) {
 				const amount = new BigNumber(presaleAmount);
-				// if (!amount.isFinite() || amount.isLessThan(10000)) 
+				// if (!amount.isFinite() || amount.isLessThan(10000))
 				if (!amount.isFinite() || amount.isLessThan(10)) {
 					showWarning = true;
 				}
@@ -258,16 +255,12 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 
 	handleChangeBaseToken = (selectedBaseToken: string, baseToken: IBaseToken) => {
 		const option = baseTokenOptions.find((el) => el.key === selectedBaseToken);
-		const bscOption = bscBaseTokenOptions.find((el) => el.key === selectedBaseToken);
 
 		if (option) {
 			this.setState({ baseTokenName: option.label });
-		} else if (bscOption) {
-			this.setState({ baseTokenName: bscOption.label });
 		}
 		this.setState({ selectedBaseToken, baseToken });
 	};
-
 
 	handleChangePresaleAmount = (presaleAmount: string) => {
 		this.setState({ presaleAmount });
@@ -306,15 +299,13 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				this.props.updateTokenFee(tokenFeePercent);
 				this.props.updatePresaleCreator(presaleCreator);
 				this.props.updatePresaleAmount(new BigNumber(presaleAmount));
-				// this.props.navigate('/createIloCaps');
+				this.props.navigate('/createIloCaps');
 			}
-			this.props.navigate('/createIloCaps');
+			// this.props.navigate('/createIloCaps');
 		}
-
 	};
 
 	render() {
-
 		const {
 			iloName,
 			iloNameIssue,
@@ -337,7 +328,6 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				saleTokenName={saleTokenName}
 				saleTokenSymbol={saleTokenSymbol}
 				baseTokenOptions={baseTokenOptions}
-				bscBaseTokenOptions={bscBaseTokenOptions}
 				selectedBaseToken={selectedBaseToken}
 				baseTokenName={baseTokenName}
 				presaleCreator={presaleCreator}

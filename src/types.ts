@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { IIcon } from 'components/icon/icon';
 
-export type IBaseToken = 'dev' | 'dai' | 'wbtc' | 'usdc' | 'bnb'| 'bscdai' | 'bscwbtc' | 'bscusdc';
+export type IBaseToken = 'dai' | 'wbtc' | 'usdc' | 'bnb';
 
 export type IIloStatus = 'upcoming' | 'round1' | 'round2' | 'saleDone' | 'success' | 'failed';
 
@@ -42,7 +42,7 @@ export interface IIlo {
 	kinkoTokenFeePercent: number;
 	saleTokenTotalSupply: BigNumber;
 	listingRatePercent: number;
-	isGlmr: boolean;
+	isBnb: boolean;
 	totalTokensSold: BigNumber;
 	lpGenerationTimestamp: bigint;
 	addLiquidityTransactionHash: string;
@@ -53,6 +53,7 @@ export interface ECSignature {
 	s: string;
 	v: string;
 }
+
 
 export interface IResponseIlo {
 	iloName: string;
@@ -95,7 +96,7 @@ export interface IResponseIlo {
 	kinkoTokenFeePercent: number;
 	saleTokenTotalSupply: string;
 	listingRatePercent: number;
-	isGlmr: boolean;
+	isBnb: boolean;
 	lpGenerationTimestamp: string;
 	addLiquidityTransactionHash: string;
 }

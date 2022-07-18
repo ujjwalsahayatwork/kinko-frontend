@@ -1,7 +1,7 @@
 import { IWeb3Props } from 'components/types';
 import { withWeb3 } from 'components/utils';
 import { ethereumConnectors } from 'constants/constants';
-import { ETHEREUM_CHAIN_ID ,BSC_CHAIN_ID} from 'constants/env';
+import { ETHEREUM_CHAIN_ID } from 'constants/env';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { addError } from 'store/error/actions';
@@ -68,11 +68,7 @@ class EthereumHandler extends Component<IEthereumHandlerProps, IEthereumHandlerS
 		} = this.props;
 		if (chainId && chainId === ETHEREUM_CHAIN_ID) {
 			this.props.updateShowWrongChainModal(false);
-		} else if(chainId && chainId === BSC_CHAIN_ID){
-			this.props.updateShowWrongChainModal(false);
-
-		}
-		else {
+		} else {
 			this.props.updateShowWrongChainModal(true);
 		}
 	};

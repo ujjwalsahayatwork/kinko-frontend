@@ -290,7 +290,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 				earlyAccessTokenBalance={earlyAccessTokenBalance}
 				showSafetyAlert={showSafetyAlert}
 				isConnected={active}
-				hasEarlyAccess={hasEarlyAccess}
+				// hasEarlyAccess={hasEarlyAccess}
 				canClaimTokens={canClaimTokens}
 				canWithdrawLpTokens={canWithdrawLpTokens}
 				onHideSafetyAlert={this.handleHideSafetyAlert}

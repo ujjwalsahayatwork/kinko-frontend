@@ -7,14 +7,16 @@ import { useDevice } from 'components/utils';
 import { IIloStatus } from 'types';
 
 const StyledButton = styled(Button)`
-	background-color: #A466FF;
+	background-color: #f97a48;
+	border: none;
+	width: 100%;
 	height: 3rem;
-`
+`;
 
 interface IButtonsProps {
 	isConnected: boolean;
 	iloStatus: IIloStatus;
-	hasEarlyAccess: boolean;
+	// hasEarlyAccess: boolean;
 	canClaimTokens: boolean;
 	canWithdrawLpTokens: boolean;
 	onConnect: () => void;
@@ -27,7 +29,7 @@ interface IButtonsProps {
 export const Buttons: FC<IButtonsProps> = ({
 	isConnected,
 	iloStatus,
-	hasEarlyAccess,
+	// hasEarlyAccess,
 	canClaimTokens,
 	canWithdrawLpTokens,
 	onConnect,
@@ -42,7 +44,10 @@ export const Buttons: FC<IButtonsProps> = ({
 		if (!isConnected) {
 			return 'Connect wallet';
 		}
-		if ((iloStatus === 'round1' && hasEarlyAccess) || iloStatus === 'round2') {
+		// if ((iloStatus === 'round1' && hasEarlyAccess) || iloStatus === 'round2') {
+		// 	return 'Invest now';
+		// }
+		if (iloStatus === 'round1' || iloStatus === 'round2') {
 			return 'Invest now';
 		}
 		if (iloStatus === 'saleDone') {
@@ -58,13 +63,13 @@ export const Buttons: FC<IButtonsProps> = ({
 			return 'Withdraw LP Tokens';
 		}
 		return '';
-	}, [isConnected, iloStatus, canClaimTokens, hasEarlyAccess, canWithdrawLpTokens]);
+	}, [isConnected, iloStatus, canClaimTokens, canWithdrawLpTokens]); // hasEarlyAccess
 
 	const onClick = useMemo<(() => void) | undefined>(() => {
 		if (!isConnected) {
 			return onConnect;
 		}
-		if ((iloStatus === 'round1' && hasEarlyAccess) || iloStatus === 'round2') {
+		if (iloStatus === 'round1' || iloStatus === 'round2') {
 			return onInvest;
 		}
 		if (iloStatus === 'saleDone') {
@@ -80,7 +85,7 @@ export const Buttons: FC<IButtonsProps> = ({
 	}, [
 		isConnected,
 		iloStatus,
-		hasEarlyAccess,
+		// hasEarlyAccess,
 		canClaimTokens,
 		canWithdrawLpTokens,
 		onConnect,
@@ -94,9 +99,7 @@ export const Buttons: FC<IButtonsProps> = ({
 		return null;
 	}
 	if (isDesktop) {
-		return (
-			<StyledButton label={label} onClick={onClick} />
-		);
+		return <StyledButton label={label} onClick={onClick} />;
 	}
 	return (
 		<Col>

@@ -19,7 +19,7 @@ const StyledDiv = styled.div`
 	justify-content: center;
 	width: 100%;
 	z-index: 10;
-	min-height: calc(430px - 64px);
+	/* min-height: calc(430px - 64px); */
 
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		padding: 0rem 1rem 0rem 1rem;
@@ -233,6 +233,7 @@ export const Footer: FC = () => {
 	return (
 		<>
 			<StyledDiv>
+			<Spacing vertical="m" />
 				<StyledFooterCol maxWidth>
 					<StyledFooterData>
 						<StyledData>

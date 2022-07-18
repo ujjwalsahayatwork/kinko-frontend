@@ -119,9 +119,9 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		let earlyAccessTokenBalance = new BigNumber(0);
 		try {
 			if (library && account && ilo) {
-				const { baseTokenAddress, earlyAccessTokenAddress, isGlmr } = ilo;
+				const { baseTokenAddress, earlyAccessTokenAddress, isBnb } = ilo;
 				const web3 = new Web3(library);
-				baseTokenBalance = isGlmr
+				baseTokenBalance = isBnb
 					? await getBalance(web3, account)
 					: await getERC20Balance(web3, account, baseTokenAddress);
 				if (earlyAccessTokenAddress) {
@@ -237,13 +237,13 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		if (ilo && saleTokenAmount.gt(0)) {
 		// if (ilo) {
 
-			const { launchpadAddress, baseTokenAddress, isGlmr } = ilo;
+			const { launchpadAddress, baseTokenAddress, isBnb } = ilo;
 			const amount = new BigNumber(investAmount);
-			if (accepted && (isGlmr || approved) && library && account && amount.isFinite()) {
+			if (accepted && (isBnb || approved) && library && account && amount.isFinite()) {
 				const web3 = new Web3(library);
 				try {
 					this.props.updateShowLoadingModal(true);
-					await userDeposit(web3, account, launchpadAddress, baseTokenAddress, isGlmr, amount);
+					await userDeposit(web3, account, launchpadAddress, baseTokenAddress, isBnb, amount);
 					await sleep(1000);
 				} finally {
 					this.props.updateShowLoadingModal(false);
@@ -259,7 +259,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		if (!ilo) {
 			return null;
 		}
-		const { iloName, baseTokenSymbol, saleTokenSymbol, isGlmr } = ilo;
+		const { iloName, baseTokenSymbol, saleTokenSymbol, isBnb } = ilo;
 		
 		return (
 			<InvestView
@@ -270,7 +270,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 				saleTokenAmount={saleTokenAmount}
 				saleTokenSymbol={saleTokenSymbol}
 				selectedPercentage={selectedPercentage}
-				isGlmr={isGlmr}
+				isBnb={isBnb}
 				accepted={accepted}
 				approved={approved}
 				onChangeInvestAmount={this.handleChangeInvestAmount}
