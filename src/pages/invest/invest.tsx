@@ -11,7 +11,7 @@ import { IDispatch, IRootState } from 'store/store';
 import { updateShowLoadingModal } from 'store/utils/actions';
 import { IIlo } from 'types';
 import { getIlo } from 'utils/api';
-import { getBuyer, userDeposit } from 'utils/launchpad';
+import { getBuyer, getLaunchpadInformation, userDeposit } from 'utils/launchpad';
 import { approveERC20, getBalance, getERC20Balance, sleep } from 'utils/utils';
 import Web3 from 'web3';
 
@@ -41,6 +41,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		super(props);
 		this.state = loadState<IInvestState>(props.location.key, (state) => {
 			if (state) {
+				
 				const { baseTokenBalance, earlyAccessTokenBalance, saleTokenAmount, maxSpendableBaseToken } = state;
 				
 				return {
@@ -85,6 +86,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		const { investAmount, ilo, baseTokenBalance, maxSpendableBaseToken } = this.state;
 		if (prevState !== this.state) {
 			saveState(location.key, this.state, (state) => {
+				
 				const { baseTokenBalance, earlyAccessTokenBalance, saleTokenAmount, maxSpendableBaseToken } = state;
 				return {
 					...state,
@@ -114,19 +116,27 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		const {
 			web3: { library, account },
 		} = this.props;
-		const { ilo } = this.state;
+ 
+		
+		const { ilo }  = this.state;
 		let baseTokenBalance = new BigNumber(0);
 		let earlyAccessTokenBalance = new BigNumber(0);
+		
+		console.log('ilo',ilo);
 		try {
 			if (library && account && ilo) {
-				const { baseTokenAddress, earlyAccessTokenAddress, isBnb } = ilo;
 				const web3 = new Web3(library);
-				baseTokenBalance = isBnb
-					? await getBalance(web3, account)
-					: await getERC20Balance(web3, account, baseTokenAddress);
-				if (earlyAccessTokenAddress) {
-					earlyAccessTokenBalance = await getERC20Balance(web3, account, earlyAccessTokenAddress);
-				}
+				const launchpadInfo = await getLaunchpadInformation(web3,ilo.launchpadAddress)
+		
+				const { baseTokenAddress, earlyAccessTokenAddress, isBnb } = ilo;
+				console.log("object",launchpadInfo.launchpadinfo.isBnb);
+				
+				baseTokenBalance = launchpadInfo.launchpadinfo.isBNB?
+					await getBalance(web3, account)
+					 : await getERC20Balance(web3, account, baseTokenAddress);
+				// if (earlyAccessTokenAddress) {
+				// 	earlyAccessTokenBalance = await getERC20Balance(web3, account, earlyAccessTokenAddress);
+				// }
 			}
 		} finally {
 			this.setState({ baseTokenBalance, earlyAccessTokenBalance });
@@ -151,7 +161,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 					totalBaseCollected,
 					earlyAccessTokenAmount,
 				} = ilo;
-				if (earlyAccessTokenBalance.gte(earlyAccessTokenAmount)) {
+				// if (earlyAccessTokenBalance.gte(earlyAccessTokenAmount)) {
 					const web3 = new Web3(library);
 					const { baseDeposited } = await getBuyer(web3, account, launchpadAddress, saleTokenAddress, baseTokenAddress);
 					const maxSpend = maxSpendPerBuyer.minus(baseDeposited);
@@ -164,7 +174,7 @@ class Invest extends Component<IInvestProps, IInvestState> {
 						maxSpendableBaseToken = maxTotalSpend;
 					}
 				}
-			}
+			// }
 		} finally {
 			this.setState({ maxSpendableBaseToken });
 		}
@@ -234,10 +244,11 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		console.log('saletoeknAmount',saleTokenAmount.gt(0));
 		
 		
-		if (ilo && saleTokenAmount.gt(0)) {
+		if (ilo && saleTokenAmount) {
 		// if (ilo) {
 
 			const { launchpadAddress, baseTokenAddress, isBnb } = ilo;
+			
 			const amount = new BigNumber(investAmount);
 			if (accepted && (isBnb || approved) && library && account && amount.isFinite()) {
 				const web3 = new Web3(library);
