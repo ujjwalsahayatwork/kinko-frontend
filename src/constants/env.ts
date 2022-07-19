@@ -1,6 +1,7 @@
 type IEnvProperties =
 	| 'TESTING'
 	| 'BACKEND_URL_BSC'
+	| 'FRONTEND_URL'
 	| 'IMAGES_URL'
 	| 'BACKEND_URL_BSC'
 	| 'ETHEREUM_CHAIN_ID'
@@ -43,6 +44,7 @@ const getEnvNumber = (property: IEnvProperties): number => {
 export const TESTING = getEnvNumber('TESTING');
 export const BACKEND_URL_BSC = getEnvString('BACKEND_URL_BSC');
 export const IMAGES_URL = getEnvString('IMAGES_URL');
+export const FRONTEND_URL = getEnvString('FRONTEND_URL');
 
 // moonbeam network
 export const ETHEREUM_CHAIN_ID = getEnvNumber('ETHEREUM_CHAIN_ID');

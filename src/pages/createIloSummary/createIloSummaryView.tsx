@@ -175,7 +175,7 @@ const ButtonsContainer = styled.div`
 
 const StyledCard = styled(Col)`
 	background: #002545;
-	border: 1px solid #4b4b4b;
+	border: 1px solid rgb(16 56 89 / 80%);
 	border-radius: 5px;
 	padding: 1rem;
 	height: 50px;

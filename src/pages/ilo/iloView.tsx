@@ -23,7 +23,7 @@ import { IIlo } from 'types';
 import Web3 from 'web3';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
 import './iloView.scss';
-import { createReferral } from 'utils/api';
+import { createReferral, frontendUlr } from 'utils/api';
 import { useWeb3React } from '@web3-react/core';
 import { updateShowLoadingModal } from 'store/utils/actions';
 import { createReferSignature, createSignature } from 'utils/utils';
@@ -333,6 +333,18 @@ const TimeStatus = styled.div`
 	}
 `;
 
+const StyledReferClose = styled(Row)`
+	gap: 1rem;
+`;
+
+const CloseButton = styled(BaseButton)`
+	background: transparent;
+	display: flex;
+	justify-content: end;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+`;
+
 const LiquidityTextIcon = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -412,6 +424,7 @@ export const IloView: FC<IIloViewProps> = ({
 	const [elementId] = useState(uniqueId('IloView-Col-'));
 	const [elementWidth, setElementWidth] = useState(0);
 	const [isRefer, setIsRefer] = useState(false);
+	const [refer, setRefer] = useState<any>('');
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -535,20 +548,29 @@ export const IloView: FC<IIloViewProps> = ({
 			referralSign: `${Sign}`,
 		});
 		if (response.status === 200) {
+			// eslint-disable-next-line no-unsafe-optional-chaining
+			const referUlr = frontendUlr + response?.data?.link?.frontend;
 			setIsRefer(true);
+			setRefer(referUlr);
 		}
 	};
+
 	return (
 		<StyledContainer>
 			{isRefer ? (
 				<BaseModal onClose={() => undefined}>
 					<Col roundTop roundBottom backgroundColor="primaryBackground" horizontalPadding="m" verticalPadding="m">
-						<button onClick={() => setIsRefer(false)}>close me</button>
-						<Text fontSize="l" fontWeight="bold">
-							Refer your friends
-						</Text>
+						<StyledReferClose justify="space-between" align="center">
+							<Text fontSize="l" fontWeight="bold">
+								Refer your friends
+							</Text>
+							<CloseButton onClick={() => setIsRefer(false)}>
+								<Icon icon="circleXMark" width={26} color="primary" />
+							</CloseButton>
+						</StyledReferClose>
 						<Spacing vertical="m" />
 						<Text fontSize="m">referral link here </Text>
+						<Text fontSize="m">{refer}</Text>
 					</Col>
 				</BaseModal>
 			) : (

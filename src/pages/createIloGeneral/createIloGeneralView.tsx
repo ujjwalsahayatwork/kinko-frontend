@@ -147,6 +147,10 @@ const CatButton = styled(Button)`
 	border: 1px solid #7079b9;
 	border-radius: 40px;
 	padding: 10px 20px;
+	:hover {
+		border: 1px solid #F97A48;
+		background: rgb(249 122 72 / 20%);
+	}
 `;
 
 const FieldsBox = styled(Row)`
@@ -253,9 +257,9 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 						<FieldsBox>
 							{FieldsObj.map((item) => (
 								<div key={item.name}>
-										<CatButton key={item.name} label={item.name} onClick={() => console.log(item.values)} />
-										<Spacing horizontal="s" />
-									</div>
+									<CatButton key={item.name} label={item.name} onClick={() => console.log(item.values)} />
+									<Spacing horizontal="s" />
+								</div>
 							))}
 						</FieldsBox>
 						<Spacing vertical="m" />

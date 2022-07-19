@@ -26,7 +26,7 @@ const StyledContainer = styled(Col)`
 	}
 `;
 
-const Header = styled(Col) <{ width?: number }>`
+const Header = styled(Col)<{ width?: number }>`
 	width: ${({ width }) => (width ? toPx(width) : undefined)};
 `;
 
@@ -257,8 +257,8 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 	const { distanceM } = useTheme();
 	const [elementId] = useState(uniqueId('MainView-Col-'));
 	const [elementWidth, setElementWidth] = useState(0);
-	const [apiData, setApiData] = useState([])
-	const [filterValue, setFilterValue] = useState('')
+	const [apiData, setApiData] = useState([]);
+	const [filterValue, setFilterValue] = useState('');
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -303,32 +303,30 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 	}, [filteredIlos]);
 
 	const handleSearchFilter = () => {
-		console.log('SearchFilter');
+		const searchedResult: any = ilos?.filter((x) =>
+			x.iloName?.toLowerCase()?.includes(filterValue.toLocaleLowerCase())
+		);
+		if (searchedResult) {
+			setApiData(searchedResult);
+		} else setApiData([]);
 	};
 
 	const handleSelect = () => {
 		console.log('Select Me');
 	};
 
-	useEffect(() => {
-		const cardFunc = async () => {
-			const data = await fetch('https://fakestoreapi.com/products')
-			const response = await (data.json())
-			setApiData(response)
-		}
-		cardFunc()
-	}, [])
+	console.log('apiData', apiData);
 
 	const filterData = (e: any) => {
 		const data = e.target?.value;
-		setFilterValue(data)
-	}
+		setFilterValue(data);
+	};
 
 	return (
 		<StyledContainer id={elementId} className={isMobile ? 'center' : undefined}>
 			<Header className="heading_width" width={isMobile ? width : undefined}>
-				<Spacing vertical="l" />
 				<SubHeader>
+					<Spacing vertical="m" />
 					<Hading fontSize="xl">Launchpad</Hading>
 					<CreateIlo onClick={onCreateIlo}>
 						<CreateIloText fontSize="s">Create Ilo</CreateIloText>
@@ -351,19 +349,18 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 								<Option value="4">Ilo 4</Option>
 							</Select>
 						</StyledSelector>
-						<StyledSearchInput
-							placeholder="Type here to Search..."
-							onChange={filterData}
-						/>
+						<StyledSearchInput placeholder="Type here to Search..." onChange={filterData} />
 						<SearchIcon icon="searchIcon" width={22} color="undefined" />
 						<Spacing horizontal="s" mobileOnly />
 					</SearchFilterArea>
 					<SearchBtn label="Search" onClick={handleSearchFilter} />
-					{
-						filterValue && apiData?.filter((item: any) => item?.title?.toLowerCase()?.includes(filterValue?.toLowerCase()))?.map((items: any) => (
-							<div >{JSON.stringify(items?.title)}</div>
-						))
-					}
+					{filterValue &&
+						apiData
+							?.filter((item: any) => item?.title?.toLowerCase()?.includes(filterValue?.toLowerCase()))
+							?.map((items: any) => <div>{JSON.stringify(items?.title)}</div>)}
+					{apiData.map((item: any) => (
+						<div>{item.iloName}</div>
+					))}
 				</StyledSearchBar>
 				<Spacing vertical="l" />
 				<StyledButtonCol>
@@ -401,28 +398,28 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 			<Col align="center" className="space_bottom">
 				{isDesktop
 					? filledIlos.map((outerIlo, outerIndex) => {
-						if (outerIndex % 3 === 0) {
-							return (
-								<Col key={outerIlo ? outerIlo.launchpadAddress : outerIndex}>
-									{outerIndex > 0 && <Spacing vertical="m" />}
-									<Row>
-										{filledIlos.slice(outerIndex, outerIndex + 3).map((innerIlo, innerIndex) => (
-											<Row key={innerIlo ? innerIlo.launchpadAddress : innerIndex}>
-												{innerIlo === undefined ? <div /> : <IloCard data={innerIlo} width={width} />}
-											</Row>
-										))}
-									</Row>
-								</Col>
-							);
-						}
-						return null;
-					})
+							if (outerIndex % 3 === 0) {
+								return (
+									<Col key={outerIlo ? outerIlo.launchpadAddress : outerIndex}>
+										{outerIndex > 0 && <Spacing vertical="m" />}
+										<Row>
+											{filledIlos.slice(outerIndex, outerIndex + 3).map((innerIlo, innerIndex) => (
+												<Row key={innerIlo ? innerIlo.launchpadAddress : innerIndex}>
+													{innerIlo === undefined ? <div /> : <IloCard data={innerIlo} width={width} />}
+												</Row>
+											))}
+										</Row>
+									</Col>
+								);
+							}
+							return null;
+					  })
 					: filteredIlos.map((ilo, index) => (
-						<Col key={ilo.launchpadAddress}>
-							{index > 0 && <Spacing vertical="m" />}
-							<IloCard data={ilo} width={width} />
-						</Col>
-					))}
+							<Col key={ilo.launchpadAddress}>
+								{index > 0 && <Spacing vertical="m" />}
+								<IloCard data={ilo} width={width} />
+							</Col>
+					  ))}
 			</Col>
 		</StyledContainer>
 	);

@@ -1,9 +1,11 @@
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
-import { BACKEND_URL_BSC, ETHEREUM_CHAIN_ID } from 'constants/env';
+import { BACKEND_URL_BSC, ETHEREUM_CHAIN_ID, FRONTEND_URL } from 'constants/env';
 import { IIlo, IResponseIlo } from 'types';
 import { getTimeline } from 'utils/utils';
 import Web3 from 'web3';
+
+export const frontendUlr = FRONTEND_URL;
 
 let instance = axios.create({ baseURL: BACKEND_URL_BSC });
 

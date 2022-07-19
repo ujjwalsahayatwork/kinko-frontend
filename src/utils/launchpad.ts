@@ -15,8 +15,6 @@ export const userDeposit = async (
 	isBnb: boolean,
 	amount: BigNumber
 ): Promise<void> => {
-	
-	// ; // eslint-disable-line no-debugger
 	const  chainId  = await web3.eth.getChainId();
 
 	const baseTokenDecimals = await getERC20Decimals(web3, baseTokenAddress);
