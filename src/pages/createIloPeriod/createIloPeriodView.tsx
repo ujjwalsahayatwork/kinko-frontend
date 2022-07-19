@@ -76,8 +76,6 @@ const LeftDropDown = styled(Row)`
 `;
 
 const StyledInfoCard = styled(InfoCard)`
-	/* background:  #7079B9; */
-	opacity: 0.7;
 	border-radius: 5px;
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		flex: 1;
@@ -214,7 +212,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 						<>
 							<Spacing horizontal="l" vertical="m" />
 							<StyledInfoCard type="info">
-								<Text fontSize="m">
+								<Text fontSize="m" color='primary'>
 									Presale should ideally start 1 week from today to give you time to raise awareness.
 								</Text>
 							</StyledInfoCard>

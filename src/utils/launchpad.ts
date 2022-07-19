@@ -15,8 +15,6 @@ export const userDeposit = async (
 	isBnb: boolean,
 	amount: BigNumber
 ): Promise<void> => {
-	
-	// ; // eslint-disable-line no-debugger
 	const  chainId  = await web3.eth.getChainId();
 
 	const baseTokenDecimals = await getERC20Decimals(web3, baseTokenAddress);
@@ -30,11 +28,13 @@ export const userDeposit = async (
 	} else {
 		// await launchpad.methods.userDeposit(bigNumberToUint256(amount, baseTokenDecimals)).send({ from: walletAddress });
 		await launchpad.methods
-		.userDeposit(bigNumberToUint256(amount, baseTokenDecimals))
+		.userDeposit(bigNumberToUint256(amount, baseTokenDecimals),[],[])
 		.send({ from: walletAddress, value: bigNumberToUint256(amount, baseTokenDecimals) });
 		
 	}
 };
+
+
 
 export const addLiquidity = async (web3: Web3, walletAddress: string, launchpadAddress: string,
 	): Promise<string> => {
@@ -115,6 +115,20 @@ export const getEthMessageHash = async (
 	const ethmessageHash:  string  = await launchpad.methods.getEthSignedMessageHash(messageHash).call();
 
 	return {ethmessageHash};
+
+};
+
+
+export const getLaunchpadInformation = async (
+	web3: Web3,
+	launchpadAddress: string,
+): Promise<{launchpadinfo: any}> => {
+
+	const launchpad = new web3.eth.Contract((launchpadAbi.abi) as Array<AbiItem>,launchpadAddress );
+	const launchpadinfo:  string  = await launchpad.methods.launchpadInfo().call();
+	
+
+	return {launchpadinfo};
 
 };
 
