@@ -43,7 +43,7 @@ const Container = styled.div`
 `;
 
 const OptionContainer = styled(Col)`
-	background-color: #252525;
+	background-color: #161718;
 	z-index: 1000;
 	width: 280px;
 	height:100vh;
@@ -59,12 +59,12 @@ const StyledMenuText = styled(Text)`
 	line-height: 1.25rem;
 	font-weight: 500;
 	&:hover{
-		color: #A466FF;
+		color: #F97A48;
 	}
 `;
 
 const OptionLink = styled(Link) <{ disabled: boolean }>`
-	color: ${({ theme, disabled }) => (disabled ? theme.secondaryColor : theme.primaryColor)};
+	/* color: ${({ theme, disabled }) => (disabled ? theme.secondaryColor : theme.primaryColor)}; */
 	background-color: transparent;
 	padding-top: 5px;
 	padding-bottom: 15px;
@@ -72,10 +72,10 @@ const OptionLink = styled(Link) <{ disabled: boolean }>`
 	padding-right: 10px;
 	border-radius: 8px;
 	:hover {
-		color: ${({ theme }) => theme.onSecondaryBrandColor};
+		/* color: ${({ theme }) => theme.secondaryBrandColor}; */
 		background-color: transparent;
 	}
-	filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : undefined)};
+	/* filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : undefined)}; */
 `;
 
 const StyledConnectButton = styled(ConnectButton)`
@@ -108,7 +108,7 @@ const StyledUl = styled.ul`
 const StyledLi = styled.li`
 	color: white;
 	&:hover{
-		color: #A466FF;
+		color: #F97A48;
 	}
 `;
 const StyledLink = styled(Link)`
@@ -117,7 +117,7 @@ const StyledLink = styled(Link)`
 	display: flex;
 	align-items: center;
 	&:hover{
-		color: #A466FF;
+		color: #F97A48;
 	}
 `;
 

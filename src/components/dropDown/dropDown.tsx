@@ -25,7 +25,7 @@ const DropDownButton = styled(BaseButton)`
 	font-size: 14px;
 	line-height: 18px;
 	color: ${({ theme }) => theme.primaryColor};
-	height: 50Ppx;
+	height: 50px;
 	border-radius: .350rem;
 	border: 1px solid #103859;
 	background-color: rgba(2, 34, 63, 0.8);

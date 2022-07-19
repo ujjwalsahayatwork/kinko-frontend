@@ -55,7 +55,7 @@ const OptionContainer = styled(Col)`
 	border-radius: 5px;
 	width: 100%;
 	padding-top: 1rem;
-	margin-top: 3rem;
+	margin-top: 6rem;
 `;
 const OptionButton = styled(BaseButton)`
 	color: ${({ theme, disabled }) => (disabled ? theme.secondaryColor : theme.primaryColor)};
@@ -64,13 +64,13 @@ const OptionButton = styled(BaseButton)`
 	z-index: 1000;
 	border-radius: 5px;
 	padding: 0 1rem;
-	height: 2.5rem;
-	border: 1px solid #a466ff;
+	height: 3rem;
+	border: 1px solid #F97A48;
 	margin-bottom: 0.75rem;
 	display: flex;
 	align-items: center;
 	:hover {
-		color: #a466ff;
+		color: #F97A48;
 		background-color: transparent;
 	}
 	filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : undefined)};
