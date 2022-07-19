@@ -66,10 +66,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 	async componentDidMount() {
 		const { params } = this.props;
 		if (params.launchpadAddress) {
-			debugger
 			const ilo = await getIlo(params.launchpadAddress);
-
-			console.log('ilo', ilo);
 			this.setState({ ilo });
 		}
 	}

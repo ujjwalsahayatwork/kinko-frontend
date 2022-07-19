@@ -54,7 +54,7 @@ const StyledFooterData = styled.div`
 `;
 const StyledData = styled.div`
 	width: 100%;
-	max-width: 20rem;
+	max-width: 25rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		max-width: 23.5rem;
 	}
@@ -243,8 +243,9 @@ export const Footer: FC = () => {
 								</Link>
 								<Spacing vertical="s" mobile="s" />
 								<StyledDescText>
-									Fundex is designing green and cost-effective Decentralized Finance by providing a complete set of DeFi
-									features on Bsc while accelerating their adoption.
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquet in senectus nec tellus, sit
+									volutpat. Lectus a tellus sagittis, id integer pellentesque nunc enim. Libero fames bibendum eget
+									nisi.
 								</StyledDescText>
 							</LogoWrapper>
 							<StyledCopyrightCol>
@@ -279,7 +280,7 @@ export const Footer: FC = () => {
 			<StyledFooter maxWidth>
 				<StyledFooterText fontSize="s" mobileFontSize="xxs">
 					<StyledDividerFooter />
-					<div style={{ marginRight: '10px', fontSize: '.875rem' }}>© 2022 by Kinko</div>
+					<div style={{ marginRight: '10px', fontSize: '.875rem' }}>© 2022 by Fundex</div>
 					<Spacing horizontal="s" desktopOnly />
 				</StyledFooterText>
 			</StyledFooter>
