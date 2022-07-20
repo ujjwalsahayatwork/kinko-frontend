@@ -70,9 +70,9 @@ const LeftSide = styled(Col)`
 	}
 `;
 
-const RightCol = styled(Col)`
-	flex: 1;
-`;
+// const RightCol = styled(Col)`
+// 	flex: 1;
+// `;
 
 const StyledCardBox = styled.div`
 	display: flex;
@@ -100,18 +100,18 @@ const StyledInfoCard = styled(InfoCard)`
 	background: #7079b9;
 	opacity: 0.7;
 `;
-const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-`;
+// const ButtonContainer = styled.div`
+// 	display: flex;
+// 	justify-content: space-between;
+// 	width: 100%;
+// `;
 
 const NextButton = styled(Button)`
 	box-sizing: border-box;
 	width: 172px;
 	height: 47px;
-	background: #f97a48;
-	border: 1px solid #f97a48;
+	background: #ed4c3a;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	text-align: center;
 	padding-left: 15px;
@@ -121,7 +121,7 @@ const NextButton = styled(Button)`
 `;
 
 const BackButton = styled(Button)`
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	width: 172px;
 	height: 47px;

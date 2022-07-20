@@ -162,8 +162,8 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 	display: flex;
 	/* height: 2px; */
 	width: 100%;
-	/* background-color: #f97a48; */
-	border: 1px dashed #f97a48;
+	/* background-color: #ed4c3a; */
+	border: 1px dashed #ed4c3a;
 	align-items: center;
 	justify-content: center;
 	border-top-left-radius: ${({ roundLeft }) => (roundLeft ? '0px' : '0px')};
@@ -180,12 +180,12 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		height: 35px;
 		width: 35px;
 		background-image: url(${check}) !important;
-		background: #f97a48;
+		background: #ed4c3a;
 		border-radius: 50px;
 		background-position: center;
 		background-size: 50%;
 		background-repeat: no-repeat;
-		border: 2px solid #f97a48;
+		border: 2px solid #ed4c3a;
 		left: 0px;
 		margin-left: -2.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
@@ -210,12 +210,12 @@ const HorizontalLine = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		height: 35px;
 		width: 35px;
 		background-image: url(${check}) !important;
-		background: #f97a48;
+		background: #ed4c3a;
 		border-radius: 50px;
 		background-position: center;
 		background-size: 50%;
 		background-repeat: no-repeat;
-		border: 2px solid #f97a48;
+		border: 2px solid #ed4c3a;
 		margin-left: -0.3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 25px;

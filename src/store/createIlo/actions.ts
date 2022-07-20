@@ -115,3 +115,13 @@ export const updateDescription = (description: string): ICreateIloAction => ({
 	type: 'updateDescription',
 	payload: { description },
 });
+
+export const updateReferralResponse = (data: unknown): ICreateIloAction => ({
+	type: 'updateReferralResponse',
+	payload: { data },
+});
+
+export const updateIloCategory = (category: string): ICreateIloAction => ({
+	type: 'updateIloCategory',
+	payload: { category },
+});

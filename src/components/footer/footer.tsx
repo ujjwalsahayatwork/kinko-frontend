@@ -2,9 +2,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { Col } from 'components/col/col';
-import { Icon } from 'components/icon/icon';
 import { Link } from 'components/link/link';
-import { Row } from 'components/row/row';
 import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { toPx } from 'components/utils';
@@ -71,7 +69,7 @@ const LogoWrapper = styled.div<{ width?: number }>`
 const Logo = styled.img`
 	width: 50px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		width: 6.8rem;
+		width: 3.8rem;
 	}
 	@media (min-width: 768px) {
 		width: 50px;
@@ -167,18 +165,18 @@ const SubscribeArea = styled.div`
 	width: 100%;
 `;
 
-const StyledSubTextArea = styled.div`
-	display: grid;
-	grid-template-columns: 40% 60%;
-	border-top: 2px solid white;
-	border-bottom: 2px solid white;
-	padding: 2rem 0;
-	width: 100%;
-	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		grid-template-columns: 1fr;
-		padding: 1.5rem 0;
-	}
-`;
+// const StyledSubTextArea = styled.div`
+// 	display: grid;
+// 	grid-template-columns: 40% 60%;
+// 	border-top: 2px solid white;
+// 	border-bottom: 2px solid white;
+// 	padding: 2rem 0;
+// 	width: 100%;
+// 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+// 		grid-template-columns: 1fr;
+// 		padding: 1.5rem 0;
+// 	}
+// `;
 
 const StyledSubscribeButton = styled.button`
 	height: 40px;
@@ -187,7 +185,7 @@ const StyledSubscribeButton = styled.button`
 	font-size: 1rem;
 	border-radius: 0.35rem;
 	margin-top: 0.5rem;
-	background: #f97a48;
+	background: #ed4c3a;
 	color: white;
 	font-family: 400;
 	font-family: inherit;

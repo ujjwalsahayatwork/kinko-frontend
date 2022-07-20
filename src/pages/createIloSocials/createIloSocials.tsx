@@ -37,6 +37,7 @@ interface ICreateIloSocialsProps extends IRouterProps, IWeb3Props {
 	isCloseUpdateShowConnectModal: boolean;
 	showConnectModal: boolean;
 	iloName: string;
+	category: string;
 	saleTokenAddress: string;
 	baseToken: IBaseToken | undefined;
 	presaleAmount: BigNumber;
@@ -120,7 +121,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			location,
 			web3: { active },
 			showConnectModal,
-			isCloseUpdateShowConnectModal
+			isCloseUpdateShowConnectModal,
 		} = this.props;
 		if (prevState !== this.state) {
 			saveState(location.key, this.state);
@@ -269,7 +270,6 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 	};
 
 	handleApprove = async () => {
-		
 		const {
 			web3: { library, account },
 			saleTokenAddress,
@@ -277,12 +277,8 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			saleTokenTotalRequired,
 		} = this.props;
 		const { signed } = this.state;
-		console.log("webbbbb3",await this.checkFields(),
-		"1" ,library ,
-		"2", account , 
-		"3", baseToken ,
-		 "4", signed)
-		
+		console.log('webbbbb3', await this.checkFields(), '1', library, '2', account, '3', baseToken, '4', signed);
+
 		if ((await this.checkFields()) && library && account && baseToken && signed) {
 			const web3 = new Web3(library);
 			try {
@@ -311,6 +307,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			endBlockDate,
 			maxSpendPerBuyer,
 			liquidityLockPeriod,
+			category,
 		} = this.props;
 		const {
 			logoURL,
@@ -326,6 +323,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			signed,
 			approved,
 		} = this.state;
+		console.log('category', category);
 		if ((await this.checkFields()) && library && account && baseToken && signed && approved) {
 			const web3 = new Web3(library);
 			const baseTokenAddress = getBaseTokenAddress(baseToken);
@@ -362,6 +360,7 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 					websiteURL,
 					whitepaperURL,
 					description,
+					category,
 				});
 				this.props.navigate(`/ilo/${launchpadAddress}`);
 			} finally {
@@ -426,6 +425,7 @@ const mapStateToProps = ({ ethereum, createIlo }: IRootState) => ({
 	isCloseUpdateShowConnectModal: ethereum.isCloseUpdateShowConnectModal,
 	showConnectModal: ethereum.showConnectModal,
 	iloName: createIlo.iloName,
+	category: createIlo.IloCategory,
 	saleTokenAddress: createIlo.saleTokenAddress,
 	baseToken: createIlo.baseToken,
 	presaleAmount: createIlo.presaleAmount,

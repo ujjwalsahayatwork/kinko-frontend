@@ -1,8 +1,6 @@
 import { Col } from 'components/col/col';
-import { Row } from 'components/row/row';
-import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
-import { toPx, useDevice } from 'components/utils';
+import { toPx } from 'components/utils';
 import uniqueId from 'lodash/uniqueId';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -14,7 +12,6 @@ type IStepType = 'general' | 'caps' | 'prediction' | 'period' | 'summary' | 'soc
 const steps: Array<{ type: IStepType; title: string }> = [
 	{ type: 'general', title: 'General' },
 	{ type: 'caps', title: 'Caps' },
-	// { type: 'prediction', title: 'Prediction' },
 	{ type: 'period', title: 'Period' },
 	{ type: 'summary', title: 'Summary' },
 	{ type: 'socials', title: 'Socials' },
@@ -144,7 +141,7 @@ const StyledHorizontalLine = styled.div`
 const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 	display: flex;
 	left: -2px;
-	border-left: 2px dashed #f97a48;
+	border-left: 2px dashed #ed4c3a;
 	top: 0;
 	align-items: center;
 	justify-content: center;
@@ -162,12 +159,12 @@ const HorizontalBar = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		height: 35px;
 		width: 35px;
 		background-image: url(${check}) !important;
-		background: #f97a48;
+		background: #ed4c3a;
 		border-radius: 50px;
 		background-position: center;
 		background-size: 50%;
 		background-repeat: no-repeat;
-		border: 2px solid #f97a48;
+		border: 2px solid #ed4c3a;
 		left: -21px;
 		top: 0px;
 		margin-top: -3rem;
@@ -192,12 +189,12 @@ const HorizontalLine = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		height: 35px;
 		width: 35px;
 		background-image: url(${check}) !important;
-		background: #f97a48;
+		background: #ed4c3a;
 		border-radius: 50px;
 		background-position: center;
 		background-size: 50%;
 		background-repeat: no-repeat;
-		border: 2px solid #f97a48;
+		border: 2px solid #ed4c3a;
 		margin-top: -3rem;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 25px;
@@ -222,7 +219,6 @@ interface ICreationStepsProps {
 }
 
 export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
-	const { isDesktop } = useDevice();
 	const [elementId] = useState(uniqueId('CreationSteps-'));
 	const [width, setWidth] = useState(0);
 
@@ -264,7 +260,6 @@ export const CreationSteps: FC<ICreationStepsProps> = ({ reachedStepType }) => {
 								)}
 							</StyledHorizontal>
 						)}
-						{/* <Spacing vertical="l" mobile="m" /> */}
 						<TitleBox>
 							<StyledTabText
 								fontSize="m"

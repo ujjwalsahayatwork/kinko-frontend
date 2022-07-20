@@ -3,7 +3,6 @@ import { Button } from 'components/button/button';
 import { Col } from 'components/col/col';
 import { CreationMobileSteps } from 'components/creationSteps/creationMobileSteps';
 import { CreationSteps } from 'components/creationSteps/creationSteps';
-import { Doughnut } from 'components/doughnut/doughnut';
 import { InfoCard } from 'components/infoCard/infoCard';
 import { Row } from 'components/row/row';
 import { Spacing } from 'components/spacing/spacing';
@@ -47,10 +46,10 @@ const VerticalLine = styled.div`
 	background: rgba(112, 121, 185, 0.3);
 	width: 1.5px;
 `;
-const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-between !important;
-`;
+// const ButtonContainer = styled.div`
+// 	display: flex;
+// 	justify-content: space-between !important;
+// `;
 
 const BoxContain = styled.div`
 	max-width: 650px;
@@ -81,14 +80,14 @@ const StyledStatus = styled.div`
 	}
 `;
 
-const DoughnutWrapper = styled.div`
-	display: flex;
-	width: 300px;
+// const DoughnutWrapper = styled.div`
+// 	display: flex;
+// 	width: 300px;
 
-	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		width: 140px;
-	}
-`;
+// 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+// 		width: 140px;
+// 	}
+// `;
 
 const ColorRect = styled.div<{ colorIndex: number }>`
 	display: flex;
@@ -107,8 +106,8 @@ const NextButton = styled(Button)`
 	box-sizing: border-box;
 	width: 172px;
 	height: 47px;
-	background: #f97a48;
-	border: 1px solid #f97a48;
+	background: #ed4c3a;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	text-align: center;
 	padding-left: 15px;
@@ -118,7 +117,7 @@ const NextButton = styled(Button)`
 `;
 
 const BackButton = styled(Button)`
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	width: 172px;
 	height: 47px;
@@ -168,10 +167,10 @@ const StyledCardRow = styled.div`
 	}
 `;
 
-const ButtonsContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-`;
+// const ButtonsContainer = styled.div`
+// 	display: flex;
+// 	justify-content: space-between;
+// `;
 
 const StyledCard = styled(Col)`
 	background: #002545;
@@ -217,8 +216,9 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 	showDEVIssue,
 	onSubmit,
 }) => {
-	const { isDesktop, isMobile } = useDevice();
+	const { isDesktop } = useDevice();
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const doughnutData = useMemo(
 		() => [presalePercent, liquidityPercent, feesPercent, freePercent],
 		[presalePercent, liquidityPercent, feesPercent, freePercent]

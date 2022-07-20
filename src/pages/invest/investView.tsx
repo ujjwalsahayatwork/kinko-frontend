@@ -18,7 +18,6 @@ const StyledContainer = styled(Col)`
 	max-width: 1152px;
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		
 	}
 `;
 
@@ -28,7 +27,7 @@ const StyledHeading = styled(Text)`
 	margin-top: 3rem;
 	margin-bottom: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		margin-top: .25rem;	
+		margin-top: 0.25rem;
 		margin-bottom: 0rem;
 	}
 `;
@@ -39,7 +38,7 @@ const StyledSubHeading = styled(Text)`
 	margin-top: 3rem;
 	margin-bottom: 1rem;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		margin-top: .25rem;	
+		margin-top: 0.25rem;
 		margin-bottom: 0rem;
 	}
 `;
@@ -61,9 +60,9 @@ const StyledSpendCol = styled.div`
 `;
 
 const StyledInfoCard = styled(Col)`
-	border-radius: 0.350rem;
+	border-radius: 0.35rem;
 	padding: 1rem;
-	background: rgba(255, 81, 58, 0.6);
+	background: rgba(255, 81, 58, 0.8);
 `;
 
 const StyledCurrency = styled(CurrencyInput)`
@@ -71,8 +70,19 @@ const StyledCurrency = styled(CurrencyInput)`
 `;
 
 const AcceptButton = styled(BaseButton)`
-	background-color: transparent;
-	border-radius: 0px;
+	background: #fff;
+	color: #ed4c3a;
+	border-radius: 0.5rem;
+	border: 1px solid transparent;
+	padding: 0.5rem;
+	font-size: 18px;
+	font-weight: 600;
+	opacity: 1;
+	:hover {
+		background: transparent;
+		border: 1px solid #fff;
+		color: #fff;
+	}
 `;
 
 const NextButton = styled(Button)`
@@ -135,9 +145,7 @@ export const InvestView: FC<IInvestViewProps> = ({
 						</Col>
 					</Row>
 					<Col>
-						<StyledSubHeading fontSize="xl">
-							Spend how much {baseTokenSymbol}?
-						</StyledSubHeading>
+						<StyledSubHeading fontSize="xl">Spend how much {baseTokenSymbol}?</StyledSubHeading>
 						<StyledSpendCol>
 							<Col>
 								<StyledCurrency
@@ -151,7 +159,9 @@ export const InvestView: FC<IInvestViewProps> = ({
 								/>
 							</Col>
 							<Col>
-								<Text fontSize="l" fontWeight='bold'>You get</Text>
+								<Text fontSize="l" fontWeight="bold">
+									You get
+								</Text>
 								<Text fontSize={20} fontWeight="normal">
 									{saleTokenAmount.toFixed(3)} {saleTokenSymbol}
 								</Text>
@@ -167,8 +177,8 @@ export const InvestView: FC<IInvestViewProps> = ({
 					</LeftSide>
 					<Spacing vertical="l" />
 					<Text fontSize="m" mobileFontSize="xs" color="secondary">
-						Please be aware if the token you are purchasing has deflationary mechanisms such as burn on transfer. You may
-						receive less than the amount stated. Your tokens will be locked in the contract until the presale has
+						Please be aware if the token you are purchasing has deflationary mechanisms such as burn on transfer. You
+						may receive less than the amount stated. Your tokens will be locked in the contract until the presale has
 						concluded.
 					</Text>
 					{!accepted && (
@@ -187,11 +197,7 @@ export const InvestView: FC<IInvestViewProps> = ({
 								</Text>
 								<Spacing vertical="m" mobile="s" />
 								<Row mobileDirection="column" justify="flex-end" align="flex-end">
-									<AcceptButton onClick={onAccept}>
-										<Text fontSize="m" fontWeight="bold">
-											Accept and proceed
-										</Text>
-									</AcceptButton>
+									<AcceptButton onClick={onAccept}>Accept and proceed</AcceptButton>
 								</Row>
 							</StyledInfoCard>
 						</>

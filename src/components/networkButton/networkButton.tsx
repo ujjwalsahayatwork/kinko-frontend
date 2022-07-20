@@ -18,7 +18,7 @@ const clickClass = '9ab7283a5e02fc4621fe88d20a1d31ec66d75720c593277966057c6493b1
 
 const DropDownButton = styled(BaseButton)`
 	background-color: transparent;
-	border: ${({ theme }) => `1px solid #F97A48`};
+	border: ${({ theme }) => `1px solid #ed4c3a`};
 	border-radius: 0.35rem;
 	max-width: 180px;
 	width: 10rem;
@@ -40,13 +40,15 @@ const Relative = styled(Col)`
 const Absolute = styled(Col)`
 	z-index: 9999;
 	position: absolute;
-	width: 176px;
-	top: -50px;
+	width: 125px;
+	top: -100px;
+	left: -4px;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		position: relative;
 		margin-top: -12.5rem;
 		width: 210px;
 		top: 0px;
+		left: 0px;
 	}
 `;
 const OptionContainer = styled(Col)`
@@ -65,12 +67,12 @@ const OptionButton = styled(BaseButton)`
 	border-radius: 5px;
 	padding: 0 1rem;
 	height: 3rem;
-	border: 1px solid #F97A48;
+	border: 1px solid #ed4c3a;
 	margin-bottom: 0.75rem;
 	display: flex;
 	align-items: center;
 	:hover {
-		color: #F97A48;
+		color: #ed4c3a;
 		background-color: transparent;
 	}
 	filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : undefined)};

@@ -32,8 +32,18 @@ const StyledInput = styled.input`
 `;
 
 const CurrencyText = styled(Text)`
-	align-items: flex-end;
-	padding-bottom: 0.5rem;
+	display: flex;
+	align-items: center;
+	padding-bottom: ${({ theme }) => toPx(theme.distanceXS)};
+	padding-right: 1rem;
+	position: absolute;
+    right: 0;
+    height: 46px;
+`;
+
+const InputBox = styled(Row)`
+	position: relative;
+	width: 100%;
 `;
 
 const MaxButtonWrapper = styled.div`
@@ -105,8 +115,10 @@ export const CurrencyInput: FC<ICurrencyInputProps> = ({
 			<StyledLabel fontSize="xs">{label}</StyledLabel>
 			<Spacing vertical="s" />
 			<StyledInputContainer align="center">
-				<StyledInput value={value} readOnly={readOnly} onChange={handleChange} />
-				<CurrencyText fontSize="s">{currency}</CurrencyText>
+				<InputBox>
+					<StyledInput value={value} readOnly={readOnly} onChange={handleChange} />
+					<CurrencyText fontSize="s">{currency}</CurrencyText>
+				</InputBox>
 				{onMax && (
 					<MaxButtonWrapper>
 						<MaxButton onClick={onMax}>

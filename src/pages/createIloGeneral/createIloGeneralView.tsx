@@ -10,8 +10,7 @@ import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { TextInput } from 'components/textInput/textInput';
 import { toPx, useDevice } from 'components/utils';
-import { ETHEREUM_CHAIN_ID } from 'constants/env';
-import { chain, values } from 'lodash';
+import { LoadingModal } from 'modals/loadingModal/loadingModal';
 import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import { IBaseToken } from 'types';
@@ -83,16 +82,16 @@ const BottomSpacing = styled.div`
 	}
 `;
 
-const RightSpacing2 = styled(Spacing)`
-	flex: 0.8;
-`;
+// const RightSpacing2 = styled(Spacing)`
+// 	flex: 0.8;
+// `;
 
 const NextButton = styled(Button)`
 	box-sizing: border-box;
 	width: 172px;
 	height: 47px;
-	background: #f97a48;
-	border: 1px solid #f97a48;
+	background: #ed4c3a;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	text-align: center;
 	padding-left: 15px;
@@ -102,7 +101,7 @@ const NextButton = styled(Button)`
 `;
 
 const BackButton = styled(Button)`
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	width: 172px;
 	height: 47px;
@@ -148,7 +147,7 @@ const CatButton = styled(Button)`
 	border-radius: 40px;
 	padding: 10px 20px;
 	:hover {
-		border: 1px solid #F97A48;
+		border: 1px solid #ed4c3a;
 		background: rgb(249 122 72 / 20%);
 	}
 `;
@@ -180,11 +179,14 @@ interface ICreateIloGeneralViewProps {
 	presaleCreator: string;
 	presaleAmount: string;
 	showWarning: boolean;
+	category: string;
+	onClickIloCategory: (category: string) => void;
 	onChangeIloName: (iloName: string) => void;
 	onChangeTokenAddress: (tokenAddress: string) => void;
 	onChangeBuyersParticipateWith: (key: string, payload: IBaseToken) => void;
 	onChangePresaleAmount: (presaleAmount: string) => void;
 	onSubmit: () => void;
+	isLoading: boolean;
 }
 
 const FieldsObj = [
@@ -206,11 +208,14 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 	presaleCreator,
 	presaleAmount,
 	showWarning,
+	category,
 	onChangeIloName,
+	onClickIloCategory,
 	onChangeTokenAddress,
 	onChangeBuyersParticipateWith,
 	onChangePresaleAmount,
 	onSubmit,
+	isLoading,
 }) => {
 	const { chainId } = useWeb3React();
 	const { isDesktop } = useDevice();
@@ -257,7 +262,12 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 						<FieldsBox>
 							{FieldsObj.map((item) => (
 								<div key={item.name}>
-									<CatButton key={item.name} label={item.name} onClick={() => console.log(item.values)} />
+									<CatButton
+										key={item.name}
+										label={item.name}
+										onClick={() => onClickIloCategory(item.values)}
+										className={item.name === category ? 'active' : ''}
+									/>
 									<Spacing horizontal="s" />
 								</div>
 							))}
@@ -334,6 +344,7 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 					<Spacing vertical="l" desktopOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
 						<BackButton label="Back" onClick={onSubmit} />
+						{isLoading && <LoadingModal />}
 						<NextButton label="Next to Caps" arrow onClick={onSubmit} />
 					</Row>
 					<Spacing vertical="m" />

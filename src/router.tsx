@@ -31,12 +31,6 @@ const OuterBody = styled.div`
 	background-size: cover;
 	background-position: bottom;
 	background-repeat: no-repeat;
-	/* @media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		background-image: url(${banner});
-		background-size: cover;
-		background-position: bottom;
-		background-repeat: no-repeat;
-	} */
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 	}
 `;
@@ -82,7 +76,9 @@ export const Router: FC = () => {
 							<Route path="/createIloPeriod" element={<CreateIloPeriod />} />
 							<Route path="/createIloSummary" element={<CreateIloSummary />} />
 							<Route path="/createIloSocials" element={<CreateIloSocials />} />
+							<Route path="/ilo/:launchpadAddress/:referralId" element={<Ilo />} />
 							<Route path="/ilo/:launchpadAddress" element={<Ilo />} />
+							<Route path="/invest/:launchpadAddress/:referralId" element={<Invest />} />
 							<Route path="/invest/:launchpadAddress" element={<Invest />} />
 							<Route path="/" element={<Main />} />
 							<Route path="*" element={<NotFound />} />

@@ -13,6 +13,7 @@ import {
 	updatePresaleCreator,
 	updateSaleToken,
 	updateTokenFee,
+	updateIloCategory,
 } from 'store/createIlo/actions';
 import { addError } from 'store/error/actions';
 import { updateShowConnectModal } from 'store/ethereum/actions';
@@ -30,14 +31,13 @@ import {
 	isZeroAddress,
 } from 'utils/utils';
 import Web3 from 'web3';
-import { chain } from 'lodash';
-import { ETHEREUM_CHAIN_ID } from 'constants/env';
 
 interface ICreateIloGeneralProps extends IRouterProps, IWeb3Props {
 	isCloseUpdateShowConnectModal: boolean;
 	showConnectModal: boolean;
 	updateShowConnectModal: (showConnectModal: boolean) => void;
 	updateIloName: (iloName: string) => void;
+	updateIloCategory: (category: string) => void;
 	updateSaleToken: (saleTokenAddress: string, saleTokenSymbol: string, saleTokenTotalSupply: BigNumber) => void;
 	updateBaseToken: (baseToken: IBaseToken) => void;
 	updateTokenFee: (tokenFeePercent: number) => void;
@@ -48,6 +48,7 @@ interface ICreateIloGeneralProps extends IRouterProps, IWeb3Props {
 
 interface ICreateIloGeneralState {
 	iloName: string;
+	category: string;
 	iloNameIssue: string;
 	saleTokenAddress: string;
 	saleTokenAddressIssue: string;
@@ -61,6 +62,7 @@ interface ICreateIloGeneralState {
 	presaleAmount: string;
 	showWarning: boolean;
 	counter: number;
+	isLoading: boolean;
 }
 
 class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGeneralState> {
@@ -77,6 +79,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			}
 			return {
 				iloName: '',
+				category: '',
 				iloNameIssue: '',
 				saleTokenAddress: '',
 				saleTokenAddressIssue: '',
@@ -90,6 +93,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				presaleAmount: '',
 				showWarning: false,
 				counter: 1,
+				isLoading: false,
 			};
 		});
 	}
@@ -249,6 +253,10 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 		this.setState({ iloName });
 	};
 
+	handleSetIloCategory = (category: string) => {
+		this.setState({ category });
+	};
+
 	handleChangeSaleTokenAddress = (saleTokenAddress: string) => {
 		this.setState({ saleTokenAddress });
 	};
@@ -267,12 +275,13 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 	};
 
 	handleSubmit = async () => {
+		this.setState({ isLoading: true });
 		const {
 			web3: { library },
 		} = this.props;
-
 		const {
 			iloName,
+			category,
 			saleTokenAddress,
 			saleTokenSymbol,
 			saleTokenTotalSupply,
@@ -286,6 +295,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			const tokenFeePercent = await getTokenFeePercent(web3);
 			if (
 				iloName &&
+				category &&
 				saleTokenAddress &&
 				saleTokenTotalSupply &&
 				baseToken &&
@@ -294,6 +304,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				!(await this.updateWarning())
 			) {
 				this.props.updateIloName(iloName);
+				this.props.updateIloCategory(category);
 				this.props.updateSaleToken(saleTokenAddress, saleTokenSymbol, saleTokenTotalSupply);
 				this.props.updateBaseToken(baseToken);
 				this.props.updateTokenFee(tokenFeePercent);
@@ -303,6 +314,7 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			}
 			// this.props.navigate('/createIloCaps');
 		}
+		this.setState({ isLoading: false });
 	};
 
 	render() {
@@ -318,10 +330,13 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			presaleCreator,
 			presaleAmount,
 			showWarning,
+			category,
+			isLoading,
 		} = this.state;
 		return (
 			<CreateIloGeneralView
 				iloName={iloName}
+				isLoading={isLoading}
 				iloNameIssue={iloNameIssue}
 				saleTokenAddress={saleTokenAddress}
 				saleTokenAddressIssue={saleTokenAddressIssue}
@@ -333,7 +348,9 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 				presaleCreator={presaleCreator}
 				presaleAmount={presaleAmount}
 				showWarning={showWarning}
+				category={category}
 				onChangeIloName={this.handleChangeIloName}
+				onClickIloCategory={this.handleSetIloCategory}
 				onChangeTokenAddress={this.handleChangeSaleTokenAddress}
 				onChangeBuyersParticipateWith={this.handleChangeBaseToken}
 				onChangePresaleAmount={this.handleChangePresaleAmount}
@@ -351,6 +368,7 @@ const mapStateToProps = ({ ethereum }: IRootState) => ({
 const mapDispatchToProps = (dispatch: IDispatch) => ({
 	updateShowConnectModal: (showConnectModal: boolean) => dispatch(updateShowConnectModal(showConnectModal)),
 	updateIloName: (iloName: string) => dispatch(updateIloName(iloName)),
+	updateIloCategory: (category: string) => dispatch(updateIloCategory(category)),
 	updateSaleToken: (saleTokenAddress: string, saleTokenSymbol: string, saleTokenTotalSupply: BigNumber) =>
 		dispatch(updateSaleToken(saleTokenAddress, saleTokenSymbol, saleTokenTotalSupply)),
 	updateBaseToken: (baseToken: IBaseToken) => dispatch(updateBaseToken(baseToken)),

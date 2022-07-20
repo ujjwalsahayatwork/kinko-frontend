@@ -10,7 +10,7 @@ import { IDispatch } from 'store/store';
 import styled from 'styled-components';
 
 const StyledButton = styled(BaseButton)`
-	background-color: #F97A48;
+	background-color: #ed4c3a;
 	/* border: ${({ theme }) => `1px solid ${theme.primaryBrandColor}`}; */
 	border-radius: 0.35rem;
 	height: 3rem;

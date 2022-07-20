@@ -6,7 +6,7 @@ import { Spacing } from 'components/spacing/spacing';
 import { TextInput } from 'components/textInput/textInput';
 import { Text } from 'components/text/text';
 import { toPx, useDevice } from 'components/utils';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import "./createSocialView.scss";
 import { CreationMobileSteps } from 'components/creationSteps/creationMobileSteps';
@@ -83,7 +83,7 @@ border-radius: 5px;
 
 const NextButton = styled(Button)`
 	width: 170px; 
-	border: 1px solid #F97A48;
+	border: 1px solid #ed4c3a;
 	color: white;
 	padding: 14px 0px;
 	text-align: center;

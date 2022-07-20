@@ -6,14 +6,15 @@ declare module 'styled-components' {
 		secondaryColor: string;
 		purpleColor: string;
 		tertiaryColor: string;
+		y;
 		primaryBrandColor: string;
 		secondaryBrandColor: string;
 		onPrimaryBrandColor: string;
 		onSecondaryBrandColor: string;
 		primaryBackgroundColor: string;
-		lightBlackColor:string
+		lightBlackColor: string;
 		secondaryBackgroundColor: string;
-		greenyColor:string
+		greenyColor: string;
 		tertiaryBackgroundColor: string;
 		quaternaryBackgroundColor: string;
 		buttonBackgroundColor: string;
