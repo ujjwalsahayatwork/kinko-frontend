@@ -85,7 +85,7 @@
 .react-datepicker {
 	font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
 	font-size: 0.8rem;
-	background-color: $secondaryBackgroundColor;
+	background-color: transparent;
 	color: $primaryColor;
 	border: 0px solid #aeaeae;
 	border-radius: 0.3rem;
@@ -141,7 +141,7 @@
 
 .react-datepicker__header {
 	text-align: center;
-	background-color: $secondaryBackgroundColor;
+	background-color: transparent;
 	border-bottom: 1px solid #aeaeae;
 	border-top-left-radius: 0.3rem;
 	padding: 8px 0;
@@ -316,7 +316,7 @@
 	input[type='time'] {
 	-moz-appearance: textfield;
 	color: $primaryColor;
-	background-color: $secondaryBackgroundColor;
+	background-color: transparent;
 	border-top: none;
 	border-left: none;
 	border-right: none;

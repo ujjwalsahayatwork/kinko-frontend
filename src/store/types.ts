@@ -34,6 +34,8 @@ export type IActionType =
 	| 'updateWhitepaperURL'
 	| 'updateDescription'
 	| 'updateIsCloseShowConnectModal'
+	| 'updateReferralResponse'
+	| 'updateIloCategory'
 
 export interface IPayloadAction<T extends IActionType, U extends object> extends Action<IActionType> {
 	type: T;

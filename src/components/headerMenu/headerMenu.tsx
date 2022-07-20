@@ -24,29 +24,30 @@ const Relative = styled(Col)`
 	position: relative;
 	direction: ltr;
 	opacity: 1;
-	`;
+`;
 
 const Absolute = styled(Col)`
 	position: absolute;
 	direction: initial;
-	`;
+`;
 
 const Container = styled.div`
 	height: 100vh;
-    width: 100vw;
-    background-color: rgba(37, 33, 35, 0.8);
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-    padding: 0px 0px 30px 0px;
+	width: 100vw;
+	background-color: rgba(37, 33, 35, 0.8);
+	transition-property: opacity;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+	padding: 0px 0px 30px 0px;
 	z-index: 9999;
+	margin-top: 0.9rem;
 `;
 
 const OptionContainer = styled(Col)`
 	background-color: #161718;
 	z-index: 1000;
 	width: 280px;
-	height:100vh;
+	height: 100vh;
 	padding: 0px 0px 30px 0px;
 `;
 
@@ -58,12 +59,12 @@ const StyledMenuText = styled(Text)`
 	font-size: 1rem;
 	line-height: 1.25rem;
 	font-weight: 500;
-	&:hover{
-		color: #F97A48;
+	&:hover {
+		color: #ed4c3a;
 	}
 `;
 
-const OptionLink = styled(Link) <{ disabled: boolean }>`
+const OptionLink = styled(Link)<{ disabled: boolean }>`
 	/* color: ${({ theme, disabled }) => (disabled ? theme.secondaryColor : theme.primaryColor)}; */
 	background-color: transparent;
 	padding-top: 5px;
@@ -88,27 +89,27 @@ const StyledConnectButton = styled(ConnectButton)`
 
 const StyledDropDown = styled.div`
 	background: #252123;
-  	border-radius: 6px;
-  	position: absolute;
-  	width: 150px;
-  	padding: 12px 10px;
-  	top: 8px;
-	  z-index:9999;
-  	box-shadow: 0px 0px 60px rgb(0 0 0 / 29%);
-  	border: 1px solid #4b4b4b;
+	border-radius: 6px;
+	position: absolute;
+	width: 150px;
+	padding: 12px 10px;
+	top: 8px;
+	z-index: 9999;
+	box-shadow: 0px 0px 60px rgb(0 0 0 / 29%);
+	border: 1px solid #4b4b4b;
 	margin-left: 1rem;
 `;
 
 const StyledUl = styled.ul`
 	list-style: none;
-  	margin: 0;
-  	padding: 0;
+	margin: 0;
+	padding: 0;
 `;
 
 const StyledLi = styled.li`
 	color: white;
-	&:hover{
-		color: #F97A48;
+	&:hover {
+		color: #ed4c3a;
 	}
 `;
 const StyledLink = styled(Link)`
@@ -116,8 +117,8 @@ const StyledLink = styled(Link)`
 	font-family: sans-serif;
 	display: flex;
 	align-items: center;
-	&:hover{
-		color: #F97A48;
+	&:hover {
+		color: #ed4c3a;
 	}
 `;
 
@@ -127,7 +128,7 @@ interface IHeaderMenuState {
 	openFarmSubMenu: boolean;
 	openSubMenu: boolean;
 	open: boolean;
-	options: Array<{ label: string; href: string; disabled: boolean, subMenus?: any }>;
+	options: Array<{ label: string; href: string; disabled: boolean; subMenus?: any }>;
 	uniqueClickClass: string;
 }
 
@@ -143,10 +144,14 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 				{ label: 'Swap', href: '/', disabled: false },
 				{ label: 'Pool', href: '/', disabled: false },
 				{
-					label: 'Farm', href: '/', disabled: false,
-					subMenus: [{ label: 'Browse', href: '', disabled: false },
-					{ label: 'Add', href: '', disabled: false },
-					{ label: 'Import', href: '', disabled: false }]
+					label: 'Farm',
+					href: '/',
+					disabled: false,
+					subMenus: [
+						{ label: 'Browse', href: '', disabled: false },
+						{ label: 'Add', href: '', disabled: false },
+						{ label: 'Import', href: '', disabled: false },
+					],
 				},
 				{ label: 'Bridge', href: '/', disabled: false },
 				{ label: 'Stack', href: '/', disabled: false },
@@ -172,34 +177,34 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 	handleClickEvent = (event: MouseEvent): void => {
 		const { uniqueClickClass } = this.state;
 		if (event.target && event.target instanceof HTMLElement && !event.target.className.includes(uniqueClickClass)) {
-			if (event.target.className.includes("poolmenu") ||  event.target.className.includes("HelloTest")) {
-				return
+			if (event.target.className.includes('poolmenu') || event.target.className.includes('HelloTest')) {
+				return;
 			}
 			this.setState({ open: false });
 		}
 	};
 
 	handleClickSubMenu = (): void => {
-		this.setState({ openFarmSubMenu: false })
-		this.setState({ openSubMenu: !this.state.openSubMenu })
-	}
+		this.setState({ openFarmSubMenu: false });
+		this.setState({ openSubMenu: !this.state.openSubMenu });
+	};
 
 	handleClickFormMenu = (): void => {
-		this.setState({ openSubMenu: false })
-		this.setState({ openFarmSubMenu: !this.state.openFarmSubMenu })
-	}
+		this.setState({ openSubMenu: false });
+		this.setState({ openFarmSubMenu: !this.state.openFarmSubMenu });
+	};
 
 	render(): JSX.Element {
 		const { open, options, uniqueClickClass } = this.state;
 		return (
-			<Col roundTop className='mob_menu1'>
+			<Col roundTop className="mob_menu1">
 				<DropDownButton className={uniqueClickClass} onClick={this.handleDropDownButton}>
 					<Icon icon="bars" color="primary" height={35} />
 				</DropDownButton>
 				{open && (
 					<Relative>
 						<Absolute>
-							<Container className='hide-scrollbar'>
+							<Container className="hide-scrollbar">
 								<OptionContainer horizontalPadding="m" verticalPadding="m">
 									<Spacing vertical="s" />
 									<OptionLink className={uniqueClickClass} href="/" disabled newTab={false}>
@@ -208,16 +213,15 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 										</StyledMenuText>
 									</OptionLink>
 									<div className="extra-div">
-										<div className='block-data' onClick={this.handleClickSubMenu}>
+										<div className="block-data" onClick={this.handleClickSubMenu}>
 											<Spacing vertical="s" />
-											<StyledMenuText fontSize="m" color="undefined" className='poolmenu'>
-												<span className='pool-width poolmenu'>Stake</span>
+											<StyledMenuText fontSize="m" color="undefined" className="poolmenu">
+												<span className="pool-width poolmenu">Stake</span>
 												<Icon icon="downarrow" title="downarrow" color="primary" height={5} />
 											</StyledMenuText>
 										</div>
-										{
-											this.state.openSubMenu &&
-											<div className='mobilesubmenu'>
+										{this.state.openSubMenu && (
+											<div className="mobilesubmenu">
 												<StyledDropDown>
 													<StyledUl>
 														<StyledLi>
@@ -244,7 +248,7 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 													</StyledUl>
 												</StyledDropDown>
 											</div>
-										}
+										)}
 									</div>
 									{/* <div className="extra-div">
 										<Spacing vertical="m" />
@@ -292,8 +296,8 @@ class HeaderMenu extends Component<IHeaderMenuProps, IHeaderMenuState> {
 									</OptionLink>
 									<Spacing vertical="m" />
 
-									<div className='border-hr'></div>
-									<div className='bottom-buttonpadd'>
+									<div className="border-hr"></div>
+									<div className="bottom-buttonpadd">
 										<NetworkButton />
 										<Spacing vertical="m" mobile="s" />
 										<StyledConnectButton />

@@ -34,6 +34,7 @@ export interface IIlo {
 	liquidityRatePercent: number;
 	hardcap: BigNumber;
 	softcap: BigNumber;
+	referral?: any;
 	totalBaseCollected: BigNumber;
 	round1EndDate: Date;
 	lockPeriod: bigint;
@@ -46,6 +47,7 @@ export interface IIlo {
 	totalTokensSold: BigNumber;
 	lpGenerationTimestamp: bigint;
 	addLiquidityTransactionHash: string;
+	category: string;
 }
 
 export interface ECSignature {
@@ -53,7 +55,6 @@ export interface ECSignature {
 	s: string;
 	v: string;
 }
-
 
 export interface IResponseIlo {
 	iloName: string;
@@ -90,6 +91,7 @@ export interface IResponseIlo {
 	round1Length: number;
 	liquidityRatePercent: number;
 	round1EndDate: string;
+	referral?: any;
 	lockPeriod: string;
 	maxSpendPerBuyer: string;
 	presaleAmount: string;
@@ -99,4 +101,5 @@ export interface IResponseIlo {
 	isBnb: boolean;
 	lpGenerationTimestamp: string;
 	addLiquidityTransactionHash: string;
+	category: string;
 }

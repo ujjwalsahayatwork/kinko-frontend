@@ -31,7 +31,7 @@ const Header = styled(Col)<{ width?: number }>`
 `;
 
 const Hading = styled(Text)`
-	color: #f97a48;
+	color: #ed4c3a;
 	font-family: 'Sora';
 	font-weight: 500;
 	font-size: 2rem;
@@ -39,7 +39,7 @@ const Hading = styled(Text)`
 `;
 
 const CreateIloText = styled(Text)`
-	color: #f97a48;
+	color: #ed4c3a;
 `;
 
 const FilterContainer = styled.div`
@@ -75,7 +75,7 @@ const StyledSearchBar = styled(Row)`
 `;
 
 const SearchBtn = styled(Button)`
-	background: #f97a48;
+	background: #ed4c3a;
 	border: none;
 	height: 46px;
 	max-width: 13rem;
@@ -185,7 +185,7 @@ const CreateIlo = styled(BaseButton)`
 	border-radius: 0.35rem;
 	max-width: 8.5rem;
 	background-color: transparent;
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	width: 100%;
 	height: 45px;
 	min-height: 45px;
@@ -194,7 +194,7 @@ const CreateIlo = styled(BaseButton)`
 `;
 
 const SecondaryButton = styled(Button)`
-	background-color: #a873f7;
+	background-color: #ed4c3a;
 	width: 100%;
 	height: 45px;
 	min-height: 45px;

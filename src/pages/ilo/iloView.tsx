@@ -26,7 +26,7 @@ import './iloView.scss';
 import { createReferral, frontendUlr } from 'utils/api';
 import { useWeb3React } from '@web3-react/core';
 import { updateShowLoadingModal } from 'store/utils/actions';
-import { createReferSignature, createSignature } from 'utils/utils';
+import { copyToClipboard, createReferSignature } from 'utils/utils';
 import { BaseModal } from 'components/baseModal/baseModal';
 import { getEthMessageHash } from 'utils/launchpad';
 
@@ -88,7 +88,7 @@ const UnderstandButton = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 0.35rem;
 	background-color: transparent;
 `;
@@ -98,7 +98,7 @@ const ReferButton = styled(BaseButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 0.35rem;
 	background-color: transparent;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
@@ -107,7 +107,7 @@ const ReferButton = styled(BaseButton)`
 `;
 const ConnectButton = styled(Buttons)`
 	height: 3rem;
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 0.35rem;
 	background-color: transparent;
 `;
@@ -189,6 +189,7 @@ const CopyButton = styled(BaseButton)`
 	border: 1px solid rgb(112 121 185 / 20%);
 	border-radius: 0.35rem;
 	padding: 0.5rem;
+	position: relative;
 `;
 
 const StyledPercent = styled.div`
@@ -229,13 +230,13 @@ const TimeLineWrapper = styled(Row)`
 	height: 50px;
 `;
 
-const HorizontalBarMob = styled.div<{ reached: boolean }>`
-	display: flex;
-	height: 4px;
-	width: 26px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
-	border-radius: 4px;
-`;
+// const HorizontalBarMob = styled.div<{ reached: boolean }>`
+// 	display: flex;
+// 	height: 4px;
+// 	width: 26px;
+// 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+// 	border-radius: 4px;
+// `;
 
 const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
@@ -259,19 +260,19 @@ const VerticalBarMob = styled.div<{ reached: boolean; roundTop: boolean; roundBo
 	}
 `;
 
-const VerticalBar = styled.div<{ reached: boolean }>`
-	display: flex;
-	height: 8px;
-	width: 80px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
-	border-radius: 50px;
-`;
+// const VerticalBar = styled.div<{ reached: boolean }>`
+// 	display: flex;
+// 	height: 8px;
+// 	width: 80px;
+// 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+// 	border-radius: 50px;
+// `;
 
 const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBottom: boolean }>`
 	display: flex;
 	height: 8px;
 	width: 100px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.secondaryBackgroundColor)};
 	border-radius: 50px;
 	position: relative;
 	::before {
@@ -279,19 +280,19 @@ const HorizontalBar = styled.div<{ reached: boolean; roundTop: boolean; roundBot
 		content: '';
 		height: 15px;
 		width: 15px;
-		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.tertiaryBackgroundColor)};
+		background: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.secondaryBackgroundColor)};
 		border-radius: 50px;
 		top: -3px;
 		left: -5px;
 	}
 `;
 
-const VerticalBarSpacing = styled.div<{ reached: boolean }>`
-	display: flex;
-	height: ${({ theme }) => toPx(theme.distanceS)};
-	width: 9px;
-	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
-`;
+// const VerticalBarSpacing = styled.div<{ reached: boolean }>`
+// 	display: flex;
+// 	height: ${({ theme }) => toPx(theme.distanceS)};
+// 	width: 9px;
+// 	background-color: ${({ theme, reached }) => (reached ? theme.secondaryBrandColor : theme.primaryColor)};
+// `;
 
 const StyledDivider = styled(Col)`
 	border: 1px solid rgb(112 121 185 / 20%);
@@ -302,6 +303,55 @@ const StyledTimeText = styled(Text)`
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		font-size: 1rem;
 	}
+`;
+
+const StyledReferBox = styled(Col)`
+	background: rgba(2, 34, 63);
+	border: 1px solid #ed4c3a;
+	border-radius: 0.5rem;
+	max-width: 300px;
+`;
+
+const ReferralAddress = styled(Text)`
+	display: inline;
+	width: 100%;
+	max-width: 50%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: transparent;
+	border: 1px solid #7079b9;
+	border-radius: 0.35rem;
+	height: 1rem;
+	padding-left: ${({ theme }) => toPx(theme.distanceM)};
+	padding-right: ${({ theme }) => toPx(theme.distanceL)};
+	padding-top: ${({ theme }) => toPx(theme.distanceS)};
+	padding-bottom: ${({ theme }) => toPx(theme.distanceS)};
+`;
+const CopyReferAddress = styled(BaseButton)`
+	background: #02223f;
+	border: 1px solid #7079b9;
+	border-radius: 0.35rem;
+	padding: 0.5rem;
+	position: relative;
+`;
+
+const CopyText = styled(Text)`
+	border: 1px solid #7079b9;
+	border-radius: 0.5rem;
+	padding: 0.2rem 0.5rem;
+	position: absolute;
+	left: 2.2rem;
+	bottom: 2.5rem;
+`;
+
+const CopyIloText = styled(Text)`
+	border: 1px solid #7079b9;
+	border-radius: 0.5rem;
+	padding: 0.2rem 0.5rem;
+	position: absolute;
+	right: 0px;
+	bottom: 2.8rem;
 `;
 
 const StyledTimeStatus = styled.div`
@@ -363,6 +413,7 @@ interface IIloViewProps {
 	// hasEarlyAccess: boolean;
 	canClaimTokens: boolean;
 	canWithdrawLpTokens: boolean;
+	copied: string;
 	onHideSafetyAlert: () => void;
 	onCopySaleTokenAddress: () => void;
 	onConnect: () => void;
@@ -380,6 +431,7 @@ export const IloView: FC<IIloViewProps> = ({
 	// hasEarlyAccess,
 	canClaimTokens,
 	canWithdrawLpTokens,
+	copied,
 	onHideSafetyAlert,
 	onCopySaleTokenAddress,
 	onConnect,
@@ -420,11 +472,12 @@ export const IloView: FC<IIloViewProps> = ({
 		lpGenerationTimestamp,
 		addLiquidityTransactionHash,
 	} = data;
-	const { isDesktop, isMobile } = useDevice();
+	const { isDesktop } = useDevice();
 	const [elementId] = useState(uniqueId('IloView-Col-'));
 	const [elementWidth, setElementWidth] = useState(0);
 	const [isRefer, setIsRefer] = useState(false);
 	const [refer, setRefer] = useState<any>('');
+	const [copy, setCopy] = useState('');
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -512,27 +565,13 @@ export const IloView: FC<IIloViewProps> = ({
 	const { account, library } = useWeb3React();
 	const web3 = new Web3(library);
 
-	// const handleReferSign = async () => {
-	// 	if (library && account) {
-	// 		try {
-	// 			updateShowLoadingModal(true);
-	// 			const e: any = await getEthMessageHash(web3, account, data.launchpadAddress, new BigNumber('1000'));
-	// 			const response = await createReferSignature(web3, account, e.ethmessageHash);
-	// 			console.log('response::-------- ', response);
-	// 			return response;
-	// 		} finally {
-	// 			updateShowLoadingModal(false);
-	// 		}
-	// 	}
-	// };
-	// console.log('data.launchpadAddress', data.launchpadAddress);
 	const handleReferSign = async () => {
 		if (library && account) {
 			try {
 				updateShowLoadingModal(true);
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				const e: any = await getEthMessageHash(web3, account, data.launchpadAddress, new BigNumber('1000'));
 				const signature = await createReferSignature(web3, account, e.ethmessageHash);
-				console.log('signature', signature);
 				return signature;
 			} finally {
 				updateShowLoadingModal(false);
@@ -554,12 +593,17 @@ export const IloView: FC<IIloViewProps> = ({
 			setRefer(referUlr);
 		}
 	};
-
+	const onCopySaleRefer = () => {
+		if (refer) {
+			copyToClipboard(refer);
+		}
+		setCopy(`copied`);
+	};
 	return (
 		<StyledContainer>
 			{isRefer ? (
 				<BaseModal onClose={() => undefined}>
-					<Col roundTop roundBottom backgroundColor="primaryBackground" horizontalPadding="m" verticalPadding="m">
+					<StyledReferBox backgroundColor="primaryBackground" horizontalPadding="m" verticalPadding="m">
 						<StyledReferClose justify="space-between" align="center">
 							<Text fontSize="l" fontWeight="bold">
 								Refer your friends
@@ -569,9 +613,20 @@ export const IloView: FC<IIloViewProps> = ({
 							</CloseButton>
 						</StyledReferClose>
 						<Spacing vertical="m" />
+						<Row align="center">
+							<ReferralAddress fontSize="s">{refer}111111</ReferralAddress>
+							<Spacing horizontal="s" />
+							<CopyReferAddress onClick={onCopySaleRefer}>
+								{copy && (
+									<Row justify="flex-end">
+										<CopyText fontSize="s">{copy}</CopyText>
+									</Row>
+								)}
+								<Icon icon="copyOutlined" color="primary" height={24} />
+							</CopyReferAddress>
+						</Row>
 						<Text fontSize="m">referral link here </Text>
-						<Text fontSize="m">{refer}</Text>
-					</Col>
+					</StyledReferBox>
 				</BaseModal>
 			) : (
 				''
@@ -614,6 +669,11 @@ export const IloView: FC<IIloViewProps> = ({
 									<Address fontSize="s">{saleTokenAddress}</Address>
 									<Spacing horizontal="s" />
 									<CopyButton onClick={onCopySaleTokenAddress}>
+										{copied && (
+											<Row justify="flex-end">
+												<CopyIloText fontSize="s">{copied}</CopyIloText>
+											</Row>
+										)}
 										<Icon icon="copyOutlined" color="primary" height={24} />
 									</CopyButton>
 								</Row>
@@ -726,7 +786,7 @@ export const IloView: FC<IIloViewProps> = ({
 							<Spacing vertical="m" />
 							<Col horizontalPadding="m">
 								<StyledDesc fontSize="xs">{description}</StyledDesc>
-								<Spacing vertical="l" />
+								{/* <Spacing vertical="l" /> */}
 								<Row justify="space-around">
 									<DoughnutWrapper>
 										<Doughnut data={doughnutData} />
@@ -999,7 +1059,7 @@ export const IloView: FC<IIloViewProps> = ({
 											</div>
 										</div>
 										<div>
-											<Col horizontalPadding="s" verticalPadding="s">
+											<Col horizontalPadding="m" verticalPadding="s">
 												<TimeStatus>
 													<div>
 														<Spacing vertical="l" />
@@ -1041,12 +1101,14 @@ export const IloView: FC<IIloViewProps> = ({
 														</StyledApproxText>
 													</div>
 												</TimeStatus>
+												<Spacing vertical="l" desktopOnly />
 											</Col>
 										</div>
 									</div>
 								) : (
 									<Col horizontalPadding={isDesktop ? 'm' : undefined}>
 										<Spacing vertical="s" />
+										{/* <Spacing horizontal="l" /> */}
 										<StyledTimeStatus>
 											<Col horizontalPadding="s" verticalPadding="s">
 												<StyledTimeText fontSize="m" fontWeight="bold">
@@ -1077,7 +1139,6 @@ export const IloView: FC<IIloViewProps> = ({
 													{hardcap.toFixed(3)} {baseTokenSymbol}
 												</StyledApproxText>
 											</Col>
-											{/* <Spacing vertical="l" mobileOnly /> */}
 											<Col align={isDesktop ? 'center' : undefined} maxWidth>
 												<Col>
 													{timeline.map((item, index) => (

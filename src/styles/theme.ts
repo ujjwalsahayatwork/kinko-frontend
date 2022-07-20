@@ -94,4 +94,5 @@ export const theme: DefaultTheme = {
 	distanceXXL,
 
 	mobileThreshold,
+	y: undefined
 };

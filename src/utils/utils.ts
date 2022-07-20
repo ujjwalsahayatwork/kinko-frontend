@@ -162,7 +162,6 @@ export const createLaunchpad = async (params: {
 	data.push(numberToHex(startBlockDate.getTime() / 1000)); // 7 startTime
 	data.push(numberToHex(endBlockDate.getTime() / 1000)); // 8 endTime
 
-	const chainId = await web3.eth.getChainId();
 	const launchpadGenerator = new web3.eth.Contract(
 		launchpadGeneratorAbi.abi as Array<AbiItem>,
 		LAUNCHPAD_GENERATOR_ADDRESS

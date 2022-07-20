@@ -84,7 +84,7 @@ const StyledInfoCard = styled(InfoCard)`
 
 const StyledDateLabel = styled(Text)`
 	font-style: normal;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 14px;
 	color: #828282;
 	line-height: 23px;
@@ -94,8 +94,8 @@ const NextButton = styled(Button)`
 	box-sizing: border-box;
 	width: 175px;
 	height: 47px;
-	background: #f97a48;
-	border: 1px solid #f97a48;
+	background: #ed4c3a;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	text-align: center;
 	padding-left: 15px;
@@ -105,7 +105,7 @@ const NextButton = styled(Button)`
 `;
 
 const BackButton = styled(Button)`
-	border: 1px solid #f97a48;
+	border: 1px solid #ed4c3a;
 	border-radius: 5px;
 	width: 172px;
 	height: 47px;
@@ -116,10 +116,10 @@ const BackButton = styled(Button)`
 	}
 `;
 
-const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-`;
+// const ButtonContainer = styled.div`
+// 	display: flex;
+// 	justify-content: space-between;
+// `;
 
 
 interface ICreateIloPeriodViewProps {
@@ -180,7 +180,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 				<BoxContain>
 					<Spacing vertical="m" />
 					<Row mobileDirection="column">
-						<LeftCol className="bgcolor_hide">
+						<LeftCol>
 							<StyledDateLabel fontSize="s">
 								Start Date
 							</StyledDateLabel>

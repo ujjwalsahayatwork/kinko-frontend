@@ -30,6 +30,7 @@ export const createIlo = async (params: {
 	websiteURL: string;
 	whitepaperURL: string;
 	description: string;
+	category: string;
 }): Promise<void> => {
 	const {
 		iloName,
@@ -44,6 +45,7 @@ export const createIlo = async (params: {
 		websiteURL,
 		whitepaperURL,
 		description,
+		category,
 	} = params;
 	createInstance();
 	await instance.post('/api/v1/create_ilo', {
@@ -59,6 +61,7 @@ export const createIlo = async (params: {
 		websiteURL,
 		whitepaperURL,
 		description,
+		category,
 	});
 };
 
@@ -88,6 +91,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		totalBaseCollected,
 		hardcap,
 		softcap,
+		referral,
 		round1Length,
 		lpGenerationComplete,
 		liquidityRatePercent,
@@ -103,6 +107,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		totalTokensSold,
 		lpGenerationTimestamp,
 		addLiquidityTransactionHash,
+		category,
 	} = ilo;
 	const timeline = getTimeline({
 		startBlockDate: new Date(startBlockDate),
@@ -140,6 +145,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		liquidityRatePercent,
 		hardcap: new BigNumber(hardcap),
 		softcap: new BigNumber(softcap),
+		referral,
 		totalBaseCollected: new BigNumber(totalBaseCollected),
 		round1EndDate: new Date(round1EndDate),
 		lockPeriod: BigInt(lockPeriod),
@@ -152,6 +158,7 @@ const castIlo = (ilo: IResponseIlo): IIlo => {
 		totalTokensSold: new BigNumber(totalTokensSold),
 		lpGenerationTimestamp: BigInt(lpGenerationTimestamp),
 		addLiquidityTransactionHash,
+		category,
 	};
 };
 
@@ -199,6 +206,7 @@ export const createReferral = async (params: {
 	launchpadAddress: string;
 	referralAddress: string;
 	referralSign: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): Promise<any> => {
 	const { launchpadAddress, referralAddress, referralSign } = params;
 	createInstance();
@@ -209,3 +217,7 @@ export const createReferral = async (params: {
 	});
 	return res;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const referBaseUrl = (referralId: string): Promise<any> =>
+	instance.post('/api/v1/get-referral-by-id', { referralId }).then((res) => castIlo(res.data.result));
