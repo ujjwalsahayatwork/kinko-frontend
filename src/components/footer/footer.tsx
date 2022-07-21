@@ -5,7 +5,7 @@ import { Col } from 'components/col/col';
 import { Link } from 'components/link/link';
 import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
-import { toPx } from 'components/utils';
+import { toPx, useDevice } from 'components/utils';
 import kinkoLogo from 'assets/images/kinkoLogo.svg';
 import './footer.scss';
 
@@ -219,7 +219,7 @@ const CopyrightText = styled(Text)`
 `;
 export const Footer: FC = () => {
 	const [email, setEmail] = useState('');
-
+	const { isDesktop, isMobile } = useDevice();
 	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
 		setEmail(value);
@@ -246,9 +246,13 @@ export const Footer: FC = () => {
 									nisi.
 								</StyledDescText>
 							</LogoWrapper>
-							<StyledCopyrightCol>
-								<CopyrightText fontSize="xs">contact@Fundex.com</CopyrightText>
-							</StyledCopyrightCol>
+							{isDesktop ? (
+								<StyledCopyrightCol>
+									<CopyrightText fontSize="xs">contact@Fundex.com</CopyrightText>
+								</StyledCopyrightCol>
+							) : (
+								''
+							)}
 						</StyledData>
 						<SubscribeArea>
 							<StyledFormContainer>
@@ -278,6 +282,8 @@ export const Footer: FC = () => {
 			<StyledFooter maxWidth>
 				<StyledFooterText fontSize="s" mobileFontSize="xxs">
 					<StyledDividerFooter />
+					{isMobile ? <CopyrightText fontSize="xs">contact@Fundex.com</CopyrightText> : ''}
+					<Spacing vertical="s" />
 					<div style={{ marginRight: '10px', fontSize: '.875rem' }}>© 2022 by Fundex</div>
 					<Spacing horizontal="s" desktopOnly />
 				</StyledFooterText>

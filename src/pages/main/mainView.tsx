@@ -89,6 +89,7 @@ const SearchFilterArea = styled(Row)`
 	width: 100%;
 	border-radius: 0.5rem;
 	border: 1px solid #4650a8;
+	background: rgb(112 121 185 / 30%);
 `;
 
 const StyledSelector = styled.div`
@@ -149,7 +150,7 @@ const StyledIcon = styled(Row)`
 
 const StyledSearchInput = styled.input`
 	width: 100%;
-	background: rgb(112 121 185 / 20%);
+	background: transparent;
 	border-radius: 0rem 0.5rem 0.5rem 0rem;
 	border: none;
 	color: white;
@@ -327,8 +328,9 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 		<StyledContainer id={elementId} className={isMobile ? 'center' : undefined}>
 			<Header className="heading_width" width={isMobile ? width : undefined}>
 				<SubHeader>
-					<Spacing vertical="m" />
-					<Hading fontSize="xl" mobileFontSize='s'>Launchpad</Hading>
+					<Hading fontSize="xl" mobileFontSize="s">
+						Launchpad
+					</Hading>
 					<CreateIlo onClick={onCreateIlo}>
 						<CreateIloText fontSize="s">Create ILO</CreateIloText>
 						<Icon icon="plusOutline" width={30} color="undefined" />
