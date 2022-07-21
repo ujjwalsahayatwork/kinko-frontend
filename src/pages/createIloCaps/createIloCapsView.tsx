@@ -11,6 +11,7 @@ import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { toPx, useDevice } from 'components/utils';
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './createCaps.scss';
 
@@ -212,6 +213,7 @@ export const CreateIloCapsView: FC<ICreateIloCapsViewProps> = ({
 	onSubmit,
 }) => {
 	const { isDesktop, isMobile } = useDevice();
+	const navigate = useNavigate();
 
 	return (
 		<StyledMainCol>
@@ -365,7 +367,7 @@ export const CreateIloCapsView: FC<ICreateIloCapsViewProps> = ({
 					<Spacing vertical="l" desktopOnly />
 					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
-						<BackButton label="Back" onClick={onSubmit} />
+						<BackButton label="Back" onClick={() => navigate(-1)}/>
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 				</BoxContain>

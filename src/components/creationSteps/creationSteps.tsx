@@ -69,7 +69,7 @@ const StyledHorizontal = styled.div`
 	background-color: transparent;
 	justify-content: center;
 	position: relative;
-	border-left: 2px dashed #7079B9;
+	border-left: 2px dashed #7079b9;
 	left: 31px;
 	top: 0;
 	margin-top: 2rem;
@@ -95,7 +95,7 @@ const StyledHorizontal = styled.div`
 		height: 35px;
 		width: 35px;
 		border-radius: 50px;
-		border: 2px solid #7079B9;
+		border: 2px solid #7079b9;
 		justify-content: center;
 		left: -21px;
 		top: 0px;
@@ -123,7 +123,7 @@ const StyledHorizontalLine = styled.div`
 		height: 35px;
 		width: 35px;
 		border-radius: 50px;
-		border: 2px solid #7079B9;
+		border: 2px solid #7079b9;
 		justify-content: center;
 		left: 13px;
 		top: -15px;
@@ -195,7 +195,9 @@ const HorizontalLine = styled.div<{ roundLeft: boolean; roundRight: boolean }>`
 		background-size: 50%;
 		background-repeat: no-repeat;
 		border: 2px solid #ed4c3a;
-		margin-top: -3rem;
+		/* margin-top: -3rem; */
+		left: 13px;
+		top: -15px;
 		@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 			height: 25px;
 			width: 25px;

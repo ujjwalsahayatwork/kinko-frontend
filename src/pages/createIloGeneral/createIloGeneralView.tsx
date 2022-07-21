@@ -12,6 +12,7 @@ import { TextInput } from 'components/textInput/textInput';
 import { toPx, useDevice } from 'components/utils';
 import { LoadingModal } from 'modals/loadingModal/loadingModal';
 import React, { FC, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IBaseToken } from 'types';
 import './createGeneral.scss';
@@ -219,6 +220,7 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 }) => {
 	const { chainId } = useWeb3React();
 	const { isDesktop } = useDevice();
+	const navigate = useNavigate();
 	const tokenUnit = useMemo(() => {
 		if (saleTokenSymbol) {
 			return saleTokenSymbol;
@@ -226,22 +228,21 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 		return 'Tokens';
 	}, [saleTokenSymbol]);
 
+	// const handleBackPage = () => navigate.back();
+
 	return (
 		<StyledMainCol className="input_bg_color">
 			<Spacing vertical="s" />
-			{isDesktop && (
-				<>
-					<Row>
-						<StyledCreateIlo fontSize="xxl" className="" fontWeight="bold" backgroundColor="transparent">
-							Create ILO
-						</StyledCreateIlo>
-					</Row>
-					<Spacing vertical="s" />
-					<SubText fontSize="xs">Follow the simple 5 steps to create your ILO</SubText>
-					<Spacing vertical="m" />
-					<HorizontalLine />
-				</>
-			)}
+			<Row>
+				<StyledCreateIlo fontSize="xxl" className="" fontWeight="bold" backgroundColor="transparent">
+					Create ILO
+				</StyledCreateIlo>
+			</Row>
+			<Spacing vertical="s" />
+			<SubText fontSize="xs">Follow the simple 5 steps to create your ILO</SubText>
+			<Spacing vertical="m" desktopOnly />
+			<Spacing vertical="l" mobileOnly />
+			{isDesktop && <HorizontalLine />}
 			<Box>
 				{isDesktop ? (
 					<>
@@ -255,7 +256,8 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 					<CreationMobileSteps reachedStepType="general" />
 				)}
 				<BoxContain>
-					<Spacing vertical="l" />
+					<Spacing vertical="l" desktopOnly />
+					<Spacing vertical="s" mobileOnly />
 					<Col>
 						<FieldsText>Fields you work in</FieldsText>
 						<Spacing vertical="s" />
@@ -343,7 +345,7 @@ export const CreateIloGeneralView: FC<ICreateIloGeneralViewProps> = ({
 					</Row>
 					<Spacing vertical="l" desktopOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
-						<BackButton label="Back" onClick={onSubmit} />
+						<BackButton label="Back" onClick={() => navigate(-1)} />
 						{isLoading && <LoadingModal />}
 						<NextButton label="Next to Caps" arrow onClick={onSubmit} />
 					</Row>

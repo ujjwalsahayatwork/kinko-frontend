@@ -217,10 +217,10 @@ class CreateIloSocials extends Component<ICreateIloSocialsProps, ICreateIloSocia
 			headerImageURLIssue = await this.checkImageURL(headerImageURL, 'headerImage');
 		}
 		if (telegramURL && !telegramURL.match(telegramRegex)) {
-			telegramURLIssue = 'Must be empty or valid address e.g. https://t.me/Energyfi_official';
+			telegramURLIssue = 'Must be empty or valid address e.g. https://t.me/Fundex_official';
 		}
 		if (twitterURL && !twitterURL.match(twitterRegex)) {
-			twitterURLIssue = 'Must be empty or valid address e.g. https://twitter.com/Energyfi_io';
+			twitterURLIssue = 'Must be empty or valid address e.g. https://twitter.com/Funxed_io';
 		}
 		if (!websiteURL) {
 			websiteURLIssue = 'Please fill out';
