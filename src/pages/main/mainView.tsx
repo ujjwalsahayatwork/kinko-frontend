@@ -339,7 +339,6 @@ export const MainView: FC<IMainViewProps> = ({ ilos, iloFilter, onChangeIloFilte
 				<Spacing vertical="l" />
 				<StyledSearchBar>
 					<SearchFilterArea>
-						{/* <Text fontSize="m">Non Profitable</Text> */}
 						<StyledSelector>
 							<Icon icon="non_profit" color="primary" width={30} />
 							<Select>

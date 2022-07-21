@@ -139,8 +139,8 @@ export const IloCard: FC<IIloCardProps> = ({ data, width }) => {
 							: null}
 					</Header>
 				</StyledHeaderRow>
-				{/* <Image src={`${IMAGES_URL}/${headerImageFileName}`} height={242} width={width} /> */}
-				<Image src={`${iloImage}`} height={242} width={width} />
+				<Image src={`${IMAGES_URL}/${headerImageFileName}`} height={242} width={width} />
+				{/* <Image src={`${iloImage}`} height={242} width={width} /> */}
 				<StyledCardBackground>
 					<TitleWrapper justify="space-between" align="center">
 						<Text fontSize="m" fontWeight="bold">
