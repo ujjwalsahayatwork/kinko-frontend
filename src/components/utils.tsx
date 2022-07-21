@@ -39,7 +39,7 @@ export const getColor = (theme: DefaultTheme, color: IColor): string | undefined
 		case 'greeny':
 			return theme.greenyColor;
 		case 'purple':
-				return theme.purpleColor;
+			return theme.purpleColor;
 		case 'lightBlack':
 			return theme.lightBlackColor;
 		case 'onPrimaryBrand':
@@ -220,13 +220,13 @@ export const withDevice = <P extends IDeviceProps, R = Omit<P, keyof IDeviceProp
 
 export const withWeb3 =
 	<P extends IWeb3Props, R = Omit<P, keyof IWeb3Props>>(Component: ComponentType<P> | FC<P>): FC<R> =>
-		// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-		(props: any) => {
-			const Web3ReactContext = getWeb3ReactContext();
+	// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+	(props: any) => {
+		const Web3ReactContext = getWeb3ReactContext();
 
-			// eslint-disable-next-line react/jsx-props-no-spreading
-			return <Web3ReactContext.Consumer>{(value) => <Component {...props} web3={value} />}</Web3ReactContext.Consumer>;
-		};
+		// eslint-disable-next-line react/jsx-props-no-spreading
+		return <Web3ReactContext.Consumer>{(value) => <Component {...props} web3={value} />}</Web3ReactContext.Consumer>;
+	};
 
 export const loadState = <T,>(key: string, deserialise: (state: T | undefined) => T): T => {
 	const item = sessionStorage.getItem(key);

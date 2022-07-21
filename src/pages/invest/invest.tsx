@@ -10,7 +10,7 @@ import { updateShowConnectModal } from 'store/ethereum/actions';
 import { IDispatch, IRootState } from 'store/store';
 import { updateShowLoadingModal } from 'store/utils/actions';
 import { IIlo } from 'types';
-import { getIlo } from 'utils/api';
+import { getIlo, referBaseUrl } from 'utils/api';
 import { getBuyer, getLaunchpadInformation, userDeposit } from 'utils/launchpad';
 import { approveERC20, getBalance, getERC20Balance, sleep } from 'utils/utils';
 import Web3 from 'web3';
@@ -21,6 +21,7 @@ interface IInvestProps extends IRouterProps<'launchpadAddress'>, IWeb3Props {
 	updateShowConnectModal: (showConnectModal: boolean) => void;
 	updateShowLoadingModal: (showLoadingModal: boolean) => void;
 	addError: (error: unknown) => void;
+	iloReferral: any;
 }
 
 interface IInvestState {
@@ -37,13 +38,11 @@ interface IInvestState {
 
 class Invest extends Component<IInvestProps, IInvestState> {
 	constructor(props: IInvestProps) {
-		
 		super(props);
 		this.state = loadState<IInvestState>(props.location.key, (state) => {
 			if (state) {
-				
 				const { baseTokenBalance, earlyAccessTokenBalance, saleTokenAmount, maxSpendableBaseToken } = state;
-				
+
 				return {
 					...state,
 					ilo: undefined,
@@ -86,7 +85,6 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		const { investAmount, ilo, baseTokenBalance, maxSpendableBaseToken } = this.state;
 		if (prevState !== this.state) {
 			saveState(location.key, this.state, (state) => {
-				
 				const { baseTokenBalance, earlyAccessTokenBalance, saleTokenAmount, maxSpendableBaseToken } = state;
 				return {
 					...state,
@@ -116,24 +114,23 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		const {
 			web3: { library, account },
 		} = this.props;
- 
-		
-		const { ilo }  = this.state;
+
+		const { ilo } = this.state;
 		let baseTokenBalance = new BigNumber(0);
 		let earlyAccessTokenBalance = new BigNumber(0);
-		
-		console.log('ilo',ilo);
+
+		console.log('ilo', ilo);
 		try {
 			if (library && account && ilo) {
 				const web3 = new Web3(library);
-				const launchpadInfo = await getLaunchpadInformation(web3,ilo.launchpadAddress)
-		
+				const launchpadInfo = await getLaunchpadInformation(web3, ilo.launchpadAddress);
+
 				const { baseTokenAddress, earlyAccessTokenAddress, isBnb } = ilo;
-				console.log("object",launchpadInfo.launchpadinfo.isBnb);
-				
-				baseTokenBalance = launchpadInfo.launchpadinfo.isBNB?
-					await getBalance(web3, account)
-					 : await getERC20Balance(web3, account, baseTokenAddress);
+				console.log('object', launchpadInfo.launchpadinfo.isBnb);
+
+				baseTokenBalance = launchpadInfo.launchpadinfo.isBNB
+					? await getBalance(web3, account)
+					: await getERC20Balance(web3, account, baseTokenAddress);
 				// if (earlyAccessTokenAddress) {
 				// 	earlyAccessTokenBalance = await getERC20Balance(web3, account, earlyAccessTokenAddress);
 				// }
@@ -150,7 +147,6 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		const { baseTokenBalance, earlyAccessTokenBalance, ilo } = this.state;
 		let maxSpendableBaseToken = new BigNumber(0);
 		try {
-			
 			if (library && account && ilo) {
 				const {
 					launchpadAddress,
@@ -162,18 +158,18 @@ class Invest extends Component<IInvestProps, IInvestState> {
 					earlyAccessTokenAmount,
 				} = ilo;
 				// if (earlyAccessTokenBalance.gte(earlyAccessTokenAmount)) {
-					const web3 = new Web3(library);
-					const { baseDeposited } = await getBuyer(web3, account, launchpadAddress, saleTokenAddress, baseTokenAddress);
-					const maxSpend = maxSpendPerBuyer.minus(baseDeposited);
-					const maxTotalSpend = hardcap.minus(totalBaseCollected);
-					maxSpendableBaseToken = baseTokenBalance;
-					if (maxSpend.lt(maxSpendableBaseToken)) {
-						maxSpendableBaseToken = maxSpend;
-					}
-					if (maxTotalSpend.lt(maxSpendableBaseToken)) {
-						maxSpendableBaseToken = maxTotalSpend;
-					}
+				const web3 = new Web3(library);
+				const { baseDeposited } = await getBuyer(web3, account, launchpadAddress, saleTokenAddress, baseTokenAddress);
+				const maxSpend = maxSpendPerBuyer.minus(baseDeposited);
+				const maxTotalSpend = hardcap.minus(totalBaseCollected);
+				maxSpendableBaseToken = baseTokenBalance;
+				if (maxSpend.lt(maxSpendableBaseToken)) {
+					maxSpendableBaseToken = maxSpend;
 				}
+				if (maxTotalSpend.lt(maxSpendableBaseToken)) {
+					maxSpendableBaseToken = maxTotalSpend;
+				}
+			}
 			// }
 		} finally {
 			this.setState({ maxSpendableBaseToken });
@@ -186,11 +182,9 @@ class Invest extends Component<IInvestProps, IInvestState> {
 		let saleTokenAmount = new BigNumber(0);
 		try {
 			if (ilo && amount.isFinite() && amount.lte(maxSpendableBaseToken)) {
-				
 				const { presaleAmount, hardcap } = ilo;
-				
+
 				saleTokenAmount = presaleAmount.div(hardcap).times(amount);
-				
 			}
 		} finally {
 			this.setState({ saleTokenAmount });
@@ -241,20 +235,25 @@ class Invest extends Component<IInvestProps, IInvestState> {
 			params,
 		} = this.props;
 		const { accepted, approved, ilo, investAmount, saleTokenAmount } = this.state;
-		console.log('saletoeknAmount',saleTokenAmount.gt(0));
-		
-		
+		console.log('saletoeknAmount', saleTokenAmount.gt(0));
+
 		if (ilo && saleTokenAmount) {
-		// if (ilo) {
 
 			const { launchpadAddress, baseTokenAddress, isBnb } = ilo;
-			
+
 			const amount = new BigNumber(investAmount);
 			if (accepted && (isBnb || approved) && library && account && amount.isFinite()) {
 				const web3 = new Web3(library);
 				try {
 					this.props.updateShowLoadingModal(true);
-					await userDeposit(web3, account, launchpadAddress, baseTokenAddress, isBnb, amount);
+					if(this.props.iloReferral.length > 0 ){
+
+						const referralAddress: string[]= this.props.iloReferral.map((item: any)=> item.referral_address)
+						const referralSign: string[]= this.props.iloReferral.map((item: any)=> item.referral_sign)
+						
+
+						await userDeposit(web3, account, launchpadAddress, baseTokenAddress, isBnb, amount,referralAddress,referralSign);
+					}
 					await sleep(1000);
 				} finally {
 					this.props.updateShowLoadingModal(false);
@@ -267,11 +266,13 @@ class Invest extends Component<IInvestProps, IInvestState> {
 	render() {
 		const { ilo, investAmount, saleTokenAmount, selectedPercentage, accepted, approved, maxSpendableBaseToken } =
 			this.state;
+
+			console.log("this.props.iloReferral invest:: ", this.props.iloReferral)
 		if (!ilo) {
 			return null;
 		}
 		const { iloName, baseTokenSymbol, saleTokenSymbol, isBnb } = ilo;
-		
+
 		return (
 			<InvestView
 				iloName={iloName}
@@ -295,9 +296,10 @@ class Invest extends Component<IInvestProps, IInvestState> {
 	}
 }
 
-const mapStateToProps = ({ ethereum }: IRootState) => ({
+const mapStateToProps = ({ ethereum, createIlo }: IRootState) => ({
 	showConnectModal: ethereum.showConnectModal,
 	isCloseUpdateShowConnectModal: ethereum.isCloseUpdateShowConnectModal,
+	iloReferral: createIlo.iloReferral,
 });
 
 const mapDispatchToProps = (dispatch: IDispatch) => ({

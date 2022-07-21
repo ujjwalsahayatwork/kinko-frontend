@@ -14,9 +14,9 @@ import styled from 'styled-components';
 import './react-datepicker.scss';
 
 const BorderWrapper = styled(Row)`
-	border: ${({ theme }) => `1px solid ${theme.lightBlackColor}`};
-	 border-radius: 5px ;
-	/* border: 1px solid #103859  */
+	background: rgba(2, 34, 63, 0.8) !important;
+	border-radius: 5px;
+	border: 1px solid #103859;
 `;
 
 const DateText = styled(Text)`
@@ -25,7 +25,7 @@ const DateText = styled(Text)`
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 20px;
-	padding: .8rem .5rem;
+	padding: 0.8rem 0.5rem;
 `;
 
 const IconContainer = styled(Row)`
@@ -61,12 +61,19 @@ const Absolute = styled.div`
 `;
 
 const DatePickerWrapper = styled(Col)`
+	background: #001a23;
 	box-shadow: ${({ theme }) => `0px 0px 10px ${theme.shadowColor}`};
 `;
 
 const NumberInputWrapper = styled(Col)`
+	background: #001a23 !important;
 	min-width: 200px;
 	box-shadow: ${({ theme }) => `0px 0px 10px ${theme.shadowColor}`};
+`;
+
+const AcceptButton = styled(Button)`
+	border: 1px solid #ed4c3a;
+	height: 2.5rem;
 `;
 
 const dateToTimestamp = (date: Date | undefined) => {
@@ -151,12 +158,12 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 						</Row>
 					</TimestampButton>
 					{showDatePicker && (
-						<Relative className='datediv_color'>
+						<Relative className="datediv_color">
 							<Absolute>
 								<DatePickerWrapper
 									roundTop
 									roundBottom
-									backgroundColor="secondaryBackground"
+									// backgroundColor="secondaryBackground"
 									horizontalPadding="m"
 									verticalPadding="m"
 								>
@@ -168,25 +175,25 @@ export const DateTimestampPicker: FC<IDateTimestampPickerProps> = ({ className, 
 										// showYearDropdown
 										scrollableYearDropdown
 									/>
-									<Button className="date_accept_btn" label="Accept" onClick={handleSubmitDate} />
+									<AcceptButton label="Accept" onClick={handleSubmitDate} />
 								</DatePickerWrapper>
 							</Absolute>
 						</Relative>
 					)}
 					{showTimestampPicker && (
-						<Relative className='datediv_color'>
+						<Relative>
 							<Absolute>
 								<NumberInputWrapper
 									roundTop
 									roundBottom
 									horizontalPadding="m"
 									verticalPadding="m"
-									backgroundColor="secondaryBackground"
+									// backgroundColor="secondaryBackground"
 								>
 									<NumberInput label="Timestamp" value={internalTimestamp} onChangeText={setInternalTimestamp} />
 									<Text fontSize="xs">Now {Math.round(Date.now() / 1000)}</Text>
 									<Spacing vertical="s" />
-									<Button className="date_accept_btn" label="Accept" onClick={handleSubmitTimestamp} />
+									<AcceptButton label="Accept" onClick={handleSubmitTimestamp} />
 								</NumberInputWrapper>
 							</Absolute>
 						</Relative>

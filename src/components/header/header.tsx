@@ -71,7 +71,7 @@ const StyledUl = styled.ul`
 const StyledLi = styled.li`
 	color: white;
 	&:hover{
-		color: #F97A48;
+		color: #ed4c3a;
 	}
 `;
 
@@ -83,7 +83,7 @@ const StyledLink = styled(Link)`
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	&:hover{
-		color: #F97A48;
+		color: #ed4c3a;
 	}
 `;
 
@@ -94,7 +94,7 @@ const StyledAnchor = styled.a`
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	&:hover{
-		color: #F97A48;
+		color: #ed4c3a;
 	}
 `;
 
@@ -107,7 +107,7 @@ const StyledMenuText = styled(Text)`
 	line-height: 1.25rem;
 	font-weight: 500;
 	&:hover{
-		color: #F97A48;
+		color: #ed4c3a;
 	}
 `;
 

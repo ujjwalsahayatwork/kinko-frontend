@@ -30,7 +30,11 @@ export interface ICreateIloState {
 	websiteURL: string;
 	whitepaperURL: string;
 	description: string;
+	iloReferral: any;
+	IloCategory: string;
 }
+
+type IUpdateIloCategory = IPayloadAction<'updateIloCategory', { category: string }>;
 
 type IUpdateIloName = IPayloadAction<'updateIloName', { iloName: string }>;
 
@@ -89,6 +93,8 @@ type IUpdateWhitepaperURL = IPayloadAction<'updateWhitepaperURL', { whitepaperUR
 
 type IUpdateDescription = IPayloadAction<'updateDescription', { description: string }>;
 
+type IreferralResponse = IPayloadAction<'updateReferralResponse', { data: unknown }>;
+
 export type ICreateIloAction =
 	| IUpdateIloName
 	| IUpdateSaleToken
@@ -111,4 +117,6 @@ export type ICreateIloAction =
 	| IUpdateTwitterURL
 	| IUpdateWebsiteURL
 	| IUpdateWhitepaperURL
-	| IUpdateDescription;
+	| IUpdateDescription
+	| IreferralResponse
+	| IUpdateIloCategory;

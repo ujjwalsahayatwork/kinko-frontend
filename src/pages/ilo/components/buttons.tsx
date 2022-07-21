@@ -7,7 +7,7 @@ import { useDevice } from 'components/utils';
 import { IIloStatus } from 'types';
 
 const StyledButton = styled(Button)`
-	background-color: #f97a48;
+	background-color: #ed4c3a;
 	border: none;
 	width: 100%;
 	height: 3rem;

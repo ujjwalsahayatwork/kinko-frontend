@@ -29,6 +29,8 @@ export const initialCreateIloState: ICreateIloState = {
 	websiteURL: '',
 	whitepaperURL: '',
 	description: '',
+	iloReferral: [],
+	IloCategory: ''
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -89,6 +91,10 @@ export const createIloReducer = (state = initialCreateIloState, action: ICreateI
 			return { ...state, whitepaperURL: action.payload.whitepaperURL };
 		case 'updateDescription':
 			return { ...state, description: action.payload.description };
+		case 'updateReferralResponse':
+			return { ...state, iloReferral: action.payload.data };
+		case 'updateIloCategory':
+			return { ...state, IloCategory: action.payload.category};
 		default:
 			return state;
 	}

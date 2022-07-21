@@ -7,10 +7,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addError } from 'store/error/actions';
 import { updateShowConnectModal } from 'store/ethereum/actions';
-import { IDispatch } from 'store/store';
+import { IDispatch, IRootState } from 'store/store';
 import { updateShowLoadingModal } from 'store/utils/actions';
 import { IIlo } from 'types';
-import { addLiquidityTransactionHash, getIlo } from 'utils/api';
+import { addLiquidityTransactionHash, getIlo, referBaseUrl } from 'utils/api';
 import {
 	addLiquidity,
 	getBuyer,
@@ -22,11 +22,14 @@ import { getPair } from 'utils/energyFiFactory';
 import { getUserLockForTokenAtIndex, withdraw } from 'utils/energyFiLocker';
 import { copyToClipboard, getERC20Balance, sleep } from 'utils/utils';
 import Web3 from 'web3';
+import { updateReferralResponse } from 'store/createIlo/actions';
 
 interface IIloProps extends IRouterProps<'launchpadAddress'>, IWeb3Props {
 	updateShowConnectModal: (showConnectModal: boolean) => void;
 	updateShowLoadingModal: (showLoadingModal: boolean) => void;
 	addError: (error: unknown) => void;
+	updateReferralResponse: (data: any) => void;
+	iloReferral: any;
 }
 
 interface IIloState {
@@ -37,6 +40,7 @@ interface IIloState {
 	canClaimBaseTokens: boolean;
 	canClaimOwnerTokens: boolean;
 	canWithdrawLpTokens: boolean;
+	copied: string;
 }
 
 class Ilo extends Component<IIloProps, IIloState> {
@@ -59,15 +63,40 @@ class Ilo extends Component<IIloProps, IIloState> {
 				canClaimBaseTokens: false,
 				canClaimOwnerTokens: false,
 				canWithdrawLpTokens: false,
+				copied: '',
 			};
 		});
 	}
 
+	handleRefer = async (obj: any) => {
+		try {
+			const { referralId } = obj;
+			if (referralId) {
+				const response = await referBaseUrl(referralId);
+				const referralRes: any = response?.referral;
+				if (Array.isArray(referralRes) && referralRes.length > 0) {
+					const referralAddress: any = [];
+					const referralSign: any = [];
+					referralRes.map((obj: any) => {
+						referralAddress.push(obj.referral_address);
+						referralSign.push(obj.referral_sign);
+						return obj;
+					});
+					this.props.updateReferralResponse(response.referral);
+				}
+				return response;
+			}
+		} catch (err) {
+			console.log('Referral Error ', err);
+		}
+	};
+	//
 	async componentDidMount() {
 		const { params } = this.props;
 		if (params.launchpadAddress) {
 			const ilo = await getIlo(params.launchpadAddress);
 			this.setState({ ilo });
+			await this.handleRefer(params);
 		}
 	}
 
@@ -177,6 +206,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 		if (ilo) {
 			copyToClipboard(ilo.saleTokenAddress);
 		}
+		this.setState({ copied: 'copied' });
 	};
 
 	handleConnect = () => {
@@ -273,6 +303,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 			canClaimBaseTokens,
 			canClaimOwnerTokens,
 			canWithdrawLpTokens,
+			copied,
 		} = this.state;
 		if (!ilo) {
 			return null;
@@ -285,6 +316,7 @@ class Ilo extends Component<IIloProps, IIloState> {
 		return (
 			<IloView
 				data={ilo}
+				copied={copied}
 				earlyAccessTokenBalance={earlyAccessTokenBalance}
 				showSafetyAlert={showSafetyAlert}
 				isConnected={active}
@@ -303,12 +335,17 @@ class Ilo extends Component<IIloProps, IIloState> {
 	}
 }
 
+const mapStateToProps = ({ createIlo }: IRootState) => ({
+	iloReferral: createIlo.iloReferral,
+});
+
 const mapDispatchToProps = (dispatch: IDispatch) => ({
 	updateShowConnectModal: (showConnectModal: boolean) => dispatch(updateShowConnectModal(showConnectModal)),
 	updateShowLoadingModal: (showLoadingModal: boolean) => dispatch(updateShowLoadingModal(showLoadingModal)),
 	addError: (error: unknown) => dispatch(addError(error)),
+	updateReferralResponse: (data: any) => dispatch(updateReferralResponse(data)),
 });
 
-const ilo = connect(null, mapDispatchToProps)(withRouter<'launchpadAddress'>(withWeb3(Ilo)));
+const ilo = connect(mapStateToProps, mapDispatchToProps)(withRouter<'launchpadAddress'>(withWeb3(Ilo)));
 
 export { ilo as Ilo };
