@@ -28,6 +28,9 @@ const StyledCreateIlo = styled(Text)`
 	font-weight: 400;
 	font-size: 24px;
 	line-height: 30px;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		margin-left: 1rem;
+	}
 `;
 
 const SubText = styled(Text)`
@@ -36,6 +39,9 @@ const SubText = styled(Text)`
 	font-size: 14px !important;
 	line-height: 18px;
 	color: #7079b9;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		margin-left: 1rem;
+	}
 `;
 
 const HorizontalLine = styled.div`

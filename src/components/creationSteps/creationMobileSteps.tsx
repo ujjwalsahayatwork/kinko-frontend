@@ -52,6 +52,9 @@ const StyledCreateIlo = styled(Text)`
 	font-size: 40px;
 	line-height: 50px;
 	text-align: center;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		margin-left: 1rem;
+	}
 `;
 
 const StyledTabText = styled(Text)`

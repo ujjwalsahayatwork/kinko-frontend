@@ -8,7 +8,7 @@ import { Text } from 'components/text/text';
 import { toPx, useDevice } from 'components/utils';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import "./createSocialView.scss";
+import './createSocialView.scss';
 import { CreationMobileSteps } from 'components/creationSteps/creationMobileSteps';
 
 const StyledMainCol = styled(Col)`
@@ -25,6 +25,9 @@ const StyledCreateIlo = styled(Text)`
 	font-weight: 400;
 	font-size: 24px;
 	line-height: 30px;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		margin-left: 1rem;
+	}
 `;
 
 const SubText = styled(Text)`
@@ -33,6 +36,9 @@ const SubText = styled(Text)`
 	font-size: 14px !important;
 	line-height: 18px;
 	color: #7079b9;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+		margin-left: 1rem;
+	}
 `;
 
 const HorizontalLine = styled.div`
@@ -54,8 +60,8 @@ const Box = styled.div`
 `;
 const BoxContain = styled.div``;
 const ButtonContainer = styled.div`
-display: flex;
-@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
+	display: flex;
+	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		display: flex;
 		flex-direction: column;
 	}
@@ -75,14 +81,14 @@ const StyledTextInput = styled(TextInput)`
 `;
 
 const StyledMultilineTextInput = styled(TextInput)`
-border-radius: 5px;
+	border-radius: 5px;
 	@media (min-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		max-width: ${({ theme }) => toPx(theme.distanceM + 2 * 580)};
 	}
 `;
 
 const NextButton = styled(Button)`
-	width: 170px; 
+	width: 170px;
 	border: 1px solid #ed4c3a;
 	color: white;
 	padding: 14px 0px;
@@ -254,7 +260,7 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 						onChangeText={onChangeDescription}
 					/>
 					<Spacing vertical="xl" />
-					<ButtonContainer >
+					<ButtonContainer>
 						<NextButton label="Sign" disabled={signed || approved} onClick={onSign} />
 						<Spacing horizontal="m" vertical="s" />
 						<NextButton label="Approve" disabled={!signed || approved} onClick={onApprove} />
