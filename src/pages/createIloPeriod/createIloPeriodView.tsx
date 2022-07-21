@@ -10,15 +10,15 @@ import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { toPx, useDevice } from 'components/utils';
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import "./createPeriod.scss";
+import './createPeriod.scss';
 
 const StyledMainCol = styled(Col)`
 	width: 100%;
 	max-width: 1152px;
 	margin: 0 auto;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
-		
 	}
 `;
 
@@ -121,7 +121,6 @@ const BackButton = styled(Button)`
 // 	justify-content: space-between;
 // `;
 
-
 interface ICreateIloPeriodViewProps {
 	startBlockDate: Date | undefined;
 	endBlockDate: Date | undefined;
@@ -148,6 +147,7 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 	onSubmit,
 }) => {
 	const { isDesktop } = useDevice();
+	const navigate = useNavigate();
 
 	return (
 		<StyledMainCol>
@@ -181,18 +181,14 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 					<Spacing vertical="m" />
 					<Row mobileDirection="column">
 						<LeftCol>
-							<StyledDateLabel fontSize="s">
-								Start Date
-							</StyledDateLabel>
+							<StyledDateLabel fontSize="s">Start Date</StyledDateLabel>
 							<DateTimestampPicker date={startBlockDate} onChangeDate={onChangeStartBlockDate} />
 						</LeftCol>
 					</Row>
 					<Spacing vertical="l" />
 					<Row mobileDirection="column">
 						<LeftCol>
-							<StyledDateLabel fontSize="s">
-								End Date
-							</StyledDateLabel>
+							<StyledDateLabel fontSize="s">End Date</StyledDateLabel>
 							<DateTimestampPicker date={endBlockDate} onChangeDate={onChangeEndBlockDate} />
 						</LeftCol>
 					</Row>
@@ -212,14 +208,12 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 						<>
 							<Spacing horizontal="l" vertical="m" />
 							<StyledInfoCard type="info">
-								<Text fontSize="m" color='primary'>
+								<Text fontSize="m" color="primary">
 									Presale should ideally start 1 week from today to give you time to raise awareness.
 								</Text>
 							</StyledInfoCard>
 						</>
-					) : (
-						null
-					)}
+					) : null}
 					{dateIssue ? (
 						<>
 							<Spacing horizontal="l" vertical="m" />
@@ -227,20 +221,17 @@ export const CreateIloPeriodView: FC<ICreateIloPeriodViewProps> = ({
 								<Text fontSize="m">{dateIssue}</Text>
 							</StyledInfoCard>
 						</>
-					) : (
-						null
-					)}
+					) : null}
 					<Spacing vertical="l" desktopOnly />
 					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
-						<BackButton label="Back" onClick={onSubmit} />
+						<BackButton label="Back" onClick={() => navigate(-1)} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 					<Spacing vertical="xl" />
 				</BoxContain>
 			</Box>
 			<Spacing vertical="xl" />
-
 		</StyledMainCol>
 	);
 };

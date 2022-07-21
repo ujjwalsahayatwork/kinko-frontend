@@ -9,6 +9,7 @@ import { Spacing } from 'components/spacing/spacing';
 import { Text } from 'components/text/text';
 import { toPx, useDevice } from 'components/utils';
 import React, { FC, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './createSummary.scss';
 
@@ -217,6 +218,7 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 	onSubmit,
 }) => {
 	const { isDesktop } = useDevice();
+	const navigate = useNavigate();
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const doughnutData = useMemo(
@@ -341,7 +343,7 @@ export const CreateIloSummaryView: FC<ICreateIloSummaryViewProps> = ({
 					<Spacing vertical="l" desktopOnly />
 					<Spacing vertical="m" mobileOnly />
 					<Row align={isDesktop ? undefined : 'center'} justify={isDesktop ? 'space-between' : 'space-between'}>
-						<BackButton label="Back" onClick={onSubmit} />
+						<BackButton label="Back" onClick={() => navigate(-1)} />
 						<NextButton label="Next to Period" arrow onClick={onSubmit} />
 					</Row>
 				</BoxContain>

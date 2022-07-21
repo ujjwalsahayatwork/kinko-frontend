@@ -172,12 +172,12 @@ export const CreateIloSocialsView: FC<ICreateIloSocialsViewProps> = ({
 					<>
 						<Col>
 							<Spacing vertical="l" />
-							<CreationSteps reachedStepType="caps" />
+							<CreationSteps reachedStepType="socials" />
 						</Col>
 						<VerticalLine />
 					</>
 				) : (
-					<CreationMobileSteps reachedStepType="caps" />
+					<CreationMobileSteps reachedStepType="socials" />
 				)}
 				<BoxContain>
 					<Spacing vertical="xl" mobile="l" />
