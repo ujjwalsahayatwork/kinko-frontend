@@ -944,11 +944,13 @@ export const IloView: FC<IIloViewProps> = ({
 										onWithdrawLpTokens={onWithdrawLpTokens}
 									/>
 									<Spacing vertical="xs" mobileOnly />
-									<ReferButton onClick={() => handleSubmit()}>
-										<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
-											Refer ILO
-										</Text>
-									</ReferButton>
+									{status !== 'success' ? (
+										<ReferButton onClick={() => handleSubmit()}>
+											<Text fontSize="m" fontWeight="normal" color="secondaryBrand">
+												Refer ILO
+											</Text>
+										</ReferButton>
+									) : null}
 								</ButtonContainer>
 							</Col>
 							<Spacing vertical="s" />
