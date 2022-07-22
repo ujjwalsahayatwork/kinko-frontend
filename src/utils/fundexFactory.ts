@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils/types';
 
 export const getPair = async (web3: Web3, address1: string, address2: string): Promise<string> => {
-	const energyFiFactory = new web3.eth.Contract(pancakeFactoryAbi.abi as Array<AbiItem>, PANCAKE_FACTORY_ADDRESS);
-	const checkdata = await energyFiFactory?.methods?.getPair(address1, address2).call();
+	const factory = new web3.eth.Contract(pancakeFactoryAbi.abi as Array<AbiItem>, PANCAKE_FACTORY_ADDRESS);
+	const checkdata = await factory?.methods?.getPair(address1, address2).call();
 	return checkdata;
 };

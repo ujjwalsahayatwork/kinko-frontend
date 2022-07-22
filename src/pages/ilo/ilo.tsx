@@ -18,8 +18,8 @@ import {
 	userWithdrawBaseTokens,
 	userWithdrawTokens,
 } from 'utils/launchpad';
-import { getPair } from 'utils/energyFiFactory';
-import { getUserLockForTokenAtIndex, withdraw } from 'utils/energyFiLocker';
+import { getPair } from 'utils/fundexFactory';
+import { getUserLockForTokenAtIndex, withdraw } from 'utils/fundexLocker';
 import { copyToClipboard, getERC20Balance, sleep } from 'utils/utils';
 import Web3 from 'web3';
 import { updateReferralResponse } from 'store/createIlo/actions';

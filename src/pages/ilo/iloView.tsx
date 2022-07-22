@@ -376,8 +376,9 @@ const StyledApproxText = styled(Text)`
 `;
 
 const TimeStatus = styled.div`
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	/* justify-content: space-between; */
+	grid-template-columns: 1fr 1fr;
 	@media (max-width: ${({ theme }) => toPx(theme.mobileThreshold)}) {
 		flex-direction: column;
 	}
@@ -403,6 +404,12 @@ const LiquidityTextIcon = styled.div`
 	background: rgba(2, 34, 63, 0.45);
 	height: 100px;
 	width: 100px;
+`;
+
+const EarlyAccessToken = styled(Row)`
+	border-radius: 0.7rem;
+	padding: 0.5rem 0;
+	background: rgb(5 8 28 / 58%);
 `;
 
 interface IIloViewProps {
@@ -543,17 +550,17 @@ export const IloView: FC<IIloViewProps> = ({
 	);
 
 	const saleTokenLiquidityAmount = useMemo(() => {
-		const energyfiTokenFeeAmount = totalTokensSold.times(kinkoTokenFeePercent / 100);
+		const tokenFeeAmount = totalTokensSold.times(kinkoTokenFeePercent / 100);
 		return totalTokensSold
-			.minus(energyfiTokenFeeAmount)
+			.minus(tokenFeeAmount)
 			.times((100 - listingRatePercent) / 100)
 			.times(liquidityRatePercent / 100);
 	}, [totalTokensSold, kinkoTokenFeePercent, listingRatePercent, liquidityRatePercent]);
 
 	const baseTokenLiquidityAmount = useMemo(() => {
-		const energyfiBaseFeeAmount = totalBaseCollected.times(kinkoTokenFeePercent / 100);
+		const baseFeeAmount = totalBaseCollected.times(kinkoTokenFeePercent / 100);
 		return totalBaseCollected
-			.minus(energyfiBaseFeeAmount)
+			.minus(baseFeeAmount)
 			.times(liquidityRatePercent / 100)
 			.times((100 - listingRatePercent) / 100);
 	}, [totalBaseCollected, kinkoTokenFeePercent, liquidityRatePercent, listingRatePercent]);
@@ -641,8 +648,8 @@ export const IloView: FC<IIloViewProps> = ({
 									DYOR
 								</Text>
 								<Spacing vertical="xs" />
-								Investing in an ILO may involve risks. Energyfi is permissionless, anyone can create an ILO, we disclaim
-								any responsibility for losses. Do your own research before investing.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis,
+								lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.
 							</Text>
 							<Spacing horizontal="m" />
 							<UnderstandButton className="btn_margin" onClick={onHideSafetyAlert}>
@@ -952,11 +959,13 @@ export const IloView: FC<IIloViewProps> = ({
 											<Text fontSize="m" fontWeight="bold">
 												Round 1 Requirements
 											</Text>
+											<Spacing vertical="xs" />
 											<Text fontSize="s">
 												To participate in round 1 you need to hold at least the specified amount of ONE of the following
 												tokens.
 											</Text>
-											<Row align="center" roundBottom backgroundColor="tertiaryBackground">
+											<Spacing vertical="xs" />
+											<EarlyAccessToken align="center" backgroundColor="tertiaryBackground">
 												<Spacing horizontal="m" />
 												<Svg src={kinkoLogo} height={60} width={60} />
 												<Spacing horizontal="s" />
@@ -979,7 +988,7 @@ export const IloView: FC<IIloViewProps> = ({
 													</Col>
 												</Row>
 												<Spacing horizontal="m" />
-											</Row>
+											</EarlyAccessToken>
 										</>
 									) : status === 'success' ? (
 										<Row align="center" className="text_align_mob">
@@ -1061,7 +1070,50 @@ export const IloView: FC<IIloViewProps> = ({
 										<div>
 											<Col horizontalPadding="m" verticalPadding="s">
 												<TimeStatus>
-													<div>
+													<Col>
+														<div>
+															<Spacing vertical="l" />
+
+															<StyledTimeText fontSize="m" fontWeight="bold">
+																Start time
+															</StyledTimeText>
+															<StyledApproxText fontSize="xs" className="font-weight-400">
+																(Approx: {startBlockDate.toLocaleString()})
+															</StyledApproxText>
+														</div>
+														<div>
+															<Spacing vertical="l" />
+															<StyledTimeText fontSize="m" fontWeight="bold">
+																End time
+															</StyledTimeText>
+															<StyledApproxText fontSize="xs" className="font-weight-400">
+																(Approx: {endBlockDate.toLocaleString()})
+															</StyledApproxText>
+														</div>
+													</Col>
+													<Col align="flex-end">
+														<div>
+															<div>
+																<Spacing vertical="l" />
+																<StyledTimeText fontSize="m" fontWeight="bold">
+																	Softcap
+																</StyledTimeText>
+																<StyledApproxText fontSize="xs" className="font-weight-400">
+																	{softcap.toFixed(3)} {baseTokenSymbol}
+																</StyledApproxText>
+															</div>
+															<div>
+																<Spacing vertical="l" />
+																<StyledTimeText fontSize="m" fontWeight="bold">
+																	Hardcap
+																</StyledTimeText>
+																<StyledApproxText fontSize="xs" className="font-weight-400">
+																	{hardcap.toFixed(3)} {baseTokenSymbol}
+																</StyledApproxText>
+															</div>
+														</div>
+													</Col>
+													{/* <div>
 														<Spacing vertical="l" />
 
 														<StyledTimeText fontSize="m" fontWeight="bold">
@@ -1079,9 +1131,9 @@ export const IloView: FC<IIloViewProps> = ({
 														<StyledApproxText fontSize="xs" className="font-weight-400">
 															{softcap.toFixed(3)} {baseTokenSymbol}
 														</StyledApproxText>
-													</div>
+													</div> */}
 												</TimeStatus>
-												<TimeStatus>
+												{/* <TimeStatus>
 													<div>
 														<Spacing vertical="l" />
 														<StyledTimeText fontSize="m" fontWeight="bold">
@@ -1100,7 +1152,7 @@ export const IloView: FC<IIloViewProps> = ({
 															{hardcap.toFixed(3)} {baseTokenSymbol}
 														</StyledApproxText>
 													</div>
-												</TimeStatus>
+												</TimeStatus> */}
 												<Spacing vertical="l" desktopOnly />
 											</Col>
 										</div>

@@ -21,7 +21,7 @@ import { IDispatch, IRootState } from 'store/store';
 import { IBaseToken } from 'types';
 import { isIloNameAvailable, isSaleTokenAvailable } from 'utils/api';
 import { getTokenFeePercent } from 'utils/launchpadSettings';
-import { getPair } from 'utils/energyFiFactory';
+import { getPair } from 'utils/fundexFactory';
 import {
 	getBaseTokenAddress,
 	getERC20Balance,
@@ -275,7 +275,6 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 	};
 
 	handleSubmit = async () => {
-		this.setState({ isLoading: true });
 		const {
 			web3: { library },
 		} = this.props;
@@ -290,9 +289,11 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			presaleAmount,
 		} = this.state;
 
+		this.setState({ isLoading: true });
 		if ((await this.checkFields()) && library) {
 			const web3 = new Web3(library);
 			const tokenFeePercent = await getTokenFeePercent(web3);
+			this.setState({ isLoading: false });
 			if (
 				iloName &&
 				category &&
@@ -314,10 +315,9 @@ class CreateIloGeneral extends Component<ICreateIloGeneralProps, ICreateIloGener
 			}
 			// this.props.navigate('/createIloCaps');
 		}
-		this.setState({ isLoading: false });
 	};
-
 	render() {
+		this.setState({ isLoading: false });
 		const {
 			iloName,
 			iloNameIssue,
