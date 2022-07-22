@@ -102,10 +102,9 @@ export const getEthMessageHash = async (
 	web3: Web3,
 	refferAddress: string,
 	launchpadAddress: string,
-	amount: BigNumber
 ): Promise<{ ethmessageHash: string }> => {
 	const launchpad = new web3.eth.Contract(launchpadAbi.abi as Array<AbiItem>, launchpadAddress);
-	const messageHash: string = await launchpad.methods.getMessageHash(refferAddress, launchpadAddress, amount).call();
+	const messageHash: string = await launchpad.methods.getMessageHash(refferAddress, launchpadAddress).call();
 	const ethmessageHash: string = await launchpad.methods.getEthSignedMessageHash(messageHash).call();
 
 	return { ethmessageHash };

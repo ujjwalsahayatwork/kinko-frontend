@@ -570,7 +570,7 @@ export const IloView: FC<IIloViewProps> = ({
 			try {
 				updateShowLoadingModal(true);
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				const e: any = await getEthMessageHash(web3, account, data.launchpadAddress, new BigNumber('1000'));
+				const e: any = await getEthMessageHash(web3, account, data.launchpadAddress);
 				const signature = await createReferSignature(web3, account, e.ethmessageHash);
 				return signature;
 			} finally {
